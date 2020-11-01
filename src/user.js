@@ -133,6 +133,9 @@ class userHandler
                                     case "ultraRare":
                                         this.moneySell += Math.floor(12 * this.extensions[this.extension].price) / 10
                                         break;
+                                    case "secret":
+                                        this.moneySell += Math.floor(50 * this.extensions[this.extension].price) / 10
+                                        break;
                                 }
                             }
                         }
@@ -268,7 +271,9 @@ class userHandler
         
         // 10th
         var rare = Math.random()
-        if (rare > 0.93) {
+        if (rare > 0.99 && this.extensions[this.extension].canGetSecret)
+            this.cards.push({"id": this.extensions[this.extension].secret[Math.floor(Math.random() * this.extensions[this.extension].secret.length)], "rarity": "secret"})
+        else if (rare > 0.93) {
             card = Math.floor(Math.random() * this.extensions[this.extension].ultraRare.length)
             while (this.extensions[this.extension].ultraRare[card] == this.cards[8].id)
                 card = Math.floor(Math.random() * this.extensions[this.extension].ultraRare.length)
