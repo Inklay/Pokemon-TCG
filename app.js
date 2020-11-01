@@ -3,7 +3,7 @@ const fs = require('fs')
 const client = new Discord.Client();
 const prefix = require('./src/prefix.js')
 const language = require('./src/language.js');
-const { type } = require('os');
+const user = require('./src/user.js')
 
 token = fs.readFileSync('token.txt', 'utf8').replace('\n', '')
 
@@ -57,8 +57,8 @@ client.on('message', msg => {
     // Check if message starts with prefix
     if (contentWithPrefix.startsWith("tcg "))
         content = contentWithPrefix.substr(4).toLocaleLowerCase()
-    else if (contentWithPrefix.startsWith(`${guildPrefix} `))
-        content = contentWithPrefix.substr(guildPrefix.length + 1).toLocaleLowerCase()
+    else if (contentWithPrefix.startsWith(`${guildPrefix}`))
+        content = contentWithPrefix.substr(guildPrefix.length).toLocaleLowerCase()
     else
         return
 
@@ -77,6 +77,15 @@ client.on('message', msg => {
         return
     } else if (content.startsWith("prefix ")) {
         prefix.set(id, channelType, content.substring(7), guildLanguage, channel)
+        return
+    }
+
+    // Booster handling
+    if (content == "buy") {
+        user.buy(guildLanguage, channel, author.id, Discord)
+        return
+    } else if (content == "b") {
+        user.buy(guildLanguage, channel, author.id, Discord)
         return
     }
 })

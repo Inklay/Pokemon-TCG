@@ -1,0 +1,77 @@
+[
+    {
+        "name": "Éclipse Cosmique",
+        "price": 45,
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM12.jpg"
+    },
+    {
+        "name": "Destinées Occultes",
+        "price": 45,
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM115.jpg"
+    },
+    {
+        "name": "Harmonie Des Esprits",
+        "price": 45,
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM11.jpg"
+    },
+    {
+        "name": "Alliance Infaillible",
+        "price": 45,
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM10.jpg"
+    },
+    {
+        "name": "Duo De Choc",
+        "price": 45,
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM09.jpg"
+    },
+    {
+        "name": "Tonnerre Perdu",
+        "price": 40,
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM08.jpg"
+    },
+    {
+        "name": "Majesté Des Dragons",
+        "price": 40,
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM75.jpg"
+    },
+    {
+        "name": "Tempête Céleste",
+        "price": 40,
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM07.jpg"
+    },
+    {
+        "name": "Lumière Interdite",
+        "price": 40,
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM06.jpg"
+    },
+    {
+        "name": "Ultra Prisme",
+        "price": 40,
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM05.jpg"
+    },
+    {
+        "name": "Invasion Carmin",
+        "price": 40,
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM04.jpg"
+    },
+    {
+        "name": "Légendes Brillantes",
+        "price": 40,
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SLE.jpg"
+    },
+    {
+        "name": "Ombres Ardentes",
+        "price": 40,
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM03.jpg"
+    },
+    {
+        "name": "Gardiens Ascendants",
+        "price": 40,
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM02.jpg"
+    },
+    {
+        "name": "Soleil Et Lune",
+        "price": 40,
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM01.jpg"
+    }
+]

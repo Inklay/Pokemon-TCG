@@ -44,11 +44,11 @@ module.exports = {
             console.log("language.js: user " + id + " set it's language to " + language);
 
         switch (language) {
-            case "francais":
             case "français":
                 channel.send("La langue a bien été définie.");
                 break;
             case "english":
+            default:
                 channel.send("Language successfully set.");
                 break;
         }
