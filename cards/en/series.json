@@ -1,1 +1,10 @@
-["Sword and Shield", "Sun and Moon"]
+[
+    {
+        "name": "Sword and Shield",
+        "id": "SWSH"
+    },
+    {
+        "name": "Sun and Moon",
+        "id": "SM"
+    }
+]

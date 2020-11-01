@@ -46,8 +46,10 @@ module.exports = {
             if (data.users[i].id == id) {
                 if (!data.users[i].hasOwnProperty(this.extensions[this.extension].id)) {
                     data.users[i][this.extensions[this.extension].id] = []
-                    for (j in this.cards) 
+                    for (j in this.cards)  {
                         data.users[i][this.extensions[this.extension].id].push(this.cards[j].id)
+                        this.cardsNew.push(true)
+                    }
                 }
                 else {
                     var found = false
@@ -76,8 +78,11 @@ module.exports = {
                                 this.set(id, "money", this.get(id, "money") + this.moneySell)
                             }
                         }
-                        if (!found)
+                        if (!found) {
                             data.users[i][this.extensions[this.extension].id].push(this.cards[j].id)
+                            this.cardsNew.push(true)
+                        } else
+                            this.cardsNew.push(false)
                     }
                 }
                 data.users[i].money -= this.extensions[this.extension].price
@@ -90,11 +95,12 @@ module.exports = {
     },
     drawSerie: function(id)
     {
-        var description = `${this.listExt}\n\n`
-        this.extensions = JSON.parse(fs.readFileSync(`cards/${this.dir}/${this.series[this.serie]}/ext.json`))
-        this.embed.setTitle(this.series[this.serie])
+        var description = ""
+        this.extensions = JSON.parse(fs.readFileSync(`cards/${this.dir}/${this.series[this.serie].id}.json`))
+        this.embed.setTitle(this.series[this.serie].name)
         if (this.isBuyable)
             description += `${this.baseDescription} ${this.get(id, "money")} $\n\n`
+        description += `${this.listExt}\n\n`
         for (let i = 0; i < this.extensions.length; i++)
             description += `• ${this.extensions[i].name}\n`
         this.embed.setDescription(description)
@@ -108,7 +114,7 @@ module.exports = {
         if (this.isBuyable)
             description += `${this.baseDescription} ${this.get(id, "money")} $\n\n${this.price}: ${this.extensions[this.extension].price} $`
         if (!this.extensions[this.extension].released)
-            description += `\n ${this.notReleased}`
+            description += `\n\n${this.notReleased}`
         this.embed.setAuthor(this.baseAuthorExt)
         this.embed.setTitle(this.extensions[this.extension].name)
         this.embed.setDescription(description)
@@ -117,8 +123,15 @@ module.exports = {
     },
     drawCard: function()
     {
+        var description = ""
+
         if (this.moneySell > 0)
-            this.embed.setDescription(`${this.sell} ${this.moneySell} $`)
+            description += `${this.sell} ${this.moneySell} $\n\n`
+        if (this.isBuyable && this.cardsNew[this.card])
+            description += `${this.new}\n\n`
+        else if (!this.isBuyable)
+            description += `${this.cards[this.card].id}/${this.extensions[this.extension].size}`
+        this.embed.setDescription(description)
         this.embed.setImage(`${this.extensions[this.extension].cardsBaseImage}${this.cards[this.card].id}.png`)
         this.embed.setFooter(`${this.card + 1}/${this.cards.length}`)
     },
@@ -225,6 +238,7 @@ module.exports = {
                 this.notReleased = "Cette extension n'est pas encore disponnible sur le bot"
                 this.sell = "Vous avez vendu les cartes que vous aviez déjà, vous avez gagné"
                 this.listExt = "Liste des extensions existantes pour cette série"
+                this.new = "Nouveau !"
                 break;
             case "english":
             default:
@@ -236,13 +250,14 @@ module.exports = {
                 this.notReleased = "This extension isn't available on the bot yet"
                 this.sell = "You sold the cards that you already had, you earned"
                 this.listExt = "List of the extisting extensions for this serie"
+                this.new = "New !"
                 break;
         }
         this.series = JSON.parse(fs.readFileSync(`cards/${this.dir}/series.json`))
     },
     createMessage: function(channel, id, userMsg)
     {
-        this.drawSerie()
+        this.drawSerie(id)
         channel.send(this.embed).then(msg => {
             msg.react('⬅').then (r => {
                 msg.react('➡').then(r => {
@@ -303,6 +318,7 @@ module.exports = {
                                 } else if (this.hasOpened) {
                                     this.card = 0
                                     this.cards = []
+                                    this.cardsNew = []
                                     this.moneySell = 0
                                     this.hasOpened = false
                                     this.drawExtension(id)
@@ -391,5 +407,7 @@ module.exports = {
     sell: "",
     moneySell: 0,
     isBuyable: true,
-    listExt: ""
+    listExt: "",
+    new: "",
+    cardsNew: []
 }
