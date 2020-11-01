@@ -1,5 +1,6 @@
 const fs = require('fs');
-const Discord = require('discord.js')
+const Discord = require('discord.js');
+const { reverse } = require('dns');
 
 module.exports = {
     set: function(id, field, content) {
@@ -60,9 +61,39 @@ module.exports = {
         this.embed.setImage(this.extensions[this.extension].image)
         this.embed.setFooter(`${this.extension + 1}/${this.extensions.length}`)
     },
+    drawCard: function()
+    {
+        this.embed.setImage(`${this.extensions[this.extension].cardsBaseImage}${this.cards[this.card]}.png`)
+        this.embed.setFooter(`${this.card + 1}/${this.cards.length}`)
+    },
     open : function()
     {
-
+        this.hasOpened = true
+        for (i = 0; i < 5; i++)
+            this.cards.push({"id": this.extensions[this.extension].common[Math.floor(Math.random() * this.extensions[this.extension].common.length)], "rarity": "common"})
+        for (i = 0; i < 3; i++)
+            this.cards.push({"id": this.extensions[this.extension].uncommon[Math.floor(Math.random() * this.extensions[this.extension].uncommon.length)], "rarity": "uncommon"})
+        var reverse = Math.random()
+        if (reverse > 0.95)
+            this.cards.push({"id": this.extensions[this.extension].ultraRare[Math.floor(Math.random() * this.extensions[this.extension].ultraRare.length)], "rarity": "ultraRare"})
+        else if (reverse > 0.8)
+            this.cards.push({"id": this.extensions[this.extension].special[Math.floor(Math.random() * this.extensions[this.extension].special.length)], "rarity": "special"})
+        else if (reverse > 0.6)
+            this.cards.push({"id": this.extensions[this.extension].rare[Math.floor(Math.random() * this.extensions[this.extension].rare.length)], "rarity": "rare"})
+        else if (reverse > 0.35)
+            this.cards.push({"id": this.extensions[this.extension].uncommon[Math.floor(Math.random() * this.extensions[this.extension].uncommon.length)], "rarity": "uncommon"})
+        else 
+            this.cards.push({"id": this.extensions[this.extension].common[Math.floor(Math.random() * this.extensions[this.extension].common.length)], "rarity": "common"})
+        var rare = Math.random()
+        if (rare > 0.93)
+            this.cards.push({"id": this.extensions[this.extension].ultraRare[Math.floor(Math.random() * this.extensions[this.extension].ultraRare.length)], "rarity": "ultraRare"})
+        else if (rare > 0.6)
+            this.cards.push({"id": this.extensions[this.extension].special[Math.floor(Math.random() * this.extensions[this.extension].special.length)], "rarity": "special"})
+        else
+            this.cards.push({"id": this.extensions[this.extension].rare[Math.floor(Math.random() * this.extensions[this.extension].rare.length)], "rarity": "rare"})
+        this.embed.setAuthor("")
+        this.embed.setDescription("")
+        this.drawCard()
     },
     buy: function(language, channel, id)
     {
@@ -109,6 +140,9 @@ module.exports = {
                                 } else if (this.hasValidated && this.extension != 0) {
                                     this.extension--
                                     this.drawExtension()
+                                } else if (this.hasOpened && this.card != 0 && !this.hasOpened) {
+                                    this.card--
+                                    this.drawCard()
                                 }
                                 msg.edit(this.embed)
                                 r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
@@ -117,9 +151,12 @@ module.exports = {
                                 if (!this.hasValidated && this.serie < this.series.length - 1) {
                                     this.serie++
                                     this.drawSerie()
-                                } else if (this.hasValidated && this.extension < this.extensions.length - 1) {
+                                } else if (this.hasValidated && this.extension < this.extensions.length - 1 && !this.hasOpened) {
                                     this.extension++
                                     this.drawExtension()
+                                } else if (this.hasOpened && this.card < this.cards.length - 1) {
+                                    this.card++
+                                    this.drawCard()
                                 }
                                 msg.edit(this.embed)
                                 r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
@@ -128,21 +165,26 @@ module.exports = {
                                 if (!this.hasValidated) {
                                     this.hasValidated = true
                                     this.drawExtension()
-                                    msg.edit(this.embed)
                                     r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
-                                } else if (this.extensions[this.extension].released)
+                                    msg.edit(this.embed)
+                                } else if (this.extensions[this.extension].released && !this.hasOpened) {
+                                    r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
                                     this.open()
+                                    msg.edit(this.embed)
+                                } else if (this.hasOpened)
+                                    msg.delete()
                             })
                             cancel.on('collect', (r, u) => {
                                 if (!this.hasValidated)
                                     msg.delete()
-                                else {
+                                else if (this.hasValidated && !this.hasOpened) {
                                     this.hasValidated = false
                                     this.extension = 0
                                     this.drawSerie()
                                     msg.edit(this.embed)
                                     r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
-                                }
+                                } else if (hasOpened)
+                                    msg.delete()
                             })
                         })
                     })
@@ -161,5 +203,8 @@ module.exports = {
     baseAuthorSerie: "",
     dir: "",
     notReleased: "",
-    price: 0
+    price: 0,
+    hasOpened: false,
+    cards: [],
+    card: 0
 }
