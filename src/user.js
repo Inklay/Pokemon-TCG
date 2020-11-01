@@ -1,77 +1,137 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 
-module.exports = {
-    set: function(id, field, content) {
+class userHandler
+{
+    embed = new Discord.MessageEmbed()
+    serie = 0
+    series = []
+    extensions = []
+    baseDescription
+    hasValidated = false
+    extension = 0
+    baseAuthorExt
+    baseAuthorSerie
+    dir
+    notReleased
+    price = 0
+    hasOpened = false
+    cards = []
+    card = 0
+    sell
+    moneySell = 0
+    isBuyable = true
+    listExt
+    new
+    cardsNew = []
+    serieNumber
+    id
+
+    constructor(id, channel, language) {
+        this.id = id
+        this.channel = channel
+        switch (language) {
+            case "français":
+                this.dir = "fr"
+                this.price = "Prix"
+                this.baseDescription = `Vous avez`
+                this.baseAuthorExt = "Sélectionnez l'extension voulue"
+                this.baseAuthorSerie = "Sélectionnez la série voulue"
+                this.notReleased = "Cette extension n'est pas encore disponnible sur le bot"
+                this.sell = "Vous avez vendu les cartes que vous aviez déjà, vous avez gagné"
+                this.listExt = "Liste des extensions existantes pour cette série"
+                this.new = "Nouvelle carte!"
+                this.serieNumber = "Numéro dans la série"
+                break;
+            case "english":
+            default:
+                this.dir = "en"
+                this.price = "Price"
+                this.baseDescription = `You Have`
+                this.baseAuthorExt = "Choose the extension you want"
+                this.baseAuthorSerie = "Choose the serie you want"
+                this.notReleased = "This extension isn't available on the bot yet"
+                this.sell = "You sold the cards that you already had, you earned"
+                this.listExt = "List of the extisting extensions for this serie"
+                this.new = "New card!"
+                this.serieNumber = "Number in the serie"
+                break;
+        }
+        this.series = JSON.parse(fs.readFileSync(`cards/${this.dir}/series.json`))
+    }
+
+    set(field, content) {
         var found = false
-        rawData = fs.readFileSync('user.json')
-        data = JSON.parse(rawData)
-        for (i in data.users) {
-            if (data.users[i].id == id) {
+        var rawData = fs.readFileSync('user.json')
+        var data = JSON.parse(rawData)
+        for (let i in data.users) {
+            if (data.users[i].id == this.id) {
                 data.users[i][field] = content
                 found = true
             }
         }
         if (!found) {
-            newUser = {}
-            newUser['id'] = id
+            var newUser = {}
+            newUser['id'] = this.id
             newUser[field] = content
             newUser['date'] = Date.now()
             data.users.push(newUser)
         }
-        json = JSON.stringify(data)
+        var json = JSON.stringify(data)
         fs.writeFileSync('user.json', json)
-    },
-    get: function(id, field)
+    }
+
+    get(field)
     {
-        rawData = fs.readFileSync('user.json')
-        data = JSON.parse(rawData)
-        for (i in data.users) {
-            if (data.users[i].id == id) {
+        var rawData = fs.readFileSync('user.json')
+        var data = JSON.parse(rawData)
+        for (let i in data.users) {
+            if (data.users[i].id == this.id) {
                 if (data.users[i].hasOwnProperty(field))
                     return data.users[i][field]
             }
         }
         if (field == "money") {
-            this.set(id, field, 50)
+            this.set(field, 50)
             return 50
         } else
             return null
-    },
-    addCards: function(id)
+    }
+
+    addCards()
     {
-        rawData = fs.readFileSync('user.json')
-        data = JSON.parse(rawData)
-        for (i in data.users) {
-            if (data.users[i].id == id) {
+        var rawData = fs.readFileSync('user.json')
+        var data = JSON.parse(rawData)
+        for (let i in data.users) {
+            if (data.users[i].id == this.id) {
                 if (!data.users[i].hasOwnProperty(this.extensions[this.extension].id)) {
                     data.users[i][this.extensions[this.extension].id] = []
-                    for (j in this.cards)  {
+                    for (let j in this.cards)  {
                         data.users[i][this.extensions[this.extension].id].push(this.cards[j].id)
                         this.cardsNew.push(true)
                     }
                 } else {
                     var found = false
-                    for (j in this.cards) {
+                    for (let j in this.cards) {
                         found = false
-                        for (k in data.users[i][this.extensions[this.extension].id]) {
+                        for (let k in data.users[i][this.extensions[this.extension].id]) {
                             if (data.users[i][this.extensions[this.extension].id][k] == this.cards[j].id) {
                                 found = true
                                 switch (this.cards[this.card].rarity) {
                                     case "common":
-                                        this.moneySell += Math.floor(0.1 * this.extensions[this.extension].price)
+                                        this.moneySell += Math.floor(1 * this.extensions[this.extension].price) / 10
                                         break;
                                     case "uncommon":
-                                        this.moneySell += Math.floor(0.2 * this.extensions[this.extension].price)
+                                        this.moneySell += Math.floor(2 * this.extensions[this.extension].price) / 10
                                         break;
                                     case "rare":
-                                        this.moneySell += Math.floor(0.5 * this.extensions[this.extension].price)
+                                        this.moneySell += Math.floor(5 * this.extensions[this.extension].price) / 10
                                         break;
                                     case "special":
-                                        this.moneySell += Math.floor(0.8 * this.extensions[this.extension].price)
+                                        this.moneySell += Math.floor(8 * this.extensions[this.extension].price) / 10
                                         break;
                                     case "ultraRare":
-                                        this.moneySell += Math.floor(1.2 * this.extensions[this.extension].price)
+                                        this.moneySell += Math.floor(12 * this.extensions[this.extension].price) / 10
                                         break;
                                 }
                             }
@@ -88,16 +148,17 @@ module.exports = {
                 break
             }
         }
-        json = JSON.stringify(data)
+        var json = JSON.stringify(data)
         fs.writeFileSync('user.json', json)
-    },
-    drawSerie: function(id)
+    }
+    
+    drawSerie()
     {
         var description = ""
         this.extensions = JSON.parse(fs.readFileSync(`cards/${this.dir}/${this.series[this.serie].id}.json`))
         this.embed.setTitle(this.series[this.serie].name)
         if (this.isBuyable)
-            description += `${this.baseDescription} ${this.get(id, "money")} $\n\n`
+            description += `${this.baseDescription} ${this.get("money")} $\n\n`
         description += `${this.listExt}\n\n`
         for (let i = 0; i < this.extensions.length; i++)
             description += `• ${this.extensions[i].name}\n`
@@ -105,12 +166,13 @@ module.exports = {
         this.embed.setAuthor(this.baseAuthorSerie)
         this.embed.setImage("")
         this.embed.setFooter(`${this.serie + 1}/${this.series.length}`)
-    },
-    drawExtension: function(id)
+    }
+
+    drawExtension()
     {
         var description = ""
         if (this.isBuyable)
-            description += `${this.baseDescription} ${this.get(id, "money")} $\n\n${this.price}: ${this.extensions[this.extension].price} $`
+            description += `${this.baseDescription} ${this.get("money")} $\n\n${this.price}: ${this.extensions[this.extension].price} $`
         if (!this.extensions[this.extension].released)
             description += `\n\n${this.notReleased}`
         this.embed.setAuthor(this.baseAuthorExt)
@@ -118,8 +180,9 @@ module.exports = {
         this.embed.setDescription(description)
         this.embed.setImage(this.extensions[this.extension].image)
         this.embed.setFooter(`${this.extension + 1}/${this.extensions.length}`)
-    },
-    drawCard: function()
+    }
+
+    drawCard()
     {
         var description = ""
 
@@ -132,8 +195,9 @@ module.exports = {
         this.embed.setDescription(description)
         this.embed.setImage(`${this.extensions[this.extension].cardsBaseImage}${this.cards[this.card].id}.png`)
         this.embed.setFooter(`${this.card + 1}/${this.cards.length}`)
-    },
-    open : function(id)
+    }
+
+    open()
     {
         this.hasOpened = true
 
@@ -221,65 +285,35 @@ module.exports = {
         }
         this.embed.setAuthor("")
         this.embed.setDescription("")
-        this.addCards(id)
+        this.addCards()
         this.drawCard()
-    },
-    init: function(language)
+    }
+
+    createMessage(userMsg)
     {
-        switch (language) {
-            case "français":
-                this.dir = "fr"
-                this.price = "Prix"
-                this.baseDescription = `Vous avez`
-                this.baseAuthorExt = "Sélectionnez l'extension voulue"
-                this.baseAuthorSerie = "Sélectionnez la série voulue"
-                this.notReleased = "Cette extension n'est pas encore disponnible sur le bot"
-                this.sell = "Vous avez vendu les cartes que vous aviez déjà, vous avez gagné"
-                this.listExt = "Liste des extensions existantes pour cette série"
-                this.new = "Nouvelle carte!"
-                this.serieNumber = "Numéro dans la série"
-                break;
-            case "english":
-            default:
-                this.dir = "en"
-                this.price = "Price"
-                this.baseDescription = `You Have`
-                this.baseAuthorExt = "Choose the extension you want"
-                this.baseAuthorSerie = "Choose the serie you want"
-                this.notReleased = "This extension isn't available on the bot yet"
-                this.sell = "You sold the cards that you already had, you earned"
-                this.listExt = "List of the extisting extensions for this serie"
-                this.new = "New card!"
-                this.serieNumber = "Number in the série"
-                break;
-        }
-        this.series = JSON.parse(fs.readFileSync(`cards/${this.dir}/series.json`))
-    },
-    createMessage: function(channel, id, userMsg)
-    {
-        this.drawSerie(id)
-        channel.send(this.embed).then(msg => {
+        this.drawSerie()
+        this.channel.send(this.embed).then(msg => {
             msg.react('⬅').then (r => {
                 msg.react('➡').then(r => {
                     msg.react('✔️').then(r => {
                         msg.react('❌').then(() => {
-                            const backwardsFilter = (reaction, user) => reaction.emoji.name === '⬅' && user.id === id;
-                            const forwardsFilter = (reaction, user) => reaction.emoji.name === '➡' && user.id === id;
-                            const validateFilter = (reaction, user) => reaction.emoji.name === '✔️' && user.id === id;
-                            const cancelFilter = (reaction, user) => reaction.emoji.name === '❌' && user.id === id;
+                            const backwardsFilter = (reaction, user) => reaction.emoji.name === '⬅' && user.id === this.id;
+                            const forwardsFilter = (reaction, user) => reaction.emoji.name === '➡' && user.id === this.id;
+                            const validateFilter = (reaction, user) => reaction.emoji.name === '✔️' && user.id === this.id;
+                            const cancelFilter = (reaction, user) => reaction.emoji.name === '❌' && user.id === this.id;
             
                             const backwards = msg.createReactionCollector(backwardsFilter);
                             const forwards = msg.createReactionCollector(forwardsFilter);
                             const validate = msg.createReactionCollector(validateFilter);
                             const cancel = msg.createReactionCollector(cancelFilter);
-            
+                            
                             backwards.on('collect', (r, u) => {
                                 if (!this.hasValidated && this.serie != 0) {
                                     this.serie--
-                                    this.drawSerie(id)
+                                    this.drawSerie()
                                 } else if (this.hasValidated && this.extension != 0) {
                                     this.extension--
-                                    this.drawExtension(id)
+                                    this.drawExtension()
                                 } else if (this.hasOpened && this.card != 0) {
                                     this.card--
                                     this.drawCard()
@@ -290,10 +324,10 @@ module.exports = {
                             forwards.on('collect', (r, u) => {
                                 if (!this.hasValidated && this.serie < this.series.length - 1) {
                                     this.serie++
-                                    this.drawSerie(id)
+                                    this.drawSerie()
                                 } else if (this.hasValidated && this.extension < this.extensions.length - 1 && !this.hasOpened) {
                                     this.extension++
-                                    this.drawExtension(id)
+                                    this.drawExtension()
                                 } else if (this.hasOpened && this.card < this.cards.length - 1) {
                                     this.card++
                                     this.drawCard()
@@ -304,12 +338,12 @@ module.exports = {
                             validate.on('collect', (r, u) => {
                                 if (!this.hasValidated) {
                                     this.hasValidated = true
-                                    this.drawExtension(id)
+                                    this.drawExtension()
                                 } else if (this.extensions[this.extension].released && !this.hasOpened) {
                                     if (this.isBuyable)
-                                        this.open(id)
+                                        this.open()
                                     else {
-                                        let cards = this.get(id, this.extensions[this.extension].id)
+                                        let cards = this.get(this.extensions[this.extension].id)
                                         for (i in cards)
                                             this.cards.push({"id": cards[i]})
                                         this.drawCard()
@@ -321,7 +355,7 @@ module.exports = {
                                     this.cardsNew = []
                                     this.moneySell = 0
                                     this.hasOpened = false
-                                    this.drawExtension(id)
+                                    this.drawExtension()
                                 }
                                 msg.edit(this.embed)
                                 r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
@@ -333,7 +367,7 @@ module.exports = {
                                 } else if (this.hasValidated && !this.hasOpened) {
                                     this.hasValidated = false
                                     this.extension = 0
-                                    this.drawSerie(id)
+                                    this.drawSerie()
                                     msg.edit(this.embed)
                                     r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
                                 } else if (this.hasOpened) {
@@ -346,69 +380,49 @@ module.exports = {
                 })
             })
         })
-    },
-    view: function(language, channel, id, userMsg)
+    }
+
+    view(userMsg)
     {
         this.isBuyable = false
-        this.init(language)
-        this.createMessage(channel, id, userMsg)
+        this.createMessage(userMsg)
 
-    },
-    buy: function(language, channel, id, userMsg)
+    }
+
+    buy(userMsg)
     {
-        this.init(language)
-        this.createMessage(channel, id, userMsg)
-        
-    },
-    money: function(language, channel, id) {
-        var date = this.get(id, "date")
+        this.createMessage(userMsg)
+    }
+
+    money(language) {
+        var date = this.get("date")
         if (date == null)
             this.get(id, "money")
         var now = Date.now()
         if (now - date >= 1000 * 60 * 60) {
-            this.set(id, "money", this.get(id, "money") + 50)
-            this.set(id, "date", now)
+            this.set("money", this.get("money") + 50)
+            this.set("date", now)
             switch (language) {
                 case "français":
-                    channel.send("Vous avez reçu 50 $")
+                    this.channel.send("Vous avez reçu 50 $")
                     break;
                 case "english":
                 default:
-                    channel.send("You received 50 $")
+                    this.channel.send("You received 50 $")
                     break;
             }
         } else {
             switch (language) {
                 case "français":
-                    channel.send(`Vous devez encore attendre ${Math.floor((date + 60 * 60 * 1000 - now) / 1000 / 60)} minutes pour recevoir à nouveau de l'argent`)
+                    this.channel.send(`Vous devez encore attendre ${Math.floor((date + 60 * 60 * 1000 - now) / 1000 / 60)} minutes pour recevoir à nouveau de l'argent`)
                     break;
                 case "english":
                 default:
-                    channel.send(`You have to wait ${Math.floor(60 + (now - date) / 1000 / 60)} minutes to receive money again`)
+                    this.channel.send(`You have to wait ${Math.floor(60 + (now - date) / 1000 / 60)} minutes to receive money again`)
                     break;
             }
         }
-    },
-    embed: new Discord.MessageEmbed(),
-    serie: 0,
-    series: [],
-    extensions: [],
-    baseDescription: "",
-    hasValidated: false,
-    extension: 0,
-    baseAuthorExt: "",
-    baseAuthorSerie: "",
-    dir: "",
-    notReleased: "",
-    price: 0,
-    hasOpened: false,
-    cards: [],
-    card: 0,
-    sell: "",
-    moneySell: 0,
-    isBuyable: true,
-    listExt: "",
-    new: "",
-    cardsNew: [],
-    serieNumber: ""
+    }
 }
+
+module.exports = {userHandler}

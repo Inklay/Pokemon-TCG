@@ -82,19 +82,21 @@ client.on('message', msg => {
 
     // Booster handling
     if (content == "buy" || content == "b") {
-        user.buy(guildLanguage, channel, author.id, msg)
-        return
+        handler = new user.userHandler(author.id, channel, guildLanguage)
+        handler.buy(msg)
     }
 
     // Money request handling
     if (content == "money" || content == "m") {
-        user.money(guildLanguage, channel, author.id)
+        handler = new user.userHandler(author.id, channel, guildLanguage)
+        handler.money(guildLanguage)
         return
     }
 
     // View request handling
     if (content == "view" || content == "v") {
-        user.view(guildLanguage, channel, author.id, msg)
+        handler = new user.userHandler(author.id, channel, guildLanguage)
+        handler.view(msg)
         return
     }
 })
