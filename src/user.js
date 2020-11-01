@@ -195,6 +195,7 @@ class userHandler
         this.embed.setDescription(description)
         this.embed.setImage(`${this.extensions[this.extension].cardsBaseImage}${this.cards[this.card].id}.png`)
         this.embed.setFooter(`${this.card + 1}/${this.cards.length}`)
+        this.embed.setAuthor("")
     }
 
     open()
@@ -386,7 +387,6 @@ class userHandler
     {
         this.isBuyable = false
         this.createMessage(userMsg)
-
     }
 
     buy(userMsg)
