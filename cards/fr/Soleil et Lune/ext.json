@@ -2,90 +2,105 @@
     {
         "name": "Éclipse Cosmique",
         "price": 45,
+        "id": "SM12",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM12.jpg",
         "released": true
     },
     {
         "name": "Destinées Occultes",
         "price": 45,
+        "id": "SM115",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM115.jpg",
         "released": true
     },
     {
         "name": "Harmonie Des Esprits",
         "price": 45,
+        "id": "SM11",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM11.jpg",
         "released": true
     },
     {
         "name": "Alliance Infaillible",
         "price": 45,
+        "id": "SM10",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM10.jpg",
         "released": true
     },
     {
         "name": "Duo De Choc",
         "price": 45,
+        "id": "SM09",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM09.jpg",
         "released": true
     },
     {
         "name": "Tonnerre Perdu",
         "price": 40,
+        "id": "SM08",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM08.jpg",
         "released": true
     },
     {
         "name": "Majesté Des Dragons",
         "price": 40,
+        "id": "SM75",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM75.jpg",
         "released": true
     },
     {
         "name": "Tempête Céleste",
         "price": 40,
+        "id": "SM07",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM07.jpg",
         "released": true
     },
     {
         "name": "Lumière Interdite",
         "price": 40,
+        "id": "SM06",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM06.jpg",
         "released": true
     },
     {
         "name": "Ultra Prisme",
         "price": 40,
+        "id": "SM05",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM05.jpg",
         "released": true
     },
     {
         "name": "Invasion Carmin",
         "price": 40,
+        "id": "SM04",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM04.jpg",
         "released": true
     },
     {
         "name": "Légendes Brillantes",
         "price": 40,
+        "id": "SLE",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SLE.jpg",
         "released": true
     },
     {
         "name": "Ombres Ardentes",
         "price": 40,
+        "id": "SM03",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM03.jpg",
         "released": true
     },
     {
         "name": "Gardiens Ascendants",
         "price": 40,
+        "id": "SM02",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM02.jpg",
         "released": true
     },
     {
         "name": "Soleil Et Lune",
         "price": 40,
+        "id": "SM01",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM01.jpg",
         "released": true
     }

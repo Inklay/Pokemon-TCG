@@ -1,6 +1,7 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const { reverse } = require('dns');
+const { log } = require('console');
 
 module.exports = {
     set: function(id, field, content) {
@@ -38,11 +39,61 @@ module.exports = {
         } else
             return null
     },
-    drawSerie: function()
+    addCards: function(id)
+    {
+        rawData = fs.readFileSync('user.json')
+        data = JSON.parse(rawData)
+        for (i in data.users) {
+            if (data.users[i].id == id) {
+                if (!data.users[i].hasOwnProperty(this.extensions[this.extension].id)) {
+                    data.users[i][this.extensions[this.extension].id] = []
+                    for (j in this.cards) 
+                        data.users[i][this.extensions[this.extension].id].push(this.cards[j].id)
+                }
+                else {
+                    var found = false
+                    for (j in this.cards) {
+                        found = false
+                        for (k in data.users[i][this.extensions[this.extension].id]) {
+                            if (data.users[i][this.extensions[this.extension].id][k] == this.cards[j].id) {
+                                found = true
+                                switch (this.cards[this.card].rarity) {
+                                    case "common":
+                                        this.moneySell += Math.floor(0.1 * this.extensions[this.extension].price)
+                                        break;
+                                    case "uncommon":
+                                        this.moneySell += Math.floor(0.2 * this.extensions[this.extension].price)
+                                        break;
+                                    case "rare":
+                                        this.moneySell += Math.floor(0.5 * this.extensions[this.extension].price)
+                                        break;
+                                    case "special":
+                                        this.moneySell += Math.floor(0.8 * this.extensions[this.extension].price)
+                                        break;
+                                    case "ultraRare":
+                                        this.moneySell += Math.floor(1.2 * this.extensions[this.extension].price)
+                                        break;
+                                }
+                                this.set(id, "money", this.get(id, "money") + this.moneySell)
+                            }
+                        }
+                        if (!found)
+                            data.users[i][this.extensions[this.extension].id].push(this.cards[j].id)
+                    }
+                }
+                data.users[i].money -= this.extensions[this.extension].price
+                data.users[i][this.extensions[this.extension].id] = data.users[i][this.extensions[this.extension].id].sort(function(a, b) {return a - b})
+                break
+            }
+        }
+        json = JSON.stringify(data)
+        fs.writeFileSync('user.json', json)
+    },
+    drawSerie: function(id)
     {
         this.extensions = JSON.parse(fs.readFileSync(`cards/${this.dir}/${this.series[this.serie]}/ext.json`))
         this.embed.setTitle(this.series[this.serie])
-        var description = this.baseDescription
+        var description = `${this.baseDescription} ${this.get(id, "money")} $\n\n`
         for (let i = 0; i < this.extensions.length; i++)
             description += `• ${this.extensions[i].name}\n`
         this.embed.setDescription(description)
@@ -50,9 +101,9 @@ module.exports = {
         this.embed.setImage("")
         this.embed.setFooter(`${this.serie + 1}/${this.series.length}`)
     },
-    drawExtension: function()
+    drawExtension: function(id)
     {
-        var description = `${this.baseDescription} ${this.price}: ${this.extensions[this.extension].price} $`
+        var description = `${this.baseDescription} ${this.get(id, "money")} $\n\n ${this.price}: ${this.extensions[this.extension].price} $`
         if (!this.extensions[this.extension].released)
             description += `\n ${this.notReleased}`
         this.embed.setAuthor(this.baseAuthorExt)
@@ -63,16 +114,60 @@ module.exports = {
     },
     drawCard: function()
     {
-        this.embed.setImage(`${this.extensions[this.extension].cardsBaseImage}${this.cards[this.card]}.png`)
+        if (this.moneySell > 0)
+            this.embed.setDescription(`${this.sell} ${this.moneySell} $`)
+        this.embed.setImage(`${this.extensions[this.extension].cardsBaseImage}${this.cards[this.card].id}.png`)
         this.embed.setFooter(`${this.card + 1}/${this.cards.length}`)
     },
-    open : function()
+    open : function(id)
     {
         this.hasOpened = true
-        for (i = 0; i < 5; i++)
-            this.cards.push({"id": this.extensions[this.extension].common[Math.floor(Math.random() * this.extensions[this.extension].common.length)], "rarity": "common"})
-        for (i = 0; i < 3; i++)
-            this.cards.push({"id": this.extensions[this.extension].uncommon[Math.floor(Math.random() * this.extensions[this.extension].uncommon.length)], "rarity": "uncommon"})
+
+        // 1st card
+        var card = Math.floor(Math.random() * this.extensions[this.extension].common.length)
+        this.cards.push({"id": this.extensions[this.extension].common[card], "rarity": "common"})
+
+        // 2nd
+        card = Math.floor(Math.random() * this.extensions[this.extension].common.length)
+        while (this.extensions[this.extension].common[card] == this.cards[0].id)
+            card = Math.floor(Math.random() * this.extensions[this.extension].common.length)
+        this.cards.push({"id": this.extensions[this.extension].common[card], "rarity": "common"})
+
+        // 3rd
+        card = Math.floor(Math.random() * this.extensions[this.extension].common.length)
+        while (this.extensions[this.extension].common[card] == this.cards[0].id || this.extensions[this.extension].common[card] == this.cards[1].id)
+            card = Math.floor(Math.random() * this.extensions[this.extension].common.length)
+        this.cards.push({"id": this.extensions[this.extension].common[card], "rarity": "common"})
+
+        // 4th
+        card = Math.floor(Math.random() * this.extensions[this.extension].common.length)
+        while (this.extensions[this.extension].common[card] == this.cards[0].id || this.extensions[this.extension].common[card] == this.cards[1].id || this.extensions[this.extension].common[card] == this.cards[2].id)
+            card = Math.floor(Math.random() * this.extensions[this.extension].common.length)
+        this.cards.push({"id": this.extensions[this.extension].common[card], "rarity": "common"})
+
+        // 5th
+        card = Math.floor(Math.random() * this.extensions[this.extension].common.length)
+        while (this.extensions[this.extension].common[card] == this.cards[0].id || this.extensions[this.extension].common[card] == this.cards[1].id || this.extensions[this.extension].common[card] == this.cards[2].id || this.extensions[this.extension].common[card] == this.cards[3].id)
+            card = Math.floor(Math.random() * this.extensions[this.extension].common.length)
+        this.cards.push({"id": this.extensions[this.extension].common[card], "rarity": "common"})
+
+        // 6th
+        card = Math.floor(Math.random() * this.extensions[this.extension].uncommon.length)
+        this.cards.push({"id": this.extensions[this.extension].uncommon[card], "rarity": "uncommon"})
+        
+        // 7th
+        card = Math.floor(Math.random() * this.extensions[this.extension].uncommon.length)
+        while (this.extensions[this.extension].uncommon[card] == this.cards[5].id)
+            card = Math.floor(Math.random() * this.extensions[this.extension].common.length)
+        this.cards.push({"id": this.extensions[this.extension].uncommon[card], "rarity": "uncommon"})
+
+        // 8th
+        card = Math.floor(Math.random() * this.extensions[this.extension].uncommon.length)
+        while (this.extensions[this.extension].uncommon[card] == this.cards[5].id || this.extensions[this.extension].uncommon[card] == this.cards[6].id)
+            card = Math.floor(Math.random() * this.extensions[this.extension].common.length)
+        this.cards.push({"id": this.extensions[this.extension].uncommon[card], "rarity": "uncommon"})
+
+        // 9th
         var reverse = Math.random()
         if (reverse > 0.95)
             this.cards.push({"id": this.extensions[this.extension].ultraRare[Math.floor(Math.random() * this.extensions[this.extension].ultraRare.length)], "rarity": "ultraRare"})
@@ -80,19 +175,40 @@ module.exports = {
             this.cards.push({"id": this.extensions[this.extension].special[Math.floor(Math.random() * this.extensions[this.extension].special.length)], "rarity": "special"})
         else if (reverse > 0.6)
             this.cards.push({"id": this.extensions[this.extension].rare[Math.floor(Math.random() * this.extensions[this.extension].rare.length)], "rarity": "rare"})
-        else if (reverse > 0.35)
-            this.cards.push({"id": this.extensions[this.extension].uncommon[Math.floor(Math.random() * this.extensions[this.extension].uncommon.length)], "rarity": "uncommon"})
-        else 
-            this.cards.push({"id": this.extensions[this.extension].common[Math.floor(Math.random() * this.extensions[this.extension].common.length)], "rarity": "common"})
+        else if (reverse > 0.35) {
+            card = Math.floor(Math.random() * this.extensions[this.extension].ultraRare.length)
+            while (this.extensions[this.extension].uncommon[card] == this.cards[5].id || this.extensions[this.extension].uncommon[card] == this.cards[6].id || this.extensions[this.extension].uncommon[card] == this.cards[7].id)
+                card = Math.floor(Math.random() * this.extensions[this.extension].uncommon.length)
+            this.cards.push({"id": this.extensions[this.extension].uncommon[card], "rarity": "uncommon"})
+        } else {
+            card = Math.floor(Math.random() * this.extensions[this.extension].ultraRare.length)
+            while (this.extensions[this.extension].common[card] == this.cards[0].id || this.extensions[this.extension].common[card] == this.cards[1].id || this.extensions[this.extension].common[card] == this.cards[2].id || this.extensions[this.extension].common[card] == this.cards[3].id || this.extensions[this.extension].common[card] == this.cards[4].id)
+                card = Math.floor(Math.random() * this.extensions[this.extension].common.length)
+            this.cards.push({"id": this.extensions[this.extension].common[card], "rarity": "common"})
+        }
+        
+        // 10th
         var rare = Math.random()
-        if (rare > 0.93)
-            this.cards.push({"id": this.extensions[this.extension].ultraRare[Math.floor(Math.random() * this.extensions[this.extension].ultraRare.length)], "rarity": "ultraRare"})
-        else if (rare > 0.6)
-            this.cards.push({"id": this.extensions[this.extension].special[Math.floor(Math.random() * this.extensions[this.extension].special.length)], "rarity": "special"})
-        else
-            this.cards.push({"id": this.extensions[this.extension].rare[Math.floor(Math.random() * this.extensions[this.extension].rare.length)], "rarity": "rare"})
+        if (rare > 0.93) {
+            card = Math.floor(Math.random() * this.extensions[this.extension].ultraRare.length)
+            while (this.extensions[this.extension].ultraRare[card] == this.cards[8].id)
+                card = Math.floor(Math.random() * this.extensions[this.extension].ultraRare.length)
+            this.cards.push({"id": this.extensions[this.extension].ultraRare[card], "rarity": "ultraRare"})
+        } else if (rare > 0.6) {
+            card = Math.floor(Math.random() * this.extensions[this.extension].special.length)
+            while (this.extensions[this.extension].special[card] == this.cards[8].id)
+                card = Math.floor(Math.random() * this.extensions[this.extension].special.length)
+            this.cards.push({"id": this.extensions[this.extension].special[card], "rarity": "special"})
+        } else {
+            card = Math.floor(Math.random() * this.extensions[this.extension].rare.length)
+            while (this.extensions[this.extension].rare[card] == this.cards[8].id)
+                card = Math.floor(Math.random() * this.extensions[this.extension].rare.length)
+            this.cards.push({"id": this.extensions[this.extension].rare[card], "rarity": "rare"})
+        }
+        console.log(this.cards)
         this.embed.setAuthor("")
         this.embed.setDescription("")
+        this.addCards(id)
         this.drawCard()
     },
     buy: function(language, channel, id)
@@ -101,19 +217,21 @@ module.exports = {
             case "français":
                 this.dir = "fr"
                 this.price = "Prix"
-                this.baseDescription = `Vous avez ${this.get(id, "money")} $\n\n`
+                this.baseDescription = `Vous avez`
                 this.baseAuthorExt = "Sélectionnez l'extension voulue"
                 this.baseAuthorSerie = "Sélectionnez la série voulue"
                 this.notReleased = "Cette extension n'est pas encore sortie"
+                this.sell = "Vous avez vendu les cartes que vous aviez déjà, vous avez gagné"
                 break;
             case "english":
             default:
                 this.dir = "en"
                 this.price = "Price"
-                this.baseDescription = `You Have ${this.get(id, "money")} $\n\n`
+                this.baseDescription = `You Have`
                 this.baseAuthorExt = "Choose the extension you want"
                 this.baseAuthorSerie = "Choose the serie you want"
                 this.notReleased = "This extension isn't released yet"
+                this.sell = "You sold the cards that you already had, you earned"
                 break;
         }
         this.series = JSON.parse(fs.readFileSync(`cards/${this.dir}/series.json`))
@@ -165,14 +283,17 @@ module.exports = {
                                 if (!this.hasValidated) {
                                     this.hasValidated = true
                                     this.drawExtension()
-                                    r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
-                                    msg.edit(this.embed)
                                 } else if (this.extensions[this.extension].released && !this.hasOpened) {
-                                    r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
-                                    this.open()
-                                    msg.edit(this.embed)
-                                } else if (this.hasOpened)
-                                    msg.delete()
+                                    this.open(id)
+                                } else if (this.hasOpened) {
+                                    this.card = 0
+                                    this.cards = []
+                                    this.moneySell = 0
+                                    this.hasOpened = false
+                                    this.drawExtension()
+                                }
+                                msg.edit(this.embed)
+                                r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
                             })
                             cancel.on('collect', (r, u) => {
                                 if (!this.hasValidated)
@@ -183,7 +304,7 @@ module.exports = {
                                     this.drawSerie()
                                     msg.edit(this.embed)
                                     r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
-                                } else if (hasOpened)
+                                } else if (this.hasOpened)
                                     msg.delete()
                             })
                         })
@@ -206,5 +327,7 @@ module.exports = {
     price: 0,
     hasOpened: false,
     cards: [],
-    card: 0
+    card: 0,
+    sell: "",
+    moneySell: 0
 }
