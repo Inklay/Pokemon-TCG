@@ -50,8 +50,7 @@ module.exports = {
                         data.users[i][this.extensions[this.extension].id].push(this.cards[j].id)
                         this.cardsNew.push(true)
                     }
-                }
-                else {
+                } else {
                     var found = false
                     for (j in this.cards) {
                         found = false
@@ -75,7 +74,6 @@ module.exports = {
                                         this.moneySell += Math.floor(1.2 * this.extensions[this.extension].price)
                                         break;
                                 }
-                                this.set(id, "money", this.get(id, "money") + this.moneySell)
                             }
                         }
                         if (!found) {
@@ -85,7 +83,7 @@ module.exports = {
                             this.cardsNew.push(false)
                     }
                 }
-                data.users[i].money -= this.extensions[this.extension].price
+                data.users[i].money += this.moneySell - this.extensions[this.extension].price
                 data.users[i][this.extensions[this.extension].id] = data.users[i][this.extensions[this.extension].id].sort(function(a, b) {return a - b})
                 break
             }

@@ -18,6 +18,7 @@
         "price": 50,
         "id": "SWSH03",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH3.jpg",
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2-fr-fr/img/cards/web/SWSH3/SWSH3_FR_",
         "released": false
     },
     {
