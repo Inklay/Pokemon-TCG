@@ -278,7 +278,7 @@ module.exports = {
                                 } else if (this.hasValidated && this.extension != 0) {
                                     this.extension--
                                     this.drawExtension(id)
-                                } else if (this.hasOpened && this.card != 0 && !this.hasOpened) {
+                                } else if (this.hasOpened && this.card != 0) {
                                     this.card--
                                     this.drawCard()
                                 }
