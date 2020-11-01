@@ -33,8 +33,8 @@ module.exports = {
             }
         }
         if (field == "money") {
-            this.set(id, field, 500)
-            return 500
+            this.set(id, field, 50)
+            return 50
         } else
             return null
     },
