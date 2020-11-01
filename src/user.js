@@ -128,7 +128,7 @@ module.exports = {
         if (this.isBuyable && this.cardsNew[this.card])
             description += `${this.new}\n\n`
         else if (!this.isBuyable)
-            description += `${this.cards[this.card].id}/${this.extensions[this.extension].size}`
+            description += `${this.serieNumber}: ${this.cards[this.card].id}/${this.extensions[this.extension].size}`
         this.embed.setDescription(description)
         this.embed.setImage(`${this.extensions[this.extension].cardsBaseImage}${this.cards[this.card].id}.png`)
         this.embed.setFooter(`${this.card + 1}/${this.cards.length}`)
@@ -236,7 +236,8 @@ module.exports = {
                 this.notReleased = "Cette extension n'est pas encore disponnible sur le bot"
                 this.sell = "Vous avez vendu les cartes que vous aviez déjà, vous avez gagné"
                 this.listExt = "Liste des extensions existantes pour cette série"
-                this.new = "Nouveau !"
+                this.new = "Nouvelle carte!"
+                this.serieNumber = "Numéro dans la série"
                 break;
             case "english":
             default:
@@ -248,7 +249,8 @@ module.exports = {
                 this.notReleased = "This extension isn't available on the bot yet"
                 this.sell = "You sold the cards that you already had, you earned"
                 this.listExt = "List of the extisting extensions for this serie"
-                this.new = "New !"
+                this.new = "New card!"
+                this.serieNumber = "Number in the série"
                 break;
         }
         this.series = JSON.parse(fs.readFileSync(`cards/${this.dir}/series.json`))
@@ -407,5 +409,6 @@ module.exports = {
     isBuyable: true,
     listExt: "",
     new: "",
-    cardsNew: []
+    cardsNew: [],
+    serieNumber: ""
 }
