@@ -35,6 +35,7 @@ try {
 
 client.on('ready', () => {
     console.log(`app.js: Logged in as ${client.user.username}!`)
+    client.user.setActivity('tcg help', {type: 'PLAYING'})
 })
 
 client.on('message', msg => {
@@ -84,6 +85,7 @@ client.on('message', msg => {
     if (content == "buy" || content == "b") {
         handler = new user.userHandler(author.id, channel, guildLanguage)
         handler.buy(msg)
+        return
     }
 
     // Money request handling
@@ -98,6 +100,22 @@ client.on('message', msg => {
         handler = new user.userHandler(author.id, channel, guildLanguage)
         handler.view(msg)
         return
+    }
+
+    // Help
+    if (content == "help" || content == "h") {
+        switch (guildLanguage) {
+            case "français":
+                channel.send("```Voir le préfix actuel: tcg prefix\nChanger le préfix: tcg prefix [prefix]\nVoir la liste des langues supportées: tcg language list\n" +
+                "Changer la langue du serveur: tcg language [langue]\nAcheter un booster: tcg buy ou tcg b\nRecevoir de l'argent: tcg money ou tcg m\nVoir vos cartes: tcg view ou tcg v```")
+                return
+            case "english":
+            default:
+                channel.sendMessage("```See configured prefix: pokedex prefix\nChange prefix: pokedex prefix [prefix]\nSee the list of supported language: pokedex language list\n" +
+                "Change guild language: pokedex language [language]\nBuy a booster: tcg buy or tcg b_n receive money: tcg money or tcg m\nView your cards: tcg view or tcg v```")
+                return
+        }
+
     }
 })
 
