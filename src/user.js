@@ -90,9 +90,11 @@ module.exports = {
     },
     drawSerie: function(id)
     {
+        var description = `${this.listExt}\n\n`
         this.extensions = JSON.parse(fs.readFileSync(`cards/${this.dir}/${this.series[this.serie]}/ext.json`))
         this.embed.setTitle(this.series[this.serie])
-        var description = `${this.baseDescription} ${this.get(id, "money")} $\n\n`
+        if (this.isBuyable)
+            description += `${this.baseDescription} ${this.get(id, "money")} $\n\n`
         for (let i = 0; i < this.extensions.length; i++)
             description += `• ${this.extensions[i].name}\n`
         this.embed.setDescription(description)
@@ -102,7 +104,9 @@ module.exports = {
     },
     drawExtension: function(id)
     {
-        var description = `${this.baseDescription} ${this.get(id, "money")} $\n\n ${this.price}: ${this.extensions[this.extension].price} $`
+        var description = ""
+        if (this.isBuyable)
+            description += `${this.baseDescription} ${this.get(id, "money")} $\n\n${this.price}: ${this.extensions[this.extension].price} $`
         if (!this.extensions[this.extension].released)
             description += `\n ${this.notReleased}`
         this.embed.setAuthor(this.baseAuthorExt)
@@ -204,15 +208,14 @@ module.exports = {
                 card = Math.floor(Math.random() * this.extensions[this.extension].rare.length)
             this.cards.push({"id": this.extensions[this.extension].rare[card], "rarity": "rare"})
         }
-        console.log(this.cards)
         this.embed.setAuthor("")
         this.embed.setDescription("")
         this.addCards(id)
         this.drawCard()
     },
-    buy: function(language, channel, id)
+    init: function(language)
     {
-       switch (language) {
+        switch (language) {
             case "français":
                 this.dir = "fr"
                 this.price = "Prix"
@@ -221,6 +224,7 @@ module.exports = {
                 this.baseAuthorSerie = "Sélectionnez la série voulue"
                 this.notReleased = "Cette extension n'est pas encore disponnible sur le bot"
                 this.sell = "Vous avez vendu les cartes que vous aviez déjà, vous avez gagné"
+                this.listExt = "Liste des extensions existantes pour cette série"
                 break;
             case "english":
             default:
@@ -231,9 +235,13 @@ module.exports = {
                 this.baseAuthorSerie = "Choose the serie you want"
                 this.notReleased = "This extension isn't available on the bot yet"
                 this.sell = "You sold the cards that you already had, you earned"
+                this.listExt = "List of the extisting extensions for this serie"
                 break;
         }
         this.series = JSON.parse(fs.readFileSync(`cards/${this.dir}/series.json`))
+    },
+    createMessage: function(channel, id, userMsg)
+    {
         this.drawSerie()
         channel.send(this.embed).then(msg => {
             msg.react('⬅').then (r => {
@@ -283,7 +291,15 @@ module.exports = {
                                     this.hasValidated = true
                                     this.drawExtension(id)
                                 } else if (this.extensions[this.extension].released && !this.hasOpened) {
-                                    this.open(id)
+                                    if (this.isBuyable)
+                                        this.open(id)
+                                    else {
+                                        let cards = this.get(id, this.extensions[this.extension].id)
+                                        for (i in cards)
+                                            this.cards.push({"id": cards[i]})
+                                        this.drawCard()
+                                        this.hasOpened = true
+                                    }
                                 } else if (this.hasOpened) {
                                     this.card = 0
                                     this.cards = []
@@ -295,16 +311,19 @@ module.exports = {
                                 r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
                             })
                             cancel.on('collect', (r, u) => {
-                                if (!this.hasValidated)
+                                if (!this.hasValidated) {
                                     msg.delete()
-                                else if (this.hasValidated && !this.hasOpened) {
+                                    userMsg.delete()
+                                } else if (this.hasValidated && !this.hasOpened) {
                                     this.hasValidated = false
                                     this.extension = 0
                                     this.drawSerie(id)
                                     msg.edit(this.embed)
                                     r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
-                                } else if (this.hasOpened)
+                                } else if (this.hasOpened) {
                                     msg.delete()
+                                    userMsg.delete()
+                                }
                             })
                         })
                     })
@@ -312,8 +331,23 @@ module.exports = {
             })
         })
     },
-    money: function(id, channel, language) {
+    view: function(language, channel, id, userMsg)
+    {
+        this.isBuyable = false
+        this.init(language)
+        this.createMessage(channel, id, userMsg)
+
+    },
+    buy: function(language, channel, id, userMsg)
+    {
+        this.init(language)
+        this.createMessage(channel, id, userMsg)
+        
+    },
+    money: function(language, channel, id) {
         var date = this.get(id, "date")
+        if (date == null)
+            this.get(id, "money")
         var now = Date.now()
         if (now - date >= 1000 * 60 * 60) {
             this.set(id, "money", this.get(id, "money") + 50)
@@ -330,7 +364,7 @@ module.exports = {
         } else {
             switch (language) {
                 case "français":
-                    channel.send(`Vous devez encore attendre ${Math.floor(60 + (now - date) / 1000 / 60)} minutes pour recevoir à nouveau de l'argent`)
+                    channel.send(`Vous devez encore attendre ${Math.floor((date + 60 * 60 * 1000 - now) / 1000 / 60)} minutes pour recevoir à nouveau de l'argent`)
                     break;
                 case "english":
                 default:
@@ -355,5 +389,7 @@ module.exports = {
     cards: [],
     card: 0,
     sell: "",
-    moneySell: 0
+    moneySell: 0,
+    isBuyable: true,
+    listExt: ""
 }

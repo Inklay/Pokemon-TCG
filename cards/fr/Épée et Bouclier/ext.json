@@ -3,7 +3,7 @@
         "name": "La Voie Du Maitre",
         "price": 50,
         "id": "SWSH03",
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH3.jpg",
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH35.jpg",
         "cardsBaseImage": "https://assets.pokemon.com/assets/cms2-fr-fr/img/cards/web/SWSH35/SWSH35_FR_",
         "released": true,
         "common": [2,3,6,9,11,18,24,29,31,33,35,36,39,41,43,44,46,48,51,59,61],
@@ -16,7 +16,7 @@
         "name": "Ténèbres embrasées",
         "price": 50,
         "id": "SWSH35",
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH35.jpg",
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH03.jpg",
         "released": false
     },
     {
