@@ -2,76 +2,91 @@
     {
         "name": "Éclipse Cosmique",
         "price": 45,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM12.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM12.jpg",
+        "released": true
     },
     {
         "name": "Destinées Occultes",
         "price": 45,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM115.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM115.jpg",
+        "released": true
     },
     {
         "name": "Harmonie Des Esprits",
         "price": 45,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM11.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM11.jpg",
+        "released": true
     },
     {
         "name": "Alliance Infaillible",
         "price": 45,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM10.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM10.jpg",
+        "released": true
     },
     {
         "name": "Duo De Choc",
         "price": 45,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM09.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM09.jpg",
+        "released": true
     },
     {
         "name": "Tonnerre Perdu",
         "price": 40,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM08.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM08.jpg",
+        "released": true
     },
     {
         "name": "Majesté Des Dragons",
         "price": 40,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM75.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM75.jpg",
+        "released": true
     },
     {
         "name": "Tempête Céleste",
         "price": 40,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM07.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM07.jpg",
+        "released": true
     },
     {
         "name": "Lumière Interdite",
         "price": 40,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM06.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM06.jpg",
+        "released": true
     },
     {
         "name": "Ultra Prisme",
         "price": 40,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM05.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM05.jpg",
+        "released": true
     },
     {
         "name": "Invasion Carmin",
         "price": 40,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM04.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM04.jpg",
+        "released": true
     },
     {
         "name": "Légendes Brillantes",
         "price": 40,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SLE.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SLE.jpg",
+        "released": true
     },
     {
         "name": "Ombres Ardentes",
         "price": 40,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM03.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM03.jpg",
+        "released": true
     },
     {
         "name": "Gardiens Ascendants",
         "price": 40,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM02.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM02.jpg",
+        "released": true
     },
     {
         "name": "Soleil Et Lune",
         "price": 40,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM01.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM01.jpg",
+        "released": true
     }
 ]

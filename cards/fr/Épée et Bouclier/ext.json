@@ -2,26 +2,31 @@
     {
         "name": "Voltage Éclatant",
         "price": 55,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH4.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH4.jpg",
+        "released": false
     },
     {
         "name": "La Voie Du Maitre",
         "price": 50,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH3.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH3.jpg",
+        "released": true
     },
     {
         "name": "Ténèbres embrasées",
         "price": 50,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH35.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH35.jpg",
+        "released": true
     },
     {
         "name": "Clash Des Rebelles",
         "price": 50,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH2.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH2.jpg",
+        "released": true
     },
     {
         "name": "Épée et Bouclier",
         "price": 50,
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH1.jpg"
+        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH1.jpg",
+        "released": true
     }
 ]

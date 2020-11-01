@@ -52,11 +52,17 @@ module.exports = {
     drawExtension: function()
     {
         var description = `${this.baseDescription} ${this.price}: ${this.extensions[this.extension].price} $`
+        if (!this.extensions[this.extension].released)
+            description += `\n ${this.notReleased}`
         this.embed.setAuthor(this.baseAuthorExt)
         this.embed.setTitle(this.extensions[this.extension].name)
         this.embed.setDescription(description)
         this.embed.setImage(this.extensions[this.extension].image)
         this.embed.setFooter(`${this.extension + 1}/${this.extensions.length}`)
+    },
+    open : function()
+    {
+
     },
     buy: function(language, channel, id)
     {
@@ -67,6 +73,7 @@ module.exports = {
                 this.baseDescription = `Vous avez ${this.get(id, "money")} $\n\n`
                 this.baseAuthorExt = "Sélectionnez l'extension voulue"
                 this.baseAuthorSerie = "Sélectionnez la série voulue"
+                this.notReleased = "Cette extension n'est pas encore sortie"
                 break;
             case "english":
             default:
@@ -75,6 +82,7 @@ module.exports = {
                 this.baseDescription = `You Have ${this.get(id, "money")} $\n\n`
                 this.baseAuthorExt = "Choose the extension you want"
                 this.baseAuthorSerie = "Choose the serie you want"
+                this.notReleased = "This extension isn't released yet"
                 break;
         }
         this.series = JSON.parse(fs.readFileSync(`cards/${this.dir}/series.json`))
@@ -122,7 +130,8 @@ module.exports = {
                                     this.drawExtension()
                                     msg.edit(this.embed)
                                     r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
-                                }
+                                } else if (this.extensions[this.extension].released)
+                                    this.open()
                             })
                             cancel.on('collect', (r, u) => {
                                 if (!this.hasValidated)
@@ -151,5 +160,6 @@ module.exports = {
     baseAuthorExt: "",
     baseAuthorSerie: "",
     dir: "",
+    notReleased: "",
     price: 0
 }
