@@ -81,11 +81,14 @@ client.on('message', msg => {
     }
 
     // Booster handling
-    if (content == "buy") {
-        user.buy(guildLanguage, channel, author.id, Discord)
+    if (content == "buy" || content == "b") {
+        user.buy(guildLanguage, channel, author.id)
         return
-    } else if (content == "b") {
-        user.buy(guildLanguage, channel, author.id, Discord)
+    }
+
+    // Money request handling
+    if (content == "money" || content == "m") {
+        user.money(author.id, channel, guildLanguage)
         return
     }
 })

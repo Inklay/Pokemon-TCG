@@ -1,7 +1,5 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const { reverse } = require('dns');
-const { log } = require('console');
 
 module.exports = {
     set: function(id, field, content) {
@@ -18,6 +16,7 @@ module.exports = {
             newUser = {}
             newUser['id'] = id
             newUser[field] = content
+            newUser['date'] = Date.now()
             data.users.push(newUser)
         }
         json = JSON.stringify(data)
@@ -220,7 +219,7 @@ module.exports = {
                 this.baseDescription = `Vous avez`
                 this.baseAuthorExt = "Sélectionnez l'extension voulue"
                 this.baseAuthorSerie = "Sélectionnez la série voulue"
-                this.notReleased = "Cette extension n'est pas encore sortie"
+                this.notReleased = "Cette extension n'est pas encore disponnible sur le bot"
                 this.sell = "Vous avez vendu les cartes que vous aviez déjà, vous avez gagné"
                 break;
             case "english":
@@ -230,7 +229,7 @@ module.exports = {
                 this.baseDescription = `You Have`
                 this.baseAuthorExt = "Choose the extension you want"
                 this.baseAuthorSerie = "Choose the serie you want"
-                this.notReleased = "This extension isn't released yet"
+                this.notReleased = "This extension isn't available on the bot yet"
                 this.sell = "You sold the cards that you already had, you earned"
                 break;
         }
@@ -254,10 +253,10 @@ module.exports = {
                             backwards.on('collect', (r, u) => {
                                 if (!this.hasValidated && this.serie != 0) {
                                     this.serie--
-                                    this.drawSerie()
+                                    this.drawSerie(id)
                                 } else if (this.hasValidated && this.extension != 0) {
                                     this.extension--
-                                    this.drawExtension()
+                                    this.drawExtension(id)
                                 } else if (this.hasOpened && this.card != 0 && !this.hasOpened) {
                                     this.card--
                                     this.drawCard()
@@ -268,10 +267,10 @@ module.exports = {
                             forwards.on('collect', (r, u) => {
                                 if (!this.hasValidated && this.serie < this.series.length - 1) {
                                     this.serie++
-                                    this.drawSerie()
+                                    this.drawSerie(id)
                                 } else if (this.hasValidated && this.extension < this.extensions.length - 1 && !this.hasOpened) {
                                     this.extension++
-                                    this.drawExtension()
+                                    this.drawExtension(id)
                                 } else if (this.hasOpened && this.card < this.cards.length - 1) {
                                     this.card++
                                     this.drawCard()
@@ -282,7 +281,7 @@ module.exports = {
                             validate.on('collect', (r, u) => {
                                 if (!this.hasValidated) {
                                     this.hasValidated = true
-                                    this.drawExtension()
+                                    this.drawExtension(id)
                                 } else if (this.extensions[this.extension].released && !this.hasOpened) {
                                     this.open(id)
                                 } else if (this.hasOpened) {
@@ -290,7 +289,7 @@ module.exports = {
                                     this.cards = []
                                     this.moneySell = 0
                                     this.hasOpened = false
-                                    this.drawExtension()
+                                    this.drawExtension(id)
                                 }
                                 msg.edit(this.embed)
                                 r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
@@ -301,7 +300,7 @@ module.exports = {
                                 else if (this.hasValidated && !this.hasOpened) {
                                     this.hasValidated = false
                                     this.extension = 0
-                                    this.drawSerie()
+                                    this.drawSerie(id)
                                     msg.edit(this.embed)
                                     r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
                                 } else if (this.hasOpened)
@@ -312,6 +311,33 @@ module.exports = {
                 })
             })
         })
+    },
+    money: function(id, channel, language) {
+        var date = this.get(id, "date")
+        var now = Date.now()
+        if (now - date >= 1000 * 60 * 60) {
+            this.set(id, "money", this.get(id, "money") + 50)
+            this.set(id, "date", now)
+            switch (language) {
+                case "français":
+                    channel.send("Vous avez reçu 50 $")
+                    break;
+                case "english":
+                default:
+                    channel.send("You received 50 $")
+                    break;
+            }
+        } else {
+            switch (language) {
+                case "français":
+                    channel.send(`Vous devez encore attendre ${Math.floor(60 + (now - date) / 1000 / 60)} minutes pour recevoir à nouveau de l'argent`)
+                    break;
+                case "english":
+                default:
+                    channel.send(`You have to wait ${Math.floor(60 + (now - date) / 1000 / 60)} minutes to receive money again`)
+                    break;
+            }
+        }
     },
     embed: new Discord.MessageEmbed(),
     serie: 0,

@@ -1,12 +1,5 @@
 [
     {
-        "name": "Voltage Éclatant",
-        "price": 55,
-        "id": "SWSH04",
-        "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH4.jpg",
-        "released": false
-    },
-    {
         "name": "La Voie Du Maitre",
         "price": 50,
         "id": "SWSH03",
@@ -24,20 +17,20 @@
         "price": 50,
         "id": "SWSH35",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH35.jpg",
-        "released": true
+        "released": false
     },
     {
         "name": "Clash Des Rebelles",
         "price": 50,
         "id": "SWSH02",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH2.jpg",
-        "released": true
+        "released": false
     },
     {
         "name": "Épée et Bouclier",
         "price": 50,
         "id": "SWSH01",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SWSH1.jpg",
-        "released": true
+        "released": false
     }
 ]
