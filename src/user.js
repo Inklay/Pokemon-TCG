@@ -400,15 +400,15 @@ class userHandler
             this.get(id, "money")
         var now = Date.now()
         if (now - date >= 1000 * 60 * 60) {
-            this.set("money", this.get("money") + 50)
+            this.set("money", this.get("money") + 10)
             this.set("date", now)
             switch (language) {
                 case "français":
-                    this.channel.send("Vous avez reçu 50 $")
+                    this.channel.send("Vous avez reçu 10 $")
                     break;
                 case "english":
                 default:
-                    this.channel.send("You received 50 $")
+                    this.channel.send("You received 10 $")
                     break;
             }
         } else {
