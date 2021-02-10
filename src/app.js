@@ -1,9 +1,9 @@
 const Discord = require('discord.js')
 const fs = require('fs')
 const client = new Discord.Client();
-const prefix = require('./src/prefix.js')
-const language = require('./src/language.js');
-const user = require('./src/user.js')
+const prefix = require('./prefix.js')
+const language = require('./language.js');
+const user = require('./user.js')
 
 token = fs.readFileSync('token.txt', 'utf8').replace('\n', '')
 
