@@ -1,5 +1,21 @@
 [
     {
+        "name": "Destinées Radieuses",
+        "price": 5,
+        "id": "SWSH45",
+        "image": "https://www.pokecardex.com/assets/images/logos/SWSH45.png",
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2-fr-fr/img/cards/web/SWSH45/SWSH45_FR_",
+        "released": false,
+        "common": [],
+        "uncommon": [],
+        "rare": [],
+        "special": [],
+        "ultraRare": [],
+        "size": 0,
+        "canGetSecret": false,
+        "secret": []
+    },
+    {
         "name": "Voltage Éclatant",
         "price": 5,
         "id": "SWSH4",
