@@ -352,7 +352,8 @@ class userHandler
                                         let cards = this.get(this.extensions[this.extension].id)
                                         for (let i in cards)
                                             this.cards.push({"id": cards[i]})
-                                        this.drawCard()
+                                        if (this.cards.length != 0)
+                                            this.drawCard()
                                         this.hasOpened = true
                                     }
                                 } else if (this.hasOpened) {
