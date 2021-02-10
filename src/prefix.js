@@ -2,7 +2,7 @@ const fs = require('fs');
 
 module.exports = {
     set: function(id, type, prefix, language, channel) {
-        rawData = fs.readFileSync('server.json');
+        rawData = fs.readFileSync('data/server.json');
         data = JSON.parse(rawData);
         for (i in data.servers) {
             if (data.servers[i].id == id && data.servers[i].type == type) {
@@ -10,7 +10,7 @@ module.exports = {
             }
         }
         json = JSON.stringify(data);
-        fs.writeFileSync('server.json', json);
+        fs.writeFileSync('data/server.json', json);
         switch (language) {
             case "français":
                 channel.send(`Le préfix "${prefix}" a bien été défini`);
@@ -22,7 +22,7 @@ module.exports = {
         }
     },
     get: function(id, type) {
-        rawData = fs.readFileSync('server.json');
+        rawData = fs.readFileSync('data/server.json');
         data = JSON.parse(rawData);
         for (i in data.servers) {
             if (data.servers[i].id == id && data.servers[i].type == type) {

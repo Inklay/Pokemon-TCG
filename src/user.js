@@ -62,7 +62,7 @@ class userHandler
 
     set(field, content) {
         var found = false
-        var rawData = fs.readFileSync('user.json')
+        var rawData = fs.readFileSync('data/user.json')
         var data = JSON.parse(rawData)
         for (let i in data.users) {
             if (data.users[i].id == this.id) {
@@ -78,12 +78,12 @@ class userHandler
             data.users.push(newUser)
         }
         var json = JSON.stringify(data)
-        fs.writeFileSync('user.json', json)
+        fs.writeFileSync('data/user.json', json)
     }
 
     get(field)
     {
-        var rawData = fs.readFileSync('user.json')
+        var rawData = fs.readFileSync('data/user.json')
         var data = JSON.parse(rawData)
         for (let i in data.users) {
             if (data.users[i].id == this.id) {
@@ -100,7 +100,7 @@ class userHandler
 
     addCards()
     {
-        var rawData = fs.readFileSync('user.json')
+        var rawData = fs.readFileSync('data/user.json')
         var data = JSON.parse(rawData)
         for (let i in data.users) {
             if (data.users[i].id == this.id) {
@@ -152,7 +152,7 @@ class userHandler
             }
         }
         var json = JSON.stringify(data)
-        fs.writeFileSync('user.json', json)
+        fs.writeFileSync('data/user.json', json)
     }
     
     drawSerie()

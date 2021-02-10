@@ -9,7 +9,7 @@ module.exports = {
             console.log("language.js: setting user " + id + " language to " + language);
 
         found = false;
-        rawData = fs.readFileSync('server.json');
+        rawData = fs.readFileSync('data/server.json');
         data = JSON.parse(rawData);
 
         switch (language) {
@@ -36,7 +36,7 @@ module.exports = {
         if (!found)
             data.servers.push({"id": id, "language": language, "type": type});
         json = JSON.stringify(data);
-        fs.writeFileSync('server.json', json);
+        fs.writeFileSync('data/server.json', json);
 
         if (type == "guild")
             console.log("language.js: guild " + id + " set it's language to " + language);
@@ -55,7 +55,7 @@ module.exports = {
     },
     get: function(id, type)
     {
-        rawData = fs.readFileSync('server.json');
+        rawData = fs.readFileSync('data/server.json');
         data = JSON.parse(rawData);
         for (i in data.servers) {
             if (data.servers[i].id == id && data.servers[i].type == type)

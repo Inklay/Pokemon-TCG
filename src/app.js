@@ -8,29 +8,29 @@ const user = require('./user.js')
 token = fs.readFileSync('token.txt', 'utf8').replace('\n', '')
 
 // Create server.json if it doesn't exist or is corrupted
-if (!fs.existsSync('server.json')) {
+if (!fs.existsSync('data/server.json')) {
     rawData = '{"servers":[]}'
-    fs.writeFileSync('server.json', rawData);
+    fs.writeFileSync('data/server.json', rawData);
 } else
-    rawData = fs.readFileSync('server.json');
+    rawData = fs.readFileSync('data/server.json');
 try {
     JSON.parse(rawData);
 } catch {
     rawData = '{"servers":[]}';
-    fs.writeFileSync('server.json', rawData);
+    fs.writeFileSync('data/server.json', rawData);
 }
 
 // Create user.json if it doesn't exist or is corrupted
-if (!fs.existsSync('user.json')) {
+if (!fs.existsSync('data/user.json')) {
     rawData = '{"users":[]}'
-    fs.writeFileSync('user.json', rawData);
+    fs.writeFileSync('data/user.json', rawData);
 } else
-    rawData = fs.readFileSync('user.json');
+    rawData = fs.readFileSync('data/user.json');
 try {
     JSON.parse(rawData);
 } catch {
     rawData = '{"users":[]}';
-    fs.writeFileSync('user.json', rawData);
+    fs.writeFileSync('data/user.json', rawData);
 }
 
 client.on('ready', () => {
