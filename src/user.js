@@ -350,7 +350,7 @@ class userHandler
                                         this.open()
                                     else {
                                         let cards = this.get(this.extensions[this.extension].id)
-                                        for (i in cards)
+                                        for (let i in cards)
                                             this.cards.push({"id": cards[i]})
                                         this.drawCard()
                                         this.hasOpened = true
