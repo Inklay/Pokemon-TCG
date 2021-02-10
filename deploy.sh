@@ -4,6 +4,6 @@ docker container stop tcg
 
 docker container rm tcg
 
-docker container run -d --name "tcg"  tcg_image -v $HOME/Pokemon-TCG/data:/app/data
+docker container run -d --name "tcg" -v /data/Pokemon-TCG:/app/data tcg_image
 
 docker logs tcg
