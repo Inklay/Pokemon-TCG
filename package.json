@@ -14,5 +14,9 @@
     "license": "SEE LICENSE IN LICENSE",
     "bugs": {
         "url": "https://github.com/Inklay/Pokemon-TCG/issues"
+    },
+    "dependencies": {
+        "discord.js": "^12.5.1",
+        "nodemon": "^2.0.7"
     }
 }

@@ -7,6 +7,12 @@ const user = require('./user.js')
 
 token = fs.readFileSync('token.txt', 'utf8').replace('\n', '')
 
+// Create data folder if it doesn't exist
+if (!fs.existsSync('data/'))
+{
+    fs.mkdirSync('data/')
+}
+
 // Create server.json if it doesn't exist or is corrupted
 if (!fs.existsSync('data/server.json')) {
     rawData = '{"servers":[]}'
