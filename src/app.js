@@ -153,7 +153,7 @@ client.on('message', msg =>
                 return
             case "english":
             default:
-                channel.sendMessage("```See configured prefix: pokedex prefix\nChange prefix: pokedex prefix [prefix]\nSee the list of supported language: pokedex language list\n" +
+                channel.send("```See configured prefix: pokedex prefix\nChange prefix: pokedex prefix [prefix]\nSee the list of supported language: pokedex language list\n" +
                 "Change guild language: pokedex language [language]\nBuy a booster: tcg buy or tcg b_n\nreceive money: tcg money or tcg m\nView your cards: tcg view or tcg v```")
                 return
         }
