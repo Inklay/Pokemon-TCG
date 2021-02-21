@@ -26,6 +26,7 @@ class userHandler
     cardsNew = []
     serieNumber
     id
+    notEnoughMoney
 
     constructor(id, channel, language)
     {
@@ -44,7 +45,8 @@ class userHandler
                 this.listExt = "Liste des extensions existantes pour cette série"
                 this.new = "Nouvelle carte!"
                 this.serieNumber = "Numéro dans la série"
-                break;
+                this.notEnoughMoney = "Vous n'avez pas assez d'argent pour achater ce booster"
+                break
             case "english":
             default:
                 this.dir = "en"
@@ -57,7 +59,8 @@ class userHandler
                 this.listExt = "List of the extisting extensions for this serie"
                 this.new = "New card!"
                 this.serieNumber = "Number in the serie"
-                break;
+                this.notEnoughMoney = "You don't have enough money to buy this booster"
+                break
         }
         this.series = JSON.parse(fs.readFileSync(`cards/${this.dir}/series.json`))
     }
@@ -206,7 +209,11 @@ class userHandler
         if (this.isBuyable)
         {
             description += `${this.baseDescription} ${this.get("money")} $\n\n${this.price}: ${this.extensions[this.extension].price} $`
-        } 
+            if (this.get("money") < this.extensions[this.extension].price)
+            {
+                description += `\n\n${this.notEnoughMoney}`
+            }
+        }
         if (!this.extensions[this.extension].released)
         {
             description += `\n\n${this.notReleased}`
@@ -437,7 +444,10 @@ class userHandler
                                 {
                                     if (this.isBuyable)
                                     {
-                                        this.open()
+                                        if (this.extensions[this.extension].price <= this.get("money"))
+                                        {
+                                            this.open()
+                                        }
                                     }
                                     else
                                     {
