@@ -135,9 +135,16 @@ client.on('message', msg =>
     }
 
     // View request handling
-    if (content == "view" || content == "v")
+    if (content.startsWith("view ") || content.startsWith("v "))
     {
-        handler = new user.userHandler(author.id, channel, guildLanguage)
+        if (msg.mentions != null)
+        {
+            handler = new user.userHandler(msg.mentions.users.first().id, channel, guildLanguage)
+        }
+        else
+        {
+            handler = new user.userHandler(author.id, channel, guildLanguage)
+        }
         handler.view(msg)
         return
     }
