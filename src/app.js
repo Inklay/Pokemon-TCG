@@ -137,7 +137,7 @@ client.on('message', msg =>
     // View request handling
     if (content.startsWith("view") || content.startsWith("v"))
     {
-        if (msg.mentions != null)
+        if (msg.mentions.users.first() != undefined)
         {
             handler = new user.userHandler(msg.mentions.users.first().id, channel, guildLanguage, author.id)
         }
