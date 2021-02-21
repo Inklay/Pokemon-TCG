@@ -562,7 +562,7 @@ class userHandler
                     break;
                 case "english":
                 default:
-                    this.channel.send(`You have to wait ${Math.floor(60 + (now - date) / 1000 / 60)} minutes to receive money again`)
+                    this.channel.send(`You have to wait ${Math.floor((date + 60 * 60 * 1000 - now) / 1000 / 60)} minutes to receive money again`)
                     break;
             }
         }

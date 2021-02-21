@@ -97,7 +97,7 @@
     },
     {
         "name": "Ombres Ardentes",
-        "price": 4,
+        "price": 3,
         "id": "SM03",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM03.jpg",
         "released": false,
@@ -105,7 +105,7 @@
     },
     {
         "name": "Gardiens Ascendants",
-        "price": 4,
+        "price": 3,
         "id": "SM02",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM02.jpg",
         "released": false,
@@ -113,7 +113,7 @@
     },
     {
         "name": "Soleil Et Lune",
-        "price": 4,
+        "price": 3,
         "id": "SM01",
         "image": "https://www.pokecardex.com/assets/images/logos/accueil/jpg/SM01.jpg",
         "released": false,
