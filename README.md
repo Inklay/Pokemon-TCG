@@ -6,7 +6,7 @@ A Discord bot base on the Pokémon trading card game.
 
 ### Add it to your server
 
-To add the bot to your server, click [this link](https://discord.com/api/oauth2/authorize?client_id=772212678772654100&permissions=8&scope=bot)
+To add the bot to your server, click [this link](https://discord.com/api/oauth2/authorize?client_id=772212678772654100&permissions=10304&scope=bot)
 
 ### Usage
 ```tcg help``` or ```tcg h``` shows you the help message

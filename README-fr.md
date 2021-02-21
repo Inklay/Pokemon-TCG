@@ -6,7 +6,7 @@ Un bot Discord basé sur le jeu de carte à collectioner Pokémon.
 
 ### Ajoutez le à votre serveur
 
-Pour ajouter le bot à votre serveur, clickez sur [ce lien](https://discord.com/api/oauth2/authorize?client_id=772212678772654100&permissions=8&scope=bot)
+Pour ajouter le bot à votre serveur, clickez sur [ce lien](https://discord.com/api/oauth2/authorize?client_id=772212678772654100&permissions=10304&scope=bot)
 
 ### Utilisation
 ```tcg help``` ou ```tcg h``` affiche le message d'aide
