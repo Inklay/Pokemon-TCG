@@ -28,6 +28,7 @@ class userHandler
     id
     notEnoughMoney
     noCardsInThisSerie
+    noCardsInThisExpansion
     hasOneCard = false
 
     constructor(id, channel, language)
@@ -49,6 +50,7 @@ class userHandler
                 this.serieNumber = "Numéro dans la série"
                 this.notEnoughMoney = "Vous n'avez pas assez d'argent pour achater ce booster"
                 this.noCardsInThisSerie = "Vous n'avez pas de carte dans cette série"
+                this.noCardsInThisExpansion = "Vous n'avez pas de carte dans cette extension"
                 break
             case "english":
             default:
@@ -64,6 +66,7 @@ class userHandler
                 this.serieNumber = "Number in the serie"
                 this.notEnoughMoney = "You don't have enough money to buy this booster"
                 this.noCardsInThisSerie = "You don't have any card in this serie"
+                this.noCardsInThisExpansion = "You don't have any carte in this expansion"
                 break
         }
         this.series = JSON.parse(fs.readFileSync(`cards/${this.dir}/series.json`))
@@ -231,10 +234,20 @@ class userHandler
         {
             description += `\n\n${this.notReleased}`
         }
+        this.hasOneCard = true
+        if (!this.isBuyable && this.get(this.extensions[this.extension].id) == null)
+        {
+            this.hasOneCard = false
+            description = this.noCardsInThisExpansion
+            this.embed.setImage("")
+        }
+        else
+        {
+            this.embed.setImage(this.extensions[this.extension].image)
+        }
         this.embed.setAuthor(this.baseAuthorExt)
         this.embed.setTitle(this.extensions[this.extension].name)
         this.embed.setDescription(description)
-        this.embed.setImage(this.extensions[this.extension].image)
         this.embed.setFooter(`${this.extension + 1}/${this.extensions.length}`)
     }
 
@@ -483,16 +496,19 @@ class userHandler
                                     }
                                     else
                                     {
-                                        let cards = this.get(this.extensions[this.extension].id)
-                                        for (let i in cards)
+                                        if (!(!this.isBuyable && !this.hasOneCard))
                                         {
-                                            this.cards.push({"id": cards[i]})
+                                            let cards = this.get(this.extensions[this.extension].id)
+                                            for (let i in cards)
+                                            {
+                                                this.cards.push({"id": cards[i]})
+                                            }
+                                            if (this.cards.length != 0)
+                                            {
+                                                this.drawCard()
+                                            }
+                                            this.hasOpened = true
                                         }
-                                        if (this.cards.length != 0)
-                                        {
-                                            this.drawCard()
-                                        }
-                                        this.hasOpened = true
                                     }
                                 }
                                 else if (this.hasOpened)
