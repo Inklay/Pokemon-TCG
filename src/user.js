@@ -52,11 +52,11 @@ class userHandler
                 this.dir = "en"
                 this.price = "Price"
                 this.baseDescription = `You Have`
-                this.baseAuthorExt = "Choose the extension you want"
+                this.baseAuthorExt = "Choose the expansion you want"
                 this.baseAuthorSerie = "Choose the serie you want"
-                this.notReleased = "This extension isn't available on the bot yet"
+                this.notReleased = "This expansion isn't available on the bot yet"
                 this.sell = "You sold the cards that you already had, you earned"
-                this.listExt = "List of the extisting extensions for this serie"
+                this.listExt = "List of the extisting expansions for this serie"
                 this.new = "New card!"
                 this.serieNumber = "Number in the serie"
                 this.notEnoughMoney = "You don't have enough money to buy this booster"
@@ -242,7 +242,23 @@ class userHandler
             description += `${this.serieNumber}: ${this.cards[this.card].id}/${this.extensions[this.extension].size}`
         }
         this.embed.setDescription(description)
-        this.embed.setImage(`${this.extensions[this.extension].cardsBaseImage}${this.cards[this.card].id}.png`)
+        if (this.extensions[this.extension].fixNumber)
+        {
+            let fix = ""
+            if (this.cards[this.card].id < 10)
+            {
+                fix = "00"
+            }
+            else if (this.cards[this.card].id < 100)
+            {
+                fix = "0"
+            }
+            this.embed.setImage(`${this.extensions[this.extension].cardsBaseImage}${fix}${this.cards[this.card].id}.png`)
+        }
+        else
+        {
+            this.embed.setImage(`${this.extensions[this.extension].cardsBaseImage}${this.cards[this.card].id}.png`)
+        }
         this.embed.setFooter(`${this.card + 1}/${this.cards.length}`)
         this.embed.setAuthor("")
     }
