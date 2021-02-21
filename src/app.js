@@ -139,11 +139,11 @@ client.on('message', msg =>
     {
         if (msg.mentions != null)
         {
-            handler = new user.userHandler(msg.mentions.users.first().id, channel, guildLanguage)
+            handler = new user.userHandler(msg.mentions.users.first().id, channel, guildLanguage, author.id)
         }
         else
         {
-            handler = new user.userHandler(author.id, channel, guildLanguage)
+            handler = new user.userHandler(author.id, channel, guildLanguage, author.id)
         }
         handler.view(msg)
         return

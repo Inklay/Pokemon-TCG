@@ -30,11 +30,13 @@ class userHandler
     noCardsInThisSerie
     noCardsInThisExpansion
     hasOneCard = false
+    authorId
 
-    constructor(id, channel, language)
+    constructor(id, channel, language, authorId)
     {
         this.id = id
         this.channel = channel
+        this.authorId = authorId
         switch (language)
         {
             case "français":
@@ -425,10 +427,10 @@ class userHandler
                         {
                         msg.react('❌').then(() =>
                         {
-                            const backwardsFilter = (reaction, user) => reaction.emoji.name === '⬅' && user.id === this.id;
-                            const forwardsFilter = (reaction, user) => reaction.emoji.name === '➡' && user.id === this.id;
-                            const validateFilter = (reaction, user) => reaction.emoji.name === '✔️' && user.id === this.id;
-                            const cancelFilter = (reaction, user) => reaction.emoji.name === '❌' && user.id === this.id;
+                            const backwardsFilter = (reaction, user) => reaction.emoji.name === '⬅' && user.id === this.authorId;
+                            const forwardsFilter = (reaction, user) => reaction.emoji.name === '➡' && user.id === this.authorId;
+                            const validateFilter = (reaction, user) => reaction.emoji.name === '✔️' && user.id === this.authorId;
+                            const cancelFilter = (reaction, user) => reaction.emoji.name === '❌' && user.id === this.authorId;
             
                             const backwards = msg.createReactionCollector(backwardsFilter);
                             const forwards = msg.createReactionCollector(forwardsFilter);
@@ -525,13 +527,16 @@ class userHandler
                             })
                             cancel.on('collect', (r, _) =>
                             {
+                                console.log("fun")
                                 if (!this.hasValidated)
                                 {
+                                    console.log("1")
                                     msg.delete()
                                     userMsg.delete()
                                 }
                                 else if (this.hasValidated && !this.hasOpened)
                                 {
+                                    console.log("2")
                                     this.hasValidated = false
                                     this.extension = 0
                                     this.drawSerie()
@@ -540,6 +545,7 @@ class userHandler
                                 }
                                 else if (this.hasOpened)
                                 {
+                                    console.log("3")
                                     msg.delete()
                                     userMsg.delete()
                                 }
