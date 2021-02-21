@@ -121,7 +121,7 @@ client.on('message', msg =>
     // Booster handling
     if (content == "buy" || content == "b")
     {
-        handler = new user.userHandler(author.id, channel, guildLanguage)
+        handler = new user.userHandler(author.id, channel, guildLanguage, author.id)
         handler.buy(msg)
         return
     }
