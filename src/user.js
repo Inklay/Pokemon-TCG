@@ -27,6 +27,8 @@ class userHandler
     serieNumber
     id
     notEnoughMoney
+    noCardsInThisSerie
+    hasOneCard = false
 
     constructor(id, channel, language)
     {
@@ -46,6 +48,7 @@ class userHandler
                 this.new = "Nouvelle carte!"
                 this.serieNumber = "Numéro dans la série"
                 this.notEnoughMoney = "Vous n'avez pas assez d'argent pour achater ce booster"
+                this.noCardsInThisSerie = "Vous n'avez pas de carte dans cette série"
                 break
             case "english":
             default:
@@ -60,6 +63,7 @@ class userHandler
                 this.new = "New card!"
                 this.serieNumber = "Number in the serie"
                 this.notEnoughMoney = "You don't have enough money to buy this booster"
+                this.noCardsInThisSerie = "You don't have any card in this serie"
                 break
         }
         this.series = JSON.parse(fs.readFileSync(`cards/${this.dir}/series.json`))
@@ -188,6 +192,7 @@ class userHandler
         var description = ""
         this.extensions = JSON.parse(fs.readFileSync(`cards/${this.dir}/${this.series[this.serie].id}.json`))
         this.embed.setTitle(this.series[this.serie].name)
+        this.hasOneCard = false
         if (this.isBuyable)
         {
             description += `${this.baseDescription} ${this.get("money")} $\n\n`
@@ -195,7 +200,15 @@ class userHandler
         description += `${this.listExt}\n\n`
         for (let i = 0; i < this.extensions.length; i++)
         {
-            description += `• ${this.extensions[i].name}\n`
+            if (this.isBuyable || (!this.isBuyable && this.get(this.extensions[i].id) != null))
+            {
+                this.hasOneCard = true
+                description += `• ${this.extensions[i].name}\n`
+            }
+        }
+        if (!this.hasOneCard)
+        {
+            description = this.noCardsInThisSerie
         }
         this.embed.setDescription(description)
         this.embed.setAuthor(this.baseAuthorSerie)
@@ -409,7 +422,7 @@ class userHandler
                             const validate = msg.createReactionCollector(validateFilter);
                             const cancel = msg.createReactionCollector(cancelFilter);
                             
-                            backwards.on('collect', (r, u) =>
+                            backwards.on('collect', (r, _) =>
                             {
                                 if (!this.hasValidated && this.serie != 0)
                                 {
@@ -429,7 +442,7 @@ class userHandler
                                 msg.edit(this.embed)
                                 r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
                             })
-                            forwards.on('collect', (r, u) =>
+                            forwards.on('collect', (r, _) =>
                             {
                                 if (!this.hasValidated && this.serie < this.series.length - 1)
                                 {
@@ -449,12 +462,15 @@ class userHandler
                                 msg.edit(this.embed)
                                 r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
                             })
-                            validate.on('collect', (r, u) =>
+                            validate.on('collect', (r, _) =>
                             {
                                 if (!this.hasValidated)
                                 {
-                                    this.hasValidated = true
-                                    this.drawExtension()
+                                    if (!(!this.isBuyable && !this.hasOneCard))
+                                    {
+                                        this.hasValidated = true
+                                        this.drawExtension()
+                                    }
                                 }
                                 else if (this.extensions[this.extension].released && !this.hasOpened)
                                 {
@@ -491,7 +507,7 @@ class userHandler
                                 msg.edit(this.embed)
                                 r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
                             })
-                            cancel.on('collect', (r, u) =>
+                            cancel.on('collect', (r, _) =>
                             {
                                 if (!this.hasValidated)
                                 {

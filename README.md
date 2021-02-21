@@ -2,7 +2,7 @@
 
 * [Version française](README-fr.md)
 
-A Discord bot base on the Pokémon trading card game.
+A Discord bot based on the Pokémon trading card game.
 
 ### Add it to your server
 
