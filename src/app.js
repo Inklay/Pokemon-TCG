@@ -135,7 +135,7 @@ client.on('message', msg =>
     }
 
     // View request handling
-    if (content.startsWith("view ") || content.startsWith("v "))
+    if (content.startsWith("view") || content.startsWith("v"))
     {
         if (msg.mentions != null)
         {
