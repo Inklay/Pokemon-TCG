@@ -33,6 +33,8 @@ class userHandler
     hasOneCard = false
     authorId
     delete_message = false
+    secretCard
+    secretCards
 
     constructor(id, channel, language, authorId, guildId, guildType)
     {
@@ -56,6 +58,8 @@ class userHandler
                 this.notEnoughMoney = "Vous n'avez pas assez d'argent pour acheter ce booster"
                 this.noCardsInThisSerie = "Vous n'avez pas de carte dans cette série"
                 this.noCardsInThisExpansion = "Vous n'avez pas de carte dans cette extension"
+                this.secretCard = "carte secrete"
+                this.secretCards = "cartes secretes"
                 break
             case "english":
             default:
@@ -72,6 +76,8 @@ class userHandler
                 this.notEnoughMoney = "You don't have enough money to buy this booster"
                 this.noCardsInThisSerie = "You don't have any card in this serie"
                 this.noCardsInThisExpansion = "You don't have any carte in this expansion"
+                this.secretCard = "secret card"
+                this.secretCards = "secret cards"
                 break
         }
         this.series = JSON.parse(fs.readFileSync(`cards/${this.dir}/series.json`))
@@ -290,7 +296,38 @@ class userHandler
         {
             this.embed.setImage(`${this.extensions[this.extension].cardsBaseImage}${this.cards[this.card].id}.png`)
         }
-        this.embed.setFooter(`${this.card + 1}/${this.cards.length}`)
+        if (this.isBuyable)
+        {
+            this.embed.setFooter(`${this.card + 1}/${this.cards.length}`)
+        }
+        else
+        {
+            let base = 0
+            let secret = 0
+            for (let i = 0; i < this.cards.length; i++)
+            {
+                if (this.cards[i].id <= this.extensions[this.extension].size)
+                {
+                    base++
+                }
+                else
+                {
+                    secret++
+                }
+            }
+            if (secret == 1)
+            {
+                this.embed.setFooter(`${this.baseDescription} ${base}/${this.extensions[this.extension].size} & ${secret} ${this.secretCard}`)
+            }
+            else if (secret > 1)
+            {
+                this.embed.setFooter(`${this.baseDescription} ${base}/${this.extensions[this.extension].size} & ${secret} ${this.secretCards}`)
+            }
+            else
+            {
+                this.embed.setFooter(`${this.baseDescription} ${base}/${this.extensions[this.extension].size}`)
+            }
+        }
         this.embed.setAuthor("")
     }
 
@@ -356,11 +393,11 @@ class userHandler
 
         // 9th
         var reverse = Math.random()
-        if (reverse > 0.97)
+        if (reverse > 0.995)
         {
             this.cards.push({"id": this.extensions[this.extension].ultraRare[Math.floor(Math.random() * this.extensions[this.extension].ultraRare.length)], "rarity": "ultraRare"})
         }
-        else if (reverse > 0.9)
+        else if (reverse > 0.95)
         {
             this.cards.push({"id": this.extensions[this.extension].special[Math.floor(Math.random() * this.extensions[this.extension].special.length)], "rarity": "special"})
         
@@ -386,11 +423,11 @@ class userHandler
         
         // 10th
         var rare = Math.random()
-        if (rare > 0.99 && this.extensions[this.extension].canGetSecret)
+        if (rare > 0.999 && this.extensions[this.extension].canGetSecret)
         {
             this.cards.push({"id": this.extensions[this.extension].secret[Math.floor(Math.random() * this.extensions[this.extension].secret.length)], "rarity": "secret"})
         }
-        else if (rare > 0.93)
+        else if (rare > 0.995)
         {
             card = Math.floor(Math.random() * this.extensions[this.extension].ultraRare.length)
             while (this.extensions[this.extension].ultraRare[card] == this.cards[8].id)
