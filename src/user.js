@@ -356,16 +356,16 @@ class userHandler
 
         // 9th
         var reverse = Math.random()
-        if (reverse > 0.95)
+        if (reverse > 0.97)
         {
             this.cards.push({"id": this.extensions[this.extension].ultraRare[Math.floor(Math.random() * this.extensions[this.extension].ultraRare.length)], "rarity": "ultraRare"})
         }
-        else if (reverse > 0.8)
+        else if (reverse > 0.9)
         {
             this.cards.push({"id": this.extensions[this.extension].special[Math.floor(Math.random() * this.extensions[this.extension].special.length)], "rarity": "special"})
         
         }
-        else if (reverse > 0.6)
+        else if (reverse > 0.65)
         {
             this.cards.push({"id": this.extensions[this.extension].rare[Math.floor(Math.random() * this.extensions[this.extension].rare.length)], "rarity": "rare"})
         }
@@ -397,7 +397,7 @@ class userHandler
                 card = Math.floor(Math.random() * this.extensions[this.extension].ultraRare.length)
             this.cards.push({"id": this.extensions[this.extension].ultraRare[card], "rarity": "ultraRare"})
         }
-        else if (rare > 0.6)
+        else if (rare > 0.8)
         {
             card = Math.floor(Math.random() * this.extensions[this.extension].special.length)
             while (this.extensions[this.extension].special[card] == this.cards[8].id)
