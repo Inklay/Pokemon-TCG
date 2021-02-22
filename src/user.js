@@ -484,7 +484,7 @@ class userHandler
                                     this.serie--
                                     this.drawSerie()
                                 }
-                                else if (this.hasValidated && this.extension != 0)
+                                else if (this.hasValidated && this.extension != 0 && !this.hasOpened)
                                 {
                                     this.extension--
                                     this.drawExtension()
