@@ -4,6 +4,8 @@ const client = new Discord.Client();
 const prefix = require('./prefix.js')
 const language = require('./language.js');
 const user = require('./user.js')
+const help = require('./help.js')
+const deleteMessage = require('./deleteMessage.js')
 
 token = fs.readFileSync('token.txt', 'utf8').replace('\n', '')
 
@@ -95,24 +97,24 @@ client.on('message', msg =>
     }
 
     // Language handling
-    if (content == "language list")
+    if (content == "language list" && msg.member.hasPermission("ADMINISTRATOR"))
     {
         language.list(channel)
         return
     }
-    else if (content.startsWith("language "))
+    else if (content.startsWith("language ") && msg.member.hasPermission("ADMINISTRATOR"))
     {
         language.set(content.substring(9), channel, id, channelType)
         return
     }
 
     // Prefix handling
-    if (content == "prefix")
+    if (content == "prefix" && msg.member.hasPermission("ADMINISTRATOR"))
     {
         prefix.show(guildPrefix, guildLanguage, channel)
         return
     }
-    else if (content.startsWith("prefix "))
+    else if (content.startsWith("prefix ") && msg.member.hasPermission("ADMINISTRATOR"))
     {
         prefix.set(id, channelType, content.substring(7), guildLanguage, channel)
         return
@@ -149,21 +151,18 @@ client.on('message', msg =>
         return
     }
 
+    // Delete message
+    if (content == "delete_message" && msg.member.hasPermission("ADMINISTRATOR"))
+    {
+        deleteMessage.change(id, channelType, guildLanguage, channel)
+    }
+
     // Help
     if (content == "help" || content == "h")
     {
-        switch (guildLanguage)
-        {
-            case "français":
-                channel.send("```Voir le préfix actuel: tcg prefix\nChanger le préfix: tcg prefix [prefix]\nVoir la liste des langues supportées: tcg language list\n" +
-                "Changer la langue du serveur: tcg language [langue]\nAcheter un booster: tcg buy ou tcg b\nRecevoir de l'argent: tcg money ou tcg m\nVoir vos cartes: tcg view ou tcg v```")
-                return
-            case "english":
-            default:
-                channel.send("```See configured prefix: pokedex prefix\nChange prefix: pokedex prefix [prefix]\nSee the list of supported language: pokedex language list\n" +
-                "Change guild language: pokedex language [language]\nBuy a booster: tcg buy or tcg b\nreceive money: tcg money or tcg m\nView your cards: tcg view or tcg v```")
-                return
-        }
+        handler = new help.helpHandler(msg.member, channel, guildLanguage)
+        handler.view()
+        return
     }
 })
 

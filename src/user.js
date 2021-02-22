@@ -50,7 +50,7 @@ class userHandler
                 this.listExt = "Liste des extensions existantes pour cette série"
                 this.new = "Nouvelle carte!"
                 this.serieNumber = "Numéro dans la série"
-                this.notEnoughMoney = "Vous n'avez pas assez d'argent pour achater ce booster"
+                this.notEnoughMoney = "Vous n'avez pas assez d'argent pour acheter ce booster"
                 this.noCardsInThisSerie = "Vous n'avez pas de carte dans cette série"
                 this.noCardsInThisExpansion = "Vous n'avez pas de carte dans cette extension"
                 break
@@ -418,24 +418,24 @@ class userHandler
     {
         this.drawSerie()
         this.channel.send(this.embed).then(msg =>
+        {
+            msg.react('⬅').then(r =>
             {
-            msg.react('⬅').then (r =>
-                {
                 msg.react('➡').then(r =>
-                    {
+                {
                     msg.react('✔️').then(r =>
-                        {
+                    {
                         msg.react('❌').then(() =>
                         {
-                            const backwardsFilter = (reaction, user) => reaction.emoji.name === '⬅' && user.id === this.authorId;
-                            const forwardsFilter = (reaction, user) => reaction.emoji.name === '➡' && user.id === this.authorId;
-                            const validateFilter = (reaction, user) => reaction.emoji.name === '✔️' && user.id === this.authorId;
-                            const cancelFilter = (reaction, user) => reaction.emoji.name === '❌' && user.id === this.authorId;
+                            const backwardsFilter = (reaction, user) => reaction.emoji.name === '⬅' && user.id === this.authorId
+                            const forwardsFilter = (reaction, user) => reaction.emoji.name === '➡' && user.id === this.authorId
+                            const validateFilter = (reaction, user) => reaction.emoji.name === '✔️' && user.id === this.authorId
+                            const cancelFilter = (reaction, user) => reaction.emoji.name === '❌' && user.id === this.authorId
             
-                            const backwards = msg.createReactionCollector(backwardsFilter);
-                            const forwards = msg.createReactionCollector(forwardsFilter);
-                            const validate = msg.createReactionCollector(validateFilter);
-                            const cancel = msg.createReactionCollector(cancelFilter);
+                            const backwards = msg.createReactionCollector(backwardsFilter)
+                            const forwards = msg.createReactionCollector(forwardsFilter)
+                            const validate = msg.createReactionCollector(validateFilter)
+                            const cancel = msg.createReactionCollector(cancelFilter)
                             
                             backwards.on('collect', (r, _) =>
                             {
