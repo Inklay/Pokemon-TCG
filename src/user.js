@@ -1,5 +1,6 @@
 const fs = require('fs');
 const Discord = require('discord.js');
+const deleteMessage = require('./deleteMessage.js')
 
 class userHandler
 {
@@ -31,12 +32,14 @@ class userHandler
     noCardsInThisExpansion
     hasOneCard = false
     authorId
+    delete_message = false
 
-    constructor(id, channel, language, authorId)
+    constructor(id, channel, language, authorId, guildId, guildType)
     {
         this.id = id
         this.channel = channel
         this.authorId = authorId
+        this.delete_message = deleteMessage.get(guildId, guildType)
         switch (language)
         {
             case "français":
@@ -527,16 +530,17 @@ class userHandler
                             })
                             cancel.on('collect', (r, _) =>
                             {
-                                console.log("fun")
                                 if (!this.hasValidated)
                                 {
-                                    console.log("1")
-                                    msg.delete()
-                                    userMsg.delete()
+                                    if (this.delete_message)
+                                    {
+                                        userMsg.delete()
+                                        msg.delete()
+                                    }
+                                    r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
                                 }
                                 else if (this.hasValidated && !this.hasOpened)
                                 {
-                                    console.log("2")
                                     this.hasValidated = false
                                     this.extension = 0
                                     this.drawSerie()
@@ -545,9 +549,12 @@ class userHandler
                                 }
                                 else if (this.hasOpened)
                                 {
-                                    console.log("3")
-                                    msg.delete()
-                                    userMsg.delete()
+                                    if (this.delete_message)
+                                    {
+                                        userMsg.delete()
+                                        msg.delete()
+                                    }
+                                    r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
                                 }
                             })
                         })

@@ -123,7 +123,7 @@ client.on('message', msg =>
     // Booster handling
     if (content == "buy" || content == "b")
     {
-        handler = new user.userHandler(author.id, channel, guildLanguage, author.id)
+        handler = new user.userHandler(author.id, channel, guildLanguage, author.id, id, channelType)
         handler.buy(msg)
         return
     }
@@ -141,11 +141,11 @@ client.on('message', msg =>
     {
         if (msg.mentions.users.first() != undefined)
         {
-            handler = new user.userHandler(msg.mentions.users.first().id, channel, guildLanguage, author.id)
+            handler = new user.userHandler(msg.mentions.users.first().id, channel, guildLanguage, author.id, id, channelType)
         }
         else
         {
-            handler = new user.userHandler(author.id, channel, guildLanguage, author.id)
+            handler = new user.userHandler(author.id, channel, guildLanguage, author.id, id, channelType)
         }
         handler.view(msg)
         return
@@ -155,6 +155,7 @@ client.on('message', msg =>
     if (content == "delete_message" && msg.member.hasPermission("ADMINISTRATOR"))
     {
         deleteMessage.change(id, channelType, guildLanguage, channel)
+        return
     }
 
     // Help
