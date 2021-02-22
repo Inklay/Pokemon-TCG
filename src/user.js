@@ -532,12 +532,12 @@ class userHandler
                             {
                                 if (!this.hasValidated)
                                 {
+                                    msg.delete()
                                     if (this.delete_message)
                                     {
                                         userMsg.delete()
-                                        msg.delete()
                                     }
-                                    r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
+                                    delete this
                                 }
                                 else if (this.hasValidated && !this.hasOpened)
                                 {
@@ -549,12 +549,12 @@ class userHandler
                                 }
                                 else if (this.hasOpened)
                                 {
+                                    msg.delete()
                                     if (this.delete_message)
                                     {
                                         userMsg.delete()
-                                        msg.delete()
                                     }
-                                    r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
+                                    delete this
                                 }
                             })
                         })
