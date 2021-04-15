@@ -214,7 +214,7 @@ class userHandler
         description += `${this.listExt}\n\n`
         for (let i = 0; i < this.extensions.length; i++)
         {
-            if (this.isBuyable || (!this.isBuyable && this.get(this.extensions[i].id) != null))
+            if ((this.isBuyable || (!this.isBuyable && this.get(this.extensions[i].id) != null)) && this.extensions[i].released)
             {
                 this.hasOneCard = true
                 description += `• ${this.extensions[i].name}\n`
