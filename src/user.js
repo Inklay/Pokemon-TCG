@@ -14,7 +14,6 @@ class userHandler
     baseAuthorExt
     baseAuthorSerie
     dir
-    notReleased
     price = 0
     hasOpened = false
     cards = []
@@ -50,7 +49,6 @@ class userHandler
                 this.baseDescription = `Vous avez`
                 this.baseAuthorExt = "Sélectionnez l'extension voulue"
                 this.baseAuthorSerie = "Sélectionnez la série voulue"
-                this.notReleased = "Cette extension n'est pas encore disponnible sur le bot"
                 this.sell = "Vous avez vendu les cartes que vous aviez déjà, vous avez gagné"
                 this.listExt = "Liste des extensions existantes pour cette série"
                 this.new = "Nouvelle carte!"
@@ -68,7 +66,6 @@ class userHandler
                 this.baseDescription = `You Have`
                 this.baseAuthorExt = "Choose the expansion you want"
                 this.baseAuthorSerie = "Choose the serie you want"
-                this.notReleased = "This expansion isn't available on the bot yet"
                 this.sell = "You sold the cards that you already had, you earned"
                 this.listExt = "List of the extisting expansions for this serie"
                 this.new = "New card!"
@@ -240,10 +237,6 @@ class userHandler
             {
                 description += `\n\n${this.notEnoughMoney}`
             }
-        }
-        if (!this.extensions[this.extension].released)
-        {
-            description += `\n\n${this.notReleased}`
         }
         this.hasOneCard = true
         if (!this.isBuyable && this.get(this.extensions[this.extension].id) == null)
