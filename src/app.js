@@ -109,7 +109,7 @@ client.on('message', msg =>
     }
 
     // Prefix handling
-    if (content == "prefix" && msg.member.hasPermission("ADMINISTRATOR"))
+    if (content == "prefix")
     {
         prefix.show(guildPrefix, guildLanguage, channel)
         return
