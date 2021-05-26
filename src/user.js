@@ -563,7 +563,7 @@ class userHandler
                                 if (!this.hasValidated)
                                 {
                                     msg.delete()
-                                    if (this.delete_message)
+                                    if (this.delete_message && msg.member.hasPermission("MANAGE_MESSAGES"))
                                     {
                                         userMsg.delete()
                                     }
@@ -580,7 +580,7 @@ class userHandler
                                 else if (this.hasOpened)
                                 {
                                     msg.delete()
-                                    if (this.delete_message)
+                                    if (this.delete_message && msg.member.hasPermission("MANAGE_MESSAGES"))
                                     {
                                         userMsg.delete()
                                     }
