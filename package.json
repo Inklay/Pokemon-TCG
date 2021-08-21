@@ -1,7 +1,7 @@
 {
     "name": "net.inklay.pokemontcg",
-    "version": "1.0.0",
-    "description": "Web service for all my projects",
+    "version": "2.0.0",
+    "description": "A Pokemon TCG Discord bot",
     "scripts": {
         "build": "node src/app.js",
         "start": "nodemon --config nodemon.json src/app.js"
@@ -16,7 +16,14 @@
         "url": "https://github.com/Inklay/Pokemon-TCG/issues"
     },
     "dependencies": {
-        "discord.js": "^12.5.1",
+        "@discordjs/builders": "^0.5.0",
+        "@discordjs/rest": "^0.1.0-canary.0",
+        "discord-api-types": "^0.20.0",
+        "discord.js": "^13.1.0",
+        "dotenv": "^10.0.0"
+    },
+    "devDependencies": {
+        "eslint": "^7.32.0",
         "nodemon": "^2.0.7"
     }
 }

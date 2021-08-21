@@ -1,0 +1,16 @@
+{
+  "help": {
+    "description": "Show a help message that explains all the bot's commands",
+    "embed": {
+      "commandList": "Command list",
+      "adminCommandList": "Administrator command list",
+      "viewCommandDescription": "View your card's collection",
+      "buyCommandDescription": "Buy new boosters",
+      "moneyCommandDescription": "Receive 10$ (every hour)",
+      "languageCommandDescription": "Change the language of the bot",
+      "languageListCommandDescription": "View the list of supported languages",
+      "prefixCommandDescription": "Change the bot's prefix",
+      "deleteMessageCommandDescription": "Enable/disable the deletation of message"
+    }
+  }
+}

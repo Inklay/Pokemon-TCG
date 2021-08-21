@@ -1,0 +1,16 @@
+{
+  "help": {
+    "description": "Affiche un message d'aide expliquant les commandes du bot",
+    "embed": {
+      "commandList": "Liste des commands",
+      "adminCommandList": "Liste des commandes administrateur",
+      "viewCommandDescription": "Voir votre collection de carte",
+      "buyCommandDescription": "Acheter des boosters",
+      "moneyCommandDescription": "Recevoir 10$ (toutes les heures)",
+      "languageCommandDescription": "Changer la langue du bot",
+      "languageListCommandDescription": "Voir la liste des langues supportées",
+      "prefixCommandDescription": "Changer le prefix du bot",
+      "deleteMessageCommandDescription": "Désactiver/activer la suppression de message"
+    }
+  }
+}

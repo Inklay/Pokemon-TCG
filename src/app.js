@@ -1,4 +1,76 @@
-const Discord = require('discord.js')
+const fs = require('fs')
+const lang = require('./dataHandler/lang.js')
+const config = require('./config.js')
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9');
+const {Client, Intents, Collection} = require('discord.js')
+
+const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]})
+client.login(config.token)
+
+function loadCommands() {
+    client.commands = new Collection()
+    const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'))
+    const commands = [];
+    for (const file of commandFiles) {
+        const command = require(`./commands/${file}`);
+        commands.push(command.data.toJSON());
+        client.commands.set(command.data.name, command);
+    }
+    registerCommands(commands)
+}
+
+function registerCommands(commands) {
+    const rest = new REST({ version: '9' }).setToken(config.token)
+    {
+        (async () => {
+            try {
+                console.log('Refreshing application (/) commands.')
+                if (config.isDebug) {
+                    await rest.put(
+                        Routes.applicationGuildCommands(client.user.id, config.guildId),
+                        { body: commands },
+                    )
+                } else {
+                    await rest.put(
+                        Routes.applicationGuildCommands(client.user.id),
+                        { body: commands },
+                    ) 
+                }
+                console.log('Successfully reloaded application (/) commands.')
+            } catch (error) {
+                console.error(error)
+            }
+        })()
+    }
+}
+
+client.once('ready', () => {
+	console.log(`app.js: Logged in as ${client.user.username}!`)
+    client.user.setActivity('tcg help', {type: 'PLAYING'})
+    loadCommands()
+});
+
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isCommand()) {
+        return
+    }
+	const command = client.commands.get(interaction.commandName)
+	if (!command) {
+        return
+    }
+    const id = interaction.inGuild() ? interaction.guildId : interaction.user.id
+    const channelType = interaction.inGuild() ? 'guild' : 'user'
+    const langFile = JSON.parse(fs.readFileSync(`src/lang/${lang.get(id, channelType)}.json`))
+	try {
+		await command.execute(interaction, langFile)
+	} catch (error) {
+		console.error(error);
+		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true })
+	}
+});
+
+/*const Discord = require('discord.js')
 const fs = require('fs')
 const client = new Discord.Client();
 const prefix = require('./prefix.js')
@@ -7,7 +79,7 @@ const user = require('./user.js')
 const help = require('./help.js')
 const deleteMessage = require('./deleteMessage.js')
 
-token = fs.readFileSync('token.txt', 'utf8').replace('\n', '')
+const token = fs.readFileSync('token.txt', 'utf8').replace('\n', '')
 
 // Create data folder if it doesn't exist
 if (!fs.existsSync('data/'))
@@ -167,4 +239,4 @@ client.on('message', msg =>
     }
 })
 
-client.login(token)
+client.login(token)*/
