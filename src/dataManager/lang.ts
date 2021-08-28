@@ -1,14 +1,14 @@
-const fs = require('fs')
+import { TextChannel } from 'discord.js';
+import fs from 'fs';
 
-module.exports =
-{
-    set: function(language, channel, id, type)
-    {
-        console.log(`language.js: setting ${type} ${id} language to ${language}`)
+export class Lang {
+    static set (inputLanguage: string, channel: TextChannel, id: string, type: string) {
+        console.log(`language.js: setting ${type} ${id} language to ${inputLanguage}`)
         let found = false
-        const rawData = fs.readFileSync('data/server.json')
+        const rawData = fs.readFileSync('data/server.json').toString()
         let data = JSON.parse(rawData)
-        switch (language)
+        let language: string
+        switch (inputLanguage)
         {
             case 'francais':
             case 'français':
@@ -49,10 +49,10 @@ module.exports =
                 channel.send("Language successfully set.")
                 break;
         }
-    },
-    get: function(id, type)
-    {
-        const rawData = fs.readFileSync('data/server.json')
+    }
+
+    static get (id: string, type: string) : string {
+        const rawData = fs.readFileSync('data/server.json').toString()
         const data = JSON.parse(rawData)
         for (let i in data.servers)
         {
@@ -66,9 +66,9 @@ module.exports =
             }
         }
         return "en"
-    },
-    list: function(channel)
-    {
+    }
+
+    static list (channel: TextChannel) {
         channel.send("Français (fr)\nEnglish (en)")
     }
-};
+}

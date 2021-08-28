@@ -1,6 +1,13 @@
 {
+  "global": {
+    "commandError": "Une erreur est survenue lors de l'exécution de cette commande"
+  },
   "help": {
     "description": "Affiche un message d'aide expliquant les commandes du bot",
+    "labels": {
+      "userCommands": "Commandes utilisateurs",
+      "adminCommands": "Commandes administrateurs"
+    },
     "embed": {
       "commandList": "Liste des commands",
       "adminCommandList": "Liste des commandes administrateur",
