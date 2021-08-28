@@ -1,6 +1,8 @@
 {
   "global": {
-    "commandError": "Une erreur est survenue lors de l'exécution de cette commande"
+    "commandError": "Une erreur est survenue lors de l'exécution de cette commande",
+    "doNotHavePermission": "Vous n'avez pas la permission d'utiliser cette commande",
+    "permissionMissing": "Permission manquante"
   },
   "help": {
     "description": "Affiche un message d'aide expliquant les commandes du bot",
@@ -18,6 +20,13 @@
       "languageListCommandDescription": "Voir la liste des langues supportées",
       "prefixCommandDescription": "Changer le prefix du bot",
       "deleteMessageCommandDescription": "Désactiver/activer la suppression de message"
+    }
+  },
+  "lang": {
+    "embed": {
+      "langList": "Language list",
+      "french": "français",
+      "english": "english"
     }
   }
 }

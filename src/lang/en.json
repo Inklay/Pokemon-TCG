@@ -1,6 +1,8 @@
 {
   "global": {
-    "commandError": "There was an error while executing this command"
+    "commandError": "There was an error while executing this command",
+    "doNotHavePermission": "You don't have the permission to use this command",
+    "permissionMissing": "Permission missing"
   },
   "help": {
     "description": "Show a help message that explains all the bot's commands",
@@ -18,6 +20,13 @@
       "languageListCommandDescription": "View the list of supported languages",
       "prefixCommandDescription": "Change the bot's prefix",
       "deleteMessageCommandDescription": "Enable/disable the deletation of message"
+    }
+  },
+  "lang": {
+    "embed": {
+      "langList": "Language list",
+      "french": "français",
+      "english": "english"
     }
   }
 }

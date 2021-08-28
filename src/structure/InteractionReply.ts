@@ -8,4 +8,8 @@ export class InteractionReply {
     this.embed = embed
     this.buttons = buttons
   }
+
+  hasButton() : boolean {
+    return this.buttons.length > 0
+  }
 }

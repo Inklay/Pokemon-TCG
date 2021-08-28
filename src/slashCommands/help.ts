@@ -10,16 +10,15 @@ export class slahCommand extends Command {
 		super()
 		this.commandData = {
 			name: 'help',
-			description: 'test help 2'
+			description: 'Prints a message with all the command and their usage in the server\'s configured language'
 		}
 	}
 
 	async execute(interaction: CommandInteraction, lang: Lang) {
 		const reply = basicHelp(lang, interaction.member as GuildMember)
-		const row = new MessageActionRow().addComponents(reply.buttons)
 		await interaction.reply({
 			embeds: [reply.embed],
-			components: [row],
+			components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)]: undefined,
 			ephemeral: true
 		})
 	}
@@ -28,19 +27,17 @@ export class slahCommand extends Command {
 		switch (interaction.customId) {
 			case 'adminHelp': {
 				const reply = adminHelp(lang)
-				const row = new MessageActionRow().addComponents(reply.buttons)
 				await interaction.update({
 					embeds: [reply.embed],
-					components: [row]
+					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)]: undefined
 				})
 				return
 			}
 			case 'basicHelp': {
 				const reply = basicHelp(lang, interaction.member as GuildMember)
-				const row = new MessageActionRow().addComponents(reply.buttons)
 				await interaction.update({
 					embeds: [reply.embed],
-					components: [row]
+					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)]: undefined
 				})
 				return
 			}

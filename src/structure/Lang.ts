@@ -1,9 +1,20 @@
 class global {
   commandError = ""
+  doNotHavePermission = ""
+  permissionMissing = ""
+}
+
+class lang {
+  embed = new langEmbed()
+}
+
+class langEmbed {
+  langList = ""
+  french = ""
+  english = ""
 }
 
 class help {
-  description = ""
   labels = new helpLabels()
   embed = new helpEmbed()
 }
@@ -28,4 +39,5 @@ class helpEmbed {
 export class Lang {
   global = new global()
   help = new help()
+  lang = new lang()
 }

@@ -9,9 +9,9 @@ export function basicHelp(lang: Lang, member: GuildMember) : InteractionReply
     embed.setTitle(lang.help.embed.commandList)
     embed.setColor("#3679f5")
     embed.setFields(
-        { name: "tcg v || view", value: lang.help.embed.viewCommandDescription, inline: true},
-        { name: "tcg b || buy", value: lang.help.embed.buyCommandDescription, inline: true},
-        { name: "tcg m || money", value: lang.help.embed.moneyCommandDescription}
+        { name: "/view", value: lang.help.embed.viewCommandDescription, inline: true},
+        { name: "/buy", value: lang.help.embed.buyCommandDescription, inline: true},
+        { name: "/money", value: lang.help.embed.moneyCommandDescription}
     )
     if (member.permissions.has(Permissions.FLAGS.KICK_MEMBERS)) {
         buttons.push(new MessageButton({
@@ -30,9 +30,9 @@ export function adminHelp(lang: Lang) : InteractionReply
     embed.setTitle(lang.help.embed.adminCommandList)
     embed.setColor("#f7432f")
     embed.setFields(
-        { name: "tcg language", value: lang.help.embed.languageCommandDescription, inline: true},
-        { name: "tcg language list", value: lang.help.embed.languageListCommandDescription, inline: true},
-        { name: "tcg delete_message", value: lang.help.embed.deleteMessageCommandDescription, inline: true}
+        { name: "/language", value: lang.help.embed.languageCommandDescription, inline: true},
+        { name: "/language list", value: lang.help.embed.languageListCommandDescription, inline: true},
+        { name: "/delete_message", value: lang.help.embed.deleteMessageCommandDescription, inline: true}
     )
     buttons.push(new MessageButton({
         label: lang.help.labels.userCommands,
