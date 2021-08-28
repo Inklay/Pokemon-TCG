@@ -26,7 +26,9 @@
     "embed": {
       "langList": "Language list",
       "french": "français",
-      "english": "english"
+      "english": "english",
+      "langSet": "Language as been set to english",
+      "langUpdated": "Language updated !"
     }
   }
 }

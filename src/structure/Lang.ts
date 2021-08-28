@@ -12,6 +12,8 @@ class langEmbed {
   langList = ""
   french = ""
   english = ""
+  langSet = ""
+  langUpdated = ""
 }
 
 class help {

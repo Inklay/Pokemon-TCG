@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { Lang } from './dataManager/lang'
+import { getLang } from './dataManager/lang'
 import * as Config from './config'
 import { REST } from '@discordjs/rest'
 import { Client, Intents, ApplicationCommandData, Message } from 'discord.js'
@@ -61,7 +61,7 @@ client.on('interactionCreate', async interaction => {
         }
         const id = interaction.inGuild() ? interaction.guildId : interaction.user.id
         const channelType = interaction.inGuild() ? 'guild' : 'user'
-        const langFile = JSON.parse(fs.readFileSync(`src/lang/${Lang.get(id, channelType)}.json`).toString())
+        const langFile = JSON.parse(fs.readFileSync(`src/lang/${getLang(id, channelType)}.json`).toString())
         try {
             command.execute(interaction, langFile)
         } catch (error) {
@@ -76,7 +76,7 @@ client.on('interactionCreate', async interaction => {
         }
         const id = interaction.inGuild() ? interaction.guildId : interaction.user.id
         const channelType = interaction.inGuild() ? 'guild' : 'user'
-        const langFile = JSON.parse(fs.readFileSync(`src/lang/${Lang.get(id, channelType)}.json`).toString())
+        const langFile = JSON.parse(fs.readFileSync(`src/lang/${getLang(id, channelType)}.json`).toString())
         try {
             command.handleButtons(interaction, langFile)
         } catch (error) {
