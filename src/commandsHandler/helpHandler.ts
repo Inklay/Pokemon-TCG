@@ -32,7 +32,6 @@ export function adminHelp(lang: Lang) : InteractionReply
     embed.setFields(
         { name: "tcg language", value: lang.help.embed.languageCommandDescription, inline: true},
         { name: "tcg language list", value: lang.help.embed.languageListCommandDescription, inline: true},
-        { name: "tcg prefix", value: lang.help.embed.prefixCommandDescription},
         { name: "tcg delete_message", value: lang.help.embed.deleteMessageCommandDescription, inline: true}
     )
     buttons.push(new MessageButton({
