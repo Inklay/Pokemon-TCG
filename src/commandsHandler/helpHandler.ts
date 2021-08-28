@@ -1,93 +1,44 @@
-import { GuildMember, MessageEmbed, Permissions } from 'discord.js';
+import { GuildMember, MessageButton, MessageEmbed, Permissions } from 'discord.js';
+import { InteractionReply } from '../structure/InteractionReply';
 import { Lang } from '../structure/Lang'
 
-export class helpHandler
+export function basicHelp(lang: Lang, member: GuildMember) : InteractionReply
 {
-    embed: MessageEmbed
-    authorId: string
-    isAdmin: boolean
-    isViewingAdminPage: boolean
-    lang: Lang
-
-    constructor (member: GuildMember, lang: Lang)
-    {
-        this.embed = new MessageEmbed()
-        this.authorId = member.user.id
-        this.isAdmin = member.permissions.has(Permissions.FLAGS.KICK_MEMBERS)
-        this.isViewingAdminPage = false
-        this.lang = lang
+    let embed = new MessageEmbed()
+    let buttons : MessageButton[] = []
+    embed.setTitle(lang.help.embed.commandList)
+    embed.setColor("#3679f5")
+    embed.setFields(
+        { name: "tcg v || view", value: lang.help.embed.viewCommandDescription, inline: true},
+        { name: "tcg b || buy", value: lang.help.embed.buyCommandDescription, inline: true},
+        { name: "tcg m || money", value: lang.help.embed.moneyCommandDescription}
+    )
+    if (member.permissions.has(Permissions.FLAGS.KICK_MEMBERS)) {
+        buttons.push(new MessageButton({
+            label: lang.help.labels.adminCommands,
+            customId: 'adminHelp',
+            style: "DANGER"
+        }))
     }
+    return new InteractionReply(embed, buttons)
+}
 
-    drawAdminHelp()
-    {
-        
-        this.embed.setTitle(this.lang.help.embed.adminCommandList)
-        this.embed.setColor("#f7432f")
-        this.embed.setFields(
-            { name: "tcg language", value: this.lang.help.embed.languageCommandDescription, inline: true},
-            { name: "tcg language list", value: this.lang.help.embed.languageListCommandDescription, inline: true},
-            { name: "tcg prefix", value: this.lang.help.embed.prefixCommandDescription},
-            { name: "tcg delete_message", value: this.lang.help.embed.deleteMessageCommandDescription, inline: true}
-        )
-    }
-
-    drawBasicHelp()
-    {
-        this.embed.setTitle(this.lang.help.embed.commandList)
-        this.embed.setColor("#3679f5")
-        this.embed.setFields(
-            { name: "tcg v || view", value: this.lang.help.embed.viewCommandDescription, inline: true},
-            { name: "tcg b || buy", value: this.lang.help.embed.buyCommandDescription, inline: true},
-            { name: "tcg m || money", value: this.lang.help.embed.moneyCommandDescription}
-        )
-    }
-
-    createEmbed()
-    {
-        this.drawBasicHelp()
-        return this.embed
-        /*if (!this.isAdmin)
-        {
-            this.channel.send(this.embed)
-        }
-        else
-        {
-            this.channel.send(this.embed).then(msg =>
-            {
-                msg.react('⬅').then(() =>
-                {
-                    msg.react('➡').then(() =>
-                    {
-                        const backwardsFilter = (reaction, user) => reaction.emoji.name === '⬅' && user.id === this.authorId
-                        const forwardsFilter = (reaction, user) => reaction.emoji.name === '➡' && user.id === this.authorId
-
-                        const backwards = msg.createReactionCollector(backwardsFilter)
-                        const forwards = msg.createReactionCollector(forwardsFilter)
-
-                        backwards.on('collect', (r) =>
-                        {
-                            if (this.isViewingAdminPage)
-                            {
-                                this.drawBasicHelp()
-                                msg.edit(this.embed)
-                                r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
-                                this.isViewingAdminPage = false
-                            }
-                        })
-
-                        forwards.on('collect', (r) =>
-                        {
-                            if (!this.isViewingAdminPage)
-                            {
-                                this.drawAdminHelp()
-                                msg.edit(this.embed)
-                                r.users.remove(r.users.cache.filter(u => u !== msg.author).first())
-                                this.isViewingAdminPage = true
-                            }
-                        })
-                    })
-                })
-            })  
-        }*/
-    }
+export function adminHelp(lang: Lang) : InteractionReply
+{
+    let embed = new MessageEmbed()
+    let buttons : MessageButton[] = []
+    embed.setTitle(lang.help.embed.adminCommandList)
+    embed.setColor("#f7432f")
+    embed.setFields(
+        { name: "tcg language", value: lang.help.embed.languageCommandDescription, inline: true},
+        { name: "tcg language list", value: lang.help.embed.languageListCommandDescription, inline: true},
+        { name: "tcg prefix", value: lang.help.embed.prefixCommandDescription},
+        { name: "tcg delete_message", value: lang.help.embed.deleteMessageCommandDescription, inline: true}
+    )
+    buttons.push(new MessageButton({
+        label: lang.help.labels.userCommands,
+        customId: 'basicHelp',
+        style: "PRIMARY"
+    }))
+    return new InteractionReply(embed, buttons)
 }

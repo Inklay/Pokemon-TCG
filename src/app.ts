@@ -2,7 +2,7 @@ import fs from 'fs'
 import { Lang } from './dataManager/lang'
 import * as Config from './config'
 import { REST } from '@discordjs/rest'
-import { Client, Intents, ApplicationCommandData } from 'discord.js'
+import { Client, Intents, ApplicationCommandData, Message } from 'discord.js'
 import { Command } from './structure/Command'
 
 const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]})
@@ -69,6 +69,19 @@ client.on('interactionCreate', async interaction => {
             await interaction.reply({ content: langFile.global.commandError, ephemeral: true })
         }
     } else if (interaction.isButton()) {
-        
+        const message = interaction.message as Message
+        const command = commands.find(command => command.commandData.name == message.interaction?.commandName)
+        if (!command) {
+            return
+        }
+        const id = interaction.inGuild() ? interaction.guildId : interaction.user.id
+        const channelType = interaction.inGuild() ? 'guild' : 'user'
+        const langFile = JSON.parse(fs.readFileSync(`src/lang/${Lang.get(id, channelType)}.json`).toString())
+        try {
+            command.handleButtons(interaction, langFile)
+        } catch (error) {
+            console.error(error);
+            await interaction.reply({ content: langFile.global.commandError, ephemeral: true })
+        }
     }
 })

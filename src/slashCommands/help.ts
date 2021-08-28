@@ -1,5 +1,5 @@
-import { ApplicationCommandData, BaseCommandInteraction, GuildMember, MessageActionRow, MessageButton } from 'discord.js'
-import { helpHandler } from '../commandsHandler/helpHandler'
+import { ApplicationCommandData, ButtonInteraction, CommandInteraction, GuildMember, MessageActionRow, MessageButton, Message } from 'discord.js'
+import { basicHelp, adminHelp } from '../commandsHandler/helpHandler'
 import { Command } from '../structure/Command'
 import { Lang } from '../structure/Lang'
 
@@ -14,18 +14,35 @@ export class slahCommand extends Command {
 		}
 	}
 
-	async execute(interaction: BaseCommandInteraction, lang: Lang) {
-		const embed = new helpHandler(interaction.member as GuildMember, lang).createEmbed()
-		const row = new MessageActionRow()
-			.addComponents(new MessageButton({
-				label: lang.help.labels.adminCommands,
-				customId: 'helpAdminCommand',
-				style: "DANGER"
-			})
-			)
+	async execute(interaction: CommandInteraction, lang: Lang) {
+		const reply = basicHelp(lang, interaction.member as GuildMember)
+		const row = new MessageActionRow().addComponents(reply.buttons)
 		await interaction.reply({
-			embeds: [embed],
+			embeds: [reply.embed],
 			components: [row]
 		})
+	}
+
+	async handleButtons(interaction: ButtonInteraction, lang: Lang) {
+		switch (interaction.customId) {
+			case 'adminHelp': {
+				const reply = adminHelp(lang)
+				const row = new MessageActionRow().addComponents(reply.buttons)
+				await interaction.update({
+					embeds: [reply.embed],
+					components: [row]
+				})
+				return
+			}
+			case 'basicHelp': {
+				const reply = basicHelp(lang, interaction.member as GuildMember)
+				const row = new MessageActionRow().addComponents(reply.buttons)
+				await interaction.update({
+					embeds: [reply.embed],
+					components: [row]
+				})
+				return
+			}
+		}
 	}
 }
