@@ -19,7 +19,8 @@ export class slahCommand extends Command {
 		const row = new MessageActionRow().addComponents(reply.buttons)
 		await interaction.reply({
 			embeds: [reply.embed],
-			components: [row]
+			components: [row],
+			ephemeral: true
 		})
 	}
 
