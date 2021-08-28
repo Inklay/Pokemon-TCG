@@ -48,7 +48,7 @@ export class slahCommand extends Command {
 				return
 			}
 			case 'set': {
-				const reply = set(interaction.member as GuildMember, interaction.options.getString('language') as string, interaction.inGuild() ? interaction.guildId : interaction.user.id, interaction.inGuild() ? 'guild' : 'user')
+				const reply = set(lang, interaction.member as GuildMember, interaction.options.getString('language') as string, interaction.inGuild() ? interaction.guildId : interaction.user.id, interaction.inGuild() ? 'guild' : 'user')
 				await interaction.reply({
 					embeds: [reply.embed],
 					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)]: undefined,

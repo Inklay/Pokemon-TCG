@@ -19,13 +19,13 @@ export function list(lang: Lang, member: GuildMember) : InteractionReply
   return new InteractionReply(embed, buttons)
 }
 
-export function set(member: GuildMember, language: string, id: string, type: string) : InteractionReply
+export function set(lang: Lang, member: GuildMember, language: string, id: string, type: string) : InteractionReply
 {
-  setLang(language, id, type)
   let embed = new MessageEmbed()
   let buttons : MessageButton[] = []
-  const lang = JSON.parse(fs.readFileSync(`src/lang/${getLang(id, type)}.json`).toString()) as Lang
   if (member.permissions.has(Permissions.FLAGS.KICK_MEMBERS)) {
+    setLang(language, id, type)
+    lang = JSON.parse(fs.readFileSync(`src/lang/${getLang(id, type)}.json`).toString()) as Lang
     embed.setTitle(lang.lang.embed.langUpdated)
     embed.setDescription(lang.lang.embed.langSet)
   } else {
