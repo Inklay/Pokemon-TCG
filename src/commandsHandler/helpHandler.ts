@@ -31,8 +31,7 @@ export function adminHelp(lang: Lang) : InteractionReply
     embed.setColor("#f7432f")
     embed.setFields(
         { name: "/language", value: lang.help.embed.languageCommandDescription, inline: true},
-        { name: "/language list", value: lang.help.embed.languageListCommandDescription, inline: true},
-        { name: "/delete_message", value: lang.help.embed.deleteMessageCommandDescription, inline: true}
+        { name: "/language list", value: lang.help.embed.languageListCommandDescription, inline: true}
     )
     buttons.push(new MessageButton({
         label: lang.help.labels.userCommands,
