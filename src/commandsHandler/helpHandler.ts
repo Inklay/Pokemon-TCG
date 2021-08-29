@@ -4,8 +4,8 @@ import { Lang } from '../structure/Lang'
 
 export function basicHelp(lang: Lang, member: GuildMember) : InteractionReply
 {
-    let embed = new MessageEmbed()
-    let buttons : MessageButton[] = []
+    const embed = new MessageEmbed()
+    const buttons : MessageButton[] = []
     embed.setTitle(lang.help.embed.commandList)
     embed.setColor("#3679f5")
     embed.setFields(
@@ -25,8 +25,8 @@ export function basicHelp(lang: Lang, member: GuildMember) : InteractionReply
 
 export function adminHelp(lang: Lang) : InteractionReply
 {
-    let embed = new MessageEmbed()
-    let buttons : MessageButton[] = []
+    const embed = new MessageEmbed()
+    const buttons : MessageButton[] = []
     embed.setTitle(lang.help.embed.adminCommandList)
     embed.setColor("#f7432f")
     embed.setFields(

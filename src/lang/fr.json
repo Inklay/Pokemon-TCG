@@ -30,5 +30,14 @@
       "langSet": "La langue a été mise à jour",
       "langUpdated": "Langue mise à jour !"
     }
+  },
+  "money": {
+    "embed": {
+      "yourMoney": "Votre solde",
+      "gotMoney": "Vous avez reçu 10$",
+      "youHave": "Vous avez",
+      "youHaveToWait": "Vous pouvez recevoir de l'argent dans",
+      "minutes": "minutes"
+    }
   }
 }

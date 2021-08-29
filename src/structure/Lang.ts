@@ -38,8 +38,21 @@ class helpEmbed {
   deleteMessageCommandDescription = ""
 }
 
+class Money {
+  embed = new moneyEmbed()
+}
+
+class moneyEmbed {
+  yourMoney = ""
+  gotMoney = ""
+  youHave = ""
+  youHaveToWait = ""
+  minutes = ""
+}
+
 export class Lang {
   global = new global()
   help = new help()
   lang = new lang()
+  money = new Money()
 }

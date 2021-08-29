@@ -6,8 +6,8 @@ import fs from 'fs'
 
 export function list(lang: Lang, member: GuildMember) : InteractionReply
 {
-  let embed = new MessageEmbed()
-  let buttons : MessageButton[] = []
+  const embed = new MessageEmbed()
+  const buttons : MessageButton[] = []
   if (member.permissions.has(Permissions.FLAGS.KICK_MEMBERS)) {
     embed.setTitle(lang.lang.embed.langList)
     embed.setDescription(`${lang.lang.embed.french}\n${lang.lang.embed.english}`)
@@ -21,8 +21,8 @@ export function list(lang: Lang, member: GuildMember) : InteractionReply
 
 export function set(lang: Lang, member: GuildMember, language: string, id: string, type: string) : InteractionReply
 {
-  let embed = new MessageEmbed()
-  let buttons : MessageButton[] = []
+  const embed = new MessageEmbed()
+  const buttons : MessageButton[] = []
   if (member.permissions.has(Permissions.FLAGS.KICK_MEMBERS)) {
     setLang(language, id, type)
     lang = JSON.parse(fs.readFileSync(`src/lang/${getLang(id, type)}.json`).toString()) as Lang
