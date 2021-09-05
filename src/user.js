@@ -604,44 +604,6 @@ class userHandler
     {
         this.createMessage(userMsg)
     }
-
-    money(language) 
-    {
-        var date = this.get("date")
-        if (date == null)
-        {
-            this.get(id, "money")
-        }
-        var now = Date.now()
-        if (now - date >= 1000 * 60 * 60)
-        {
-            this.set("money", this.get("money") + 10)
-            this.set("date", now)
-            switch (language)
-            {
-                case "français":
-                    this.channel.send("Vous avez reçu 10 $")
-                    break;
-                case "english":
-                default:
-                    this.channel.send("You received 10 $")
-                    break;
-            }
-        }
-        else
-        {
-            switch (language)
-            {
-                case "français":
-                    this.channel.send(`Vous devez encore attendre ${Math.floor((date + 60 * 60 * 1000 - now) / 1000 / 60)} minutes pour recevoir à nouveau de l'argent`)
-                    break;
-                case "english":
-                default:
-                    this.channel.send(`You have to wait ${Math.floor((date + 60 * 60 * 1000 - now) / 1000 / 60)} minutes to receive money again`)
-                    break;
-            }
-        }
-    }
 }
 
 module.exports = {userHandler}

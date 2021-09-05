@@ -2,7 +2,8 @@
   "global": {
     "commandError": "There was an error while executing this command",
     "doNotHavePermission": "You don't have the permission to use this command",
-    "permissionMissing": "Permission missing"
+    "permissionMissing": "Permission missing",
+    "dir": "en"
   },
   "help": {
     "description": "Show a help message that explains all the bot's commands",
@@ -38,6 +39,13 @@
       "youHave": "You have",
       "youHaveToWait": "You can have free money in",
       "minutes": "minutes"
+    }
+  },
+  "serie": {
+    "selectSerie": "Choose the expansion you want",
+    "emebd": {
+      "next": "Next",
+      "previous": "Previous"
     }
   }
 }

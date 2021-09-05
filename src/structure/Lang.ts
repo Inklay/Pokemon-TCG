@@ -1,58 +1,70 @@
-class global {
-  commandError = ""
-  doNotHavePermission = ""
-  permissionMissing = ""
+abstract class global {
+  abstract commandError: string
+  abstract doNotHavePermission: string
+  abstract permissionMissing: string
+  abstract dir: string
 }
 
-class lang {
-  embed = new langEmbed()
+abstract class lang {
+  abstract embed: langEmbed
 }
 
-class langEmbed {
-  langList = ""
-  french = ""
-  english = ""
-  langSet = ""
-  langUpdated = ""
+abstract class langEmbed {
+  abstract langList: string
+  abstract french: string
+  abstract english: string
+  abstract langSet: string
+  abstract langUpdated: string
 }
 
-class help {
-  labels = new helpLabels()
-  embed = new helpEmbed()
+abstract class help {
+  abstract labels: helpLabels
+  abstract embed: helpEmbed
 }
 
-class helpLabels {
-  userCommands = ""
-  adminCommands = ""
+abstract class helpLabels {
+  abstract userCommands: string
+  abstract adminCommands: string
 }
 
-class helpEmbed {
-  commandList = ""
-  adminCommandList = ""
-  viewCommandDescription = ""
-  buyCommandDescription = ""
-  moneyCommandDescription = ""
-  languageCommandDescription = ""
-  languageListCommandDescription = ""
-  prefixCommandDescription = ""
-  deleteMessageCommandDescription = ""
+abstract class helpEmbed {
+  abstract commandList: string
+  abstract adminCommandList: string
+  abstract viewCommandDescription: string
+  abstract buyCommandDescription: string
+  abstract moneyCommandDescription: string
+  abstract languageCommandDescription: string
+  abstract languageListCommandDescription: string
+  abstract prefixCommandDescription: string
+  abstract deleteMessageCommandDescription: string
 }
 
-class Money {
-  embed = new moneyEmbed()
+abstract class money {
+  abstract embed: moneyEmbed
 }
 
-class moneyEmbed {
-  yourMoney = ""
-  gotMoney = ""
-  youHave = ""
-  youHaveToWait = ""
-  minutes = ""
+abstract class moneyEmbed {
+  abstract yourMoney: string
+  abstract gotMoney: string
+  abstract youHave: string
+  abstract youHaveToWait: string
+  abstract minutes: string
 }
 
-export class Lang {
-  global = new global()
-  help = new help()
-  lang = new lang()
-  money = new Money()
+abstract class serie {
+  abstract selectSerie: string
+  abstract embed: serieEmbed
+}
+
+abstract class serieEmbed {
+  abstract next: string
+  abstract previous: string
+}
+
+export abstract class Lang {
+  abstract global: global
+  abstract help: help
+  abstract lang: lang
+  abstract money: money
+  abstract serie: serie
 }

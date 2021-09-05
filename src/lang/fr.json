@@ -2,7 +2,8 @@
   "global": {
     "commandError": "Une erreur est survenue lors de l'exécution de cette commande",
     "doNotHavePermission": "Vous n'avez pas la permission d'utiliser cette commande",
-    "permissionMissing": "Permission manquante"
+    "permissionMissing": "Permission manquante",
+    "dir": "fr"
   },
   "help": {
     "description": "Affiche un message d'aide expliquant les commandes du bot",
@@ -38,6 +39,13 @@
       "youHave": "Vous avez",
       "youHaveToWait": "Vous pouvez recevoir de l'argent dans",
       "minutes": "minutes"
+    }
+  },
+  "serie": {
+    "selectSerie": "Sélectionnez l'extension voulue",
+    "embed": {
+      "next": "Suivant",
+      "previous": "Précédent"
     }
   }
 }

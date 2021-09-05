@@ -4,6 +4,7 @@ import * as Config from './config'
 import { REST } from '@discordjs/rest'
 import { Client, Intents, ApplicationCommandData, Message } from 'discord.js'
 import { Command } from './structure/Command'
+import { Lang } from './structure/Lang'
 
 const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]})
 client.login(Config.token)
@@ -76,7 +77,7 @@ client.on('interactionCreate', async interaction => {
         }
         const id = interaction.inGuild() ? interaction.guildId : interaction.user.id
         const channelType = interaction.inGuild() ? 'guild' : 'user'
-        const langFile = JSON.parse(fs.readFileSync(`src/lang/${getLang(id, channelType)}.json`).toString())
+        const langFile = JSON.parse(fs.readFileSync(`src/lang/${getLang(id, channelType)}.json`).toString()) as Lang
         try {
             command.handleButtons(interaction, langFile)
         } catch (error) {
