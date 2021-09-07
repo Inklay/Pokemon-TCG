@@ -3,11 +3,10 @@ import { Command } from '../structure/Command'
 import { Lang } from '../structure/Lang'
 import { drawSerie, nextSerie, prevSerie } from '../commandsHandler/buyHandler'
 
-export class slahCommand extends Command {
+export class slahCommand implements Command {
 	commandData: ApplicationCommandData
 
 	constructor() {
-		super()
 		this.commandData = {
 			name: 'buy',
 			description: 'Buy cards from the desired expansion'

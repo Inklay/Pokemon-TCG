@@ -3,11 +3,10 @@ import { basicHelp, adminHelp } from '../commandsHandler/helpHandler'
 import { Command } from '../structure/Command'
 import { Lang } from '../structure/Lang'
 
-export class slahCommand extends Command {
+export class slahCommand implements Command {
 	commandData: ApplicationCommandData
 
 	constructor() {
-		super()
 		this.commandData = {
 			name: 'help',
 			description: 'Prints a message with all the command and their usage in the server\'s configured language'

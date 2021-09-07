@@ -3,11 +3,10 @@ import { list, set } from '../commandsHandler/langHandler'
 import { Command } from '../structure/Command'
 import { Lang } from '../structure/Lang'
 
-export class slahCommand extends Command {
+export class slahCommand implements Command {
 	commandData: ApplicationCommandData
 
 	constructor() {
-		super()
 		this.commandData = {
 			name: 'language',
 			description: 'Manage the language of the server',

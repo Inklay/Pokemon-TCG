@@ -2,7 +2,7 @@ import { MessageButton, MessageEmbed } from 'discord.js'
 import { Expansion } from './Expansion'
 import { InteractionReply } from './InteractionReply'
 import { Lang } from './Lang'
-import { serieMax, serieMin } from '../commandsHandler/UserHandler'
+import { serieMax, serieMin } from '../commandsHandler/userHandler'
 
 export class Serie {
   name = ""

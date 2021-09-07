@@ -1,70 +1,70 @@
-abstract class global {
-  abstract commandError: string
-  abstract doNotHavePermission: string
-  abstract permissionMissing: string
-  abstract dir: string
+interface global {
+  commandError: string
+  doNotHavePermission: string
+  permissionMissing: string
+  dir: string
 }
 
-abstract class lang {
-  abstract embed: langEmbed
+interface lang {
+  embed: langEmbed
 }
 
-abstract class langEmbed {
-  abstract langList: string
-  abstract french: string
-  abstract english: string
-  abstract langSet: string
-  abstract langUpdated: string
+interface langEmbed {
+  langList: string
+  french: string
+  english: string
+  langSet: string
+  langUpdated: string
 }
 
-abstract class help {
-  abstract labels: helpLabels
-  abstract embed: helpEmbed
+interface help {
+  labels: helpLabels
+  embed: helpEmbed
 }
 
-abstract class helpLabels {
-  abstract userCommands: string
-  abstract adminCommands: string
+interface helpLabels {
+  userCommands: string
+  adminCommands: string
 }
 
-abstract class helpEmbed {
-  abstract commandList: string
-  abstract adminCommandList: string
-  abstract viewCommandDescription: string
-  abstract buyCommandDescription: string
-  abstract moneyCommandDescription: string
-  abstract languageCommandDescription: string
-  abstract languageListCommandDescription: string
-  abstract prefixCommandDescription: string
-  abstract deleteMessageCommandDescription: string
+interface helpEmbed {
+  commandList: string
+  adminCommandList: string
+  viewCommandDescription: string
+  buyCommandDescription: string
+  moneyCommandDescription: string
+  languageCommandDescription: string
+  languageListCommandDescription: string
+  prefixCommandDescription: string
+  deleteMessageCommandDescription: string
 }
 
-abstract class money {
-  abstract embed: moneyEmbed
+interface money {
+  embed: moneyEmbed
 }
 
-abstract class moneyEmbed {
-  abstract yourMoney: string
-  abstract gotMoney: string
-  abstract youHave: string
-  abstract youHaveToWait: string
-  abstract minutes: string
+interface moneyEmbed {
+  yourMoney: string
+  gotMoney: string
+  youHave: string
+  youHaveToWait: string
+  minutes: string
 }
 
-abstract class serie {
-  abstract selectSerie: string
-  abstract embed: serieEmbed
+interface serie {
+  selectSerie: string
+  embed: serieEmbed
 }
 
-abstract class serieEmbed {
-  abstract next: string
-  abstract previous: string
+interface serieEmbed {
+  next: string
+  previous: string
 }
 
-export abstract class Lang {
-  abstract global: global
-  abstract help: help
-  abstract lang: lang
-  abstract money: money
-  abstract serie: serie
+export interface Lang {
+  global: global
+  help: help
+  lang: lang
+  money: money
+  serie: serie
 }

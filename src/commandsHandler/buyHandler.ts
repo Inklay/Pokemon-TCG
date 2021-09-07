@@ -1,6 +1,6 @@
 import { Lang } from '../structure/Lang'
 import { InteractionReply } from '../structure/InteractionReply'
-import { getUserHandler } from './UserHandler'
+import { getUserHandler } from './userHandler'
 
 export function drawSerie(lang: Lang, id: string) : InteractionReply {
   const handler = getUserHandler(lang, id)

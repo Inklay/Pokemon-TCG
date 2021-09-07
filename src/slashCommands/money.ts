@@ -3,11 +3,10 @@ import { addMoney } from '../commandsHandler/moneyHandler'
 import { Command } from '../structure/Command'
 import { Lang } from '../structure/Lang'
 
-export class slahCommand extends Command {
+export class slahCommand implements Command {
 	commandData: ApplicationCommandData
 
 	constructor() {
-		super()
 		this.commandData = {
 			name: 'money',
 			description: 'Gives you 10$ every hour'

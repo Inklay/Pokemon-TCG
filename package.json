@@ -3,7 +3,7 @@
     "version": "2.0.0",
     "description": "A Pokemon TCG Discord bot",
     "scripts": {
-        "build": "node src/app.ts",
+        "build": "tsc && node dist/app.js",
         "start": "nodemon --config nodemon.json src/app.ts"
     },
     "repository": {
