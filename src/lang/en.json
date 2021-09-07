@@ -3,7 +3,8 @@
     "commandError": "There was an error while executing this command",
     "doNotHavePermission": "You don't have the permission to use this command",
     "permissionMissing": "Permission missing",
-    "dir": "en"
+    "dir": "en",
+    "back": "back"
   },
   "help": {
     "description": "Show a help message that explains all the bot's commands",
@@ -42,10 +43,15 @@
     }
   },
   "serie": {
-    "selectSerie": "Choose the expansion you want",
+    "selectSerie": "Choose the serie you want",
     "emebd": {
-      "next": "Next",
-      "previous": "Previous"
+      "select": "Select this serie"
+    }
+  },
+  "expansion": {
+    "selectExpansion": "Choose the expansion you want",
+    "embed": {
+      "select" : "Select this expansion"
     }
   }
 }

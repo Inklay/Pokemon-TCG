@@ -3,7 +3,8 @@
     "commandError": "Une erreur est survenue lors de l'exécution de cette commande",
     "doNotHavePermission": "Vous n'avez pas la permission d'utiliser cette commande",
     "permissionMissing": "Permission manquante",
-    "dir": "fr"
+    "dir": "fr",
+    "back": "Retour"
   },
   "help": {
     "description": "Affiche un message d'aide expliquant les commandes du bot",
@@ -42,10 +43,15 @@
     }
   },
   "serie": {
-    "selectSerie": "Sélectionnez l'extension voulue",
+    "selectSerie": "Sélectionnez la série voulue",
     "embed": {
-      "next": "Suivant",
-      "previous": "Précédent"
+      "select": "Sélectionner cette série"
+    }
+  },
+  "expansion": {
+    "selectExpansion": "Sélectionnez l'extension voulue",
+    "embed": {
+      "select" : "Sélectionner cette extension"
     }
   }
 }

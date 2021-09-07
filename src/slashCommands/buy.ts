@@ -1,7 +1,7 @@
-import { ApplicationCommandData, ButtonInteraction, CommandInteraction, GuildMember, MessageActionRow, MessageButton, Message } from 'discord.js'
+import { ApplicationCommandData, ButtonInteraction, CommandInteraction, MessageActionRow, Message } from 'discord.js'
 import { Command } from '../structure/Command'
 import { Lang } from '../structure/Lang'
-import { drawSerie, nextSerie, prevSerie } from '../commandsHandler/buyHandler'
+import { drawExpansion, drawSerie, nextExpansion, nextSerie, prevExpansion, prevSerie } from '../commandsHandler/buyHandler'
 
 export class slahCommand implements Command {
 	commandData: ApplicationCommandData
@@ -17,7 +17,7 @@ export class slahCommand implements Command {
 		const reply = drawSerie(lang, interaction.user.id)
 		await interaction.reply({
 			embeds: [reply.embed],
-			components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)]: undefined
+			components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
 		})
 	}
 
@@ -27,7 +27,7 @@ export class slahCommand implements Command {
 				const reply = nextSerie(lang, interaction.user.id)
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)]: undefined
+					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
 				})
 				return
 			}
@@ -35,7 +35,43 @@ export class slahCommand implements Command {
 				const reply = prevSerie(lang, interaction.user.id)
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)]: undefined
+					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+				})
+				return
+			}
+			case 'serieBack': {
+				(interaction.message as Message).delete()
+				return
+			}
+			case 'serieSelect': {
+				const reply = drawExpansion(lang, interaction.user.id)
+				await interaction.update({
+					embeds: [reply.embed],
+					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+				})
+				return
+			}
+			case 'expansionNext': {
+				const reply = nextExpansion(lang, interaction.user.id)
+				await interaction.update({
+					embeds: [reply.embed],
+					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+				})
+				return
+			}
+			case 'expansionPrev': {
+				const reply = prevExpansion(lang, interaction.user.id)
+				await interaction.update({
+					embeds: [reply.embed],
+					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+				})
+				return
+			}
+			case 'expansionBack': {
+				const reply = drawSerie(lang, interaction.user.id)
+				await interaction.update({
+					embeds: [reply.embed],
+					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
 				})
 				return
 			}

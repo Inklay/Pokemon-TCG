@@ -3,6 +3,7 @@ interface global {
   doNotHavePermission: string
   permissionMissing: string
   dir: string
+  back: string
 }
 
 interface lang {
@@ -57,8 +58,16 @@ interface serie {
 }
 
 interface serieEmbed {
-  next: string
-  previous: string
+  select: string
+}
+
+interface expansion {
+  selectExpansion: string
+  embed: expansionEmbed
+}
+
+interface expansionEmbed {
+  select: string
 }
 
 export interface Lang {
@@ -67,4 +76,5 @@ export interface Lang {
   lang: lang
   money: money
   serie: serie
+  expansion: expansion
 }
