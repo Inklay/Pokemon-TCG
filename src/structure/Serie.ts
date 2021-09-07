@@ -21,16 +21,16 @@ export class Serie {
     embed.setFooter(`${idx + 1}/${serieMax + 1}`)
     if (!this.isFirst(idx)) {
       buttons.push(new MessageButton({
-        label: lang.serie.embed.previous,
         customId: 'seriePrev',
-        style: "PRIMARY"
+        style: "PRIMARY",
+        emoji: '⬅️'
       }))
     }
     if (!this.isLast(idx)) {
       buttons.push(new MessageButton({
-        label: lang.serie.embed.next,
         customId: 'serieNext',
-        style: "PRIMARY"
+        style: "PRIMARY",
+        emoji: '➡️'
       }))
     }
     return new InteractionReply(embed, buttons)
