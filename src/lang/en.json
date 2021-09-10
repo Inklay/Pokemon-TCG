@@ -8,50 +8,44 @@
   },
   "help": {
     "description": "Show a help message that explains all the bot's commands",
-    "labels": {
-      "userCommands": "User commands",
-      "adminCommands": "Administrator commands"
-    },
-    "embed": {
-      "commandList": "Command list",
-      "adminCommandList": "Administrator command list",
-      "viewCommandDescription": "View your card's collection",
-      "buyCommandDescription": "Buy new boosters",
-      "moneyCommandDescription": "Receive 10$ (every hour)",
-      "languageCommandDescription": "Change the language of the bot",
-      "languageListCommandDescription": "View the list of supported languages",
-      "prefixCommandDescription": "Change the bot's prefix",
-      "deleteMessageCommandDescription": "Enable/disable the deletation of message"
-    }
+    "userCommands": "User commands",
+    "adminCommands": "Administrator commands",
+    "commandList": "Command list",
+    "adminCommandList": "Administrator command list",
+    "viewCommandDescription": "View your card's collection",
+    "buyCommandDescription": "Buy new boosters",
+    "moneyCommandDescription": "Receive 10$ (every hour)",
+    "languageCommandDescription": "Change the language of the bot",
+    "languageListCommandDescription": "View the list of supported languages",
+    "prefixCommandDescription": "Change the bot's prefix",
+    "deleteMessageCommandDescription": "Enable/disable the deletation of message"
   },
   "lang": {
-    "embed": {
-      "langList": "Language list",
-      "french": "français",
-      "english": "english",
-      "langSet": "Language as been set to english",
-      "langUpdated": "Language updated !"
-    }
+    "langList": "Language list",
+    "french": "français",
+    "english": "english",
+    "langSet": "Language as been set to english",
+    "langUpdated": "Language updated !"
   },
   "money": {
-    "embed": {
-      "yourMoney": "Your balance",
-      "gotMoney": "You received 10$",
-      "youHave": "You have",
-      "youHaveToWait": "You can have free money in",
-      "minutes": "minutes"
-    }
+    "yourMoney": "Your balance",
+    "gotMoney": "You received 10$",
+    "youHave": "You have",
+    "youHaveToWait": "You can have free money in",
+    "minutes": "minutes",
+    "dontHaveEnough": "You don't have enough money to buy this !",
+    "notEnough": "Not enough money"
   },
   "serie": {
     "selectSerie": "Choose the serie you want",
-    "emebd": {
-      "select": "Select this serie"
-    }
+    "select": "Select this serie"
   },
   "expansion": {
     "selectExpansion": "Choose the expansion you want",
-    "embed": {
-      "select" : "Select this expansion"
-    }
+    "select" : "Select this expansion"
+  },
+  "card" : {
+    "openingOf": "Opening of",
+    "new": "New card !"
   }
 }

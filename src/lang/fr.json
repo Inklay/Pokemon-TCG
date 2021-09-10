@@ -8,50 +8,44 @@
   },
   "help": {
     "description": "Affiche un message d'aide expliquant les commandes du bot",
-    "labels": {
-      "userCommands": "Commandes utilisateurs",
-      "adminCommands": "Commandes administrateurs"
-    },
-    "embed": {
-      "commandList": "Liste des commands",
-      "adminCommandList": "Liste des commandes administrateur",
-      "viewCommandDescription": "Voir votre collection de carte",
-      "buyCommandDescription": "Acheter des boosters",
-      "moneyCommandDescription": "Recevoir 10$ (toutes les heures)",
-      "languageCommandDescription": "Changer la langue du bot",
-      "languageListCommandDescription": "Voir la liste des langues supportées",
-      "prefixCommandDescription": "Changer le prefix du bot",
-      "deleteMessageCommandDescription": "Désactiver/activer la suppression de message"
-    }
+    "userCommands": "Commandes utilisateurs",
+    "adminCommands": "Commandes administrateurs",
+    "commandList": "Liste des commands",
+    "adminCommandList": "Liste des commandes administrateur",
+    "viewCommandDescription": "Voir votre collection de carte",
+    "buyCommandDescription": "Acheter des boosters",
+    "moneyCommandDescription": "Recevoir 10$ (toutes les heures)",
+    "languageCommandDescription": "Changer la langue du bot",
+    "languageListCommandDescription": "Voir la liste des langues supportées",
+    "prefixCommandDescription": "Changer le prefix du bot",
+    "deleteMessageCommandDescription": "Désactiver/activer la suppression de message"
   },
   "lang": {
-    "embed": {
-      "langList": "Language list",
-      "french": "français",
-      "english": "english",
-      "langSet": "La langue a été mise à jour",
-      "langUpdated": "Langue mise à jour !"
-    }
+    "langList": "Language list",
+    "french": "français",
+    "english": "english",
+    "langSet": "La langue a été mise à jour",
+    "langUpdated": "Langue mise à jour !"
   },
   "money": {
-    "embed": {
-      "yourMoney": "Votre solde",
-      "gotMoney": "Vous avez reçu 10$",
-      "youHave": "Vous avez",
-      "youHaveToWait": "Vous pouvez recevoir de l'argent dans",
-      "minutes": "minutes"
-    }
+    "yourMoney": "Votre solde",
+    "gotMoney": "Vous avez reçu 10$",
+    "youHave": "Vous avez",
+    "youHaveToWait": "Vous pouvez recevoir de l'argent dans",
+    "minutes": "minutes",
+    "dontHaveEnough": "Vous n'avez pas assez d'argent pour acheter cet objet !",
+    "notEnough": "Pas assez d'argent"
   },
   "serie": {
     "selectSerie": "Sélectionnez la série voulue",
-    "embed": {
-      "select": "Sélectionner cette série"
-    }
+    "select": "Sélectionner cette série"
   },
   "expansion": {
     "selectExpansion": "Sélectionnez l'extension voulue",
-    "embed": {
-      "select" : "Sélectionner cette extension"
-    }
+    "select" : "Sélectionner cette extension"
+  },
+  "card" : {
+    "openingOf": "Ouverture de",
+    "new": "Nouvelle carte !"
   }
 }

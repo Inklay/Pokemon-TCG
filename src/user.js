@@ -80,53 +80,6 @@ class userHandler
         this.series = JSON.parse(fs.readFileSync(`cards/${this.dir}/series.json`))
     }
 
-    set(field, content)
-    {
-        var found = false
-        var rawData = fs.readFileSync('data/user.json')
-        var data = JSON.parse(rawData)
-        for (let i in data.users)
-        {
-            if (data.users[i].id == this.id)
-            {
-                data.users[i][field] = content
-                found = true
-            }
-        }
-        if (!found)
-        {
-            var newUser = {}
-            newUser['id'] = this.id
-            newUser[field] = content
-            newUser['date'] = Date.now()
-            data.users.push(newUser)
-        }
-        var json = JSON.stringify(data)
-        fs.writeFileSync('data/user.json', json)
-    }
-
-    get(field)
-    {
-        var rawData = fs.readFileSync('data/user.json')
-        var data = JSON.parse(rawData)
-        for (let i in data.users)
-        {
-            if (data.users[i].id == this.id && data.users[i].hasOwnProperty(field))
-            {
-                return data.users[i][field]
-            }
-        }
-        if (field == "money")
-        {
-            this.set(field, 50)
-            return 50
-        }
-        else
-        {
-            return null
-        }
-    }
-
     addCards()
     {
         var rawData = fs.readFileSync('data/user.json')
@@ -196,63 +149,6 @@ class userHandler
         }
         var json = JSON.stringify(data)
         fs.writeFileSync('data/user.json', json)
-    }
-    
-    drawSerie()
-    {
-        var description = ""
-        this.extensions = JSON.parse(fs.readFileSync(`cards/${this.dir}/${this.series[this.serie].id}.json`))
-        this.embed.setTitle(this.series[this.serie].name)
-        this.hasOneCard = false
-        if (this.isBuyable)
-        {
-            description += `${this.baseDescription} ${this.get("money")} $\n\n`
-        }
-        description += `${this.listExt}\n\n`
-        for (let i = 0; i < this.extensions.length; i++)
-        {
-            if ((this.isBuyable || (!this.isBuyable && this.get(this.extensions[i].id) != null)) && this.extensions[i].released)
-            {
-                this.hasOneCard = true
-                description += `• ${this.extensions[i].name}\n`
-            }
-        }
-        if (!this.hasOneCard)
-        {
-            description = this.noCardsInThisSerie
-        }
-        this.embed.setDescription(description)
-        this.embed.setAuthor(this.baseAuthorSerie)
-        this.embed.setImage("")
-        this.embed.setFooter(`${this.serie + 1}/${this.series.length}`)
-    }
-
-    drawExtension()
-    {
-        var description = ""
-        if (this.isBuyable)
-        {
-            description += `${this.baseDescription} ${this.get("money")} $\n\n${this.price}: ${this.extensions[this.extension].price} $`
-            if (this.get("money") < this.extensions[this.extension].price)
-            {
-                description += `\n\n${this.notEnoughMoney}`
-            }
-        }
-        this.hasOneCard = true
-        if (!this.isBuyable && this.get(this.extensions[this.extension].id) == null)
-        {
-            this.hasOneCard = false
-            description = this.noCardsInThisExpansion
-            this.embed.setImage("")
-        }
-        else
-        {
-            this.embed.setImage(this.extensions[this.extension].image)
-        }
-        this.embed.setAuthor(this.baseAuthorExt)
-        this.embed.setTitle(this.extensions[this.extension].name)
-        this.embed.setDescription(description)
-        this.embed.setFooter(`${this.extension + 1}/${this.extensions.length}`)
     }
 
     drawCard()
@@ -593,17 +489,4 @@ class userHandler
             })
         })
     }
-
-    view(userMsg)
-    {
-        this.isBuyable = false
-        this.createMessage(userMsg)
-    }
-
-    buy(userMsg)
-    {
-        this.createMessage(userMsg)
-    }
 }
-
-module.exports = {userHandler}

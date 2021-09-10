@@ -9,8 +9,8 @@ export function list(lang: Lang, member: GuildMember) : InteractionReply
   const embed = new MessageEmbed()
   const buttons : MessageButton[] = []
   if (member.permissions.has(Permissions.FLAGS.KICK_MEMBERS)) {
-    embed.setTitle(lang.lang.embed.langList)
-    embed.setDescription(`${lang.lang.embed.french}\n${lang.lang.embed.english}`)
+    embed.setTitle(lang.lang.langList)
+    embed.setDescription(`${lang.lang.french}\n${lang.lang.english}`)
   } else {
     embed.setTitle(lang.global.permissionMissing)
     embed.setDescription(lang.global.doNotHavePermission)
@@ -26,8 +26,8 @@ export function set(lang: Lang, member: GuildMember, language: string, id: strin
   if (member.permissions.has(Permissions.FLAGS.KICK_MEMBERS)) {
     setLang(language, id, type)
     lang = JSON.parse(fs.readFileSync(`src/lang/${getLang(id, type)}.json`).toString()) as Lang
-    embed.setTitle(lang.lang.embed.langUpdated)
-    embed.setDescription(lang.lang.embed.langSet)
+    embed.setTitle(lang.lang.langUpdated)
+    embed.setDescription(lang.lang.langSet)
   } else {
     embed.setTitle(lang.global.permissionMissing)
     embed.setDescription(lang.global.doNotHavePermission)

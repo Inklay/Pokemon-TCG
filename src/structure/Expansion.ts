@@ -1,14 +1,15 @@
 import { MessageButton, MessageEmbed } from "discord.js"
-import { userHandlerMode } from "../commandsHandler/userHandler"
+import { UserHandlerMode } from "../commandsHandler/userHandler"
 import { InteractionReply } from "./InteractionReply"
 import { Lang } from "./Lang"
 
 export class Expansion {
-  name: string = ""
+  name: string = ''
   price: number = 0
-  id: string = ""
-  image: string = ""
-  cardsBaseImage: string = ""
+  id: string = ''
+  image: string = ''
+  cardsBaseImage: string = ''
+  infoBaseUrl: string = ''
   released: Boolean = false
   fixNumber: Boolean = true
   common: number[] = []
@@ -20,19 +21,19 @@ export class Expansion {
   canGetSecret: Boolean = false
   secret: number[] = []
 
-  draw(idx: number, lang: Lang, mode : userHandlerMode, max: number) {
+  draw(idx: number, lang: Lang, mode : UserHandlerMode, max: number) {
     const embed = new MessageEmbed()
     const buttons : MessageButton[] = this.createButton(idx, max, mode, lang)
     embed.setTitle(this.name)
     embed.setFooter(`${idx + 1}/${max + 1}`)
     embed.setAuthor(lang.expansion.selectExpansion)
-    if (mode == userHandlerMode.BUYING) {
+    if (mode == 'BUYING') {
       embed.setImage(this.image)
     }
     return new InteractionReply(embed, buttons)  
   }
 
-  private createButton(idx: number, max: number, mode: userHandlerMode, lang: Lang) : MessageButton[] {
+  private createButton(idx: number, max: number, mode: UserHandlerMode, lang: Lang) : MessageButton[] {
     const buttons : MessageButton[] = []
     if (idx != 0) {
       buttons.push(new MessageButton({
@@ -48,9 +49,9 @@ export class Expansion {
         emoji: '➡️'
       }))
     }
-    if (mode == userHandlerMode.BUYING) {
+    if (mode == 'BUYING') {
       buttons.push(new MessageButton({
-        label: lang.expansion.embed.select,
+        label: lang.expansion.select,
         customId: 'expansionSelect',
         style: "SUCCESS",
         emoji: '✔️'

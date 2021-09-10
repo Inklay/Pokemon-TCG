@@ -9,6 +9,12 @@ import { Lang } from './structure/Lang'
 const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]})
 client.login(Config.token)
 const commands: Command[] = []
+if (!fs.existsSync('./data/user.json')) {
+    fs.writeFileSync('./data/user.json', '[]')
+}
+if (!fs.existsSync('./data/server.json')) {
+    fs.writeFileSync('./data/server.json', '[]')
+}
 
 async function loadCommands() {
     const commandFiles = fs.readdirSync('./src/slashCommands').filter(file => file.endsWith('.ts'))

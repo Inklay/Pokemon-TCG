@@ -1,7 +1,7 @@
 import { ApplicationCommandData, ButtonInteraction, CommandInteraction, MessageActionRow, Message } from 'discord.js'
 import { Command } from '../structure/Command'
 import { Lang } from '../structure/Lang'
-import { drawExpansion, drawSerie, nextExpansion, nextSerie, prevExpansion, prevSerie } from '../commandsHandler/buyHandler'
+import { drawExpansion, drawSerie, nextCard, nextExpansion, nextSerie, openBooster, prevCard, prevExpansion, prevSerie } from '../commandsHandler/buyHandler'
 
 export class slahCommand implements Command {
 	commandData: ApplicationCommandData
@@ -69,6 +69,38 @@ export class slahCommand implements Command {
 			}
 			case 'expansionBack': {
 				const reply = drawSerie(lang, interaction.user.id)
+				await interaction.update({
+					embeds: [reply.embed],
+					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+				})
+				return
+			}
+			case 'expansionSelect': {
+				const reply = openBooster(lang, interaction.user.id)
+				await interaction.update({
+					embeds: [reply.embed],
+					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+				})
+				return
+			}
+			case 'cardNext': {
+				const reply = nextCard(lang, interaction.user.id)
+				await interaction.update({
+					embeds: [reply.embed],
+					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+				})
+				return
+			}
+			case 'cardPrev': {
+				const reply = prevCard(lang, interaction.user.id)
+				await interaction.update({
+					embeds: [reply.embed],
+					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+				})
+				return
+			}
+			case 'cardBack': {
+				const reply = drawExpansion(lang, interaction.user.id)
 				await interaction.update({
 					embeds: [reply.embed],
 					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined

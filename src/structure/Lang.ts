@@ -7,10 +7,6 @@ interface global {
 }
 
 interface lang {
-  embed: langEmbed
-}
-
-interface langEmbed {
   langList: string
   french: string
   english: string
@@ -19,16 +15,8 @@ interface langEmbed {
 }
 
 interface help {
-  labels: helpLabels
-  embed: helpEmbed
-}
-
-interface helpLabels {
   userCommands: string
   adminCommands: string
-}
-
-interface helpEmbed {
   commandList: string
   adminCommandList: string
   viewCommandDescription: string
@@ -41,33 +29,28 @@ interface helpEmbed {
 }
 
 interface money {
-  embed: moneyEmbed
-}
-
-interface moneyEmbed {
   yourMoney: string
   gotMoney: string
   youHave: string
   youHaveToWait: string
   minutes: string
+  dontHaveEnough: string
+  notEnough: string
 }
 
 interface serie {
   selectSerie: string
-  embed: serieEmbed
-}
-
-interface serieEmbed {
   select: string
 }
 
 interface expansion {
   selectExpansion: string
-  embed: expansionEmbed
+  select: string
 }
 
-interface expansionEmbed {
-  select: string
+interface Card {
+  openingOf: string
+  new: string
 }
 
 export interface Lang {
@@ -77,4 +60,5 @@ export interface Lang {
   money: money
   serie: serie
   expansion: expansion
+  card: Card
 }
