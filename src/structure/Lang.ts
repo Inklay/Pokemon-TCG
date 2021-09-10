@@ -46,6 +46,7 @@ interface serie {
 interface expansion {
   selectExpansion: string
   select: string
+  costs: string
 }
 
 interface Card {

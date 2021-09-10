@@ -87,6 +87,7 @@ export class Card {
    * Draws a card in a Discord embed message
    * 
    * @param {number} idx - The index of this card in the card array
+   * @param {number} max - The size of the card expansion array
    * @param {Lang} lang - The lang of the server 
    * @param {UserHanlerMode} mode - The current mode of the handler
    * @returns {InteractionReply} The reply of the interaction
@@ -109,6 +110,7 @@ export class Card {
    * Creates button for the embed message
    * 
    * @param {number} idx - The index of this card in the card array
+   * @param {number} max - The size of the card expansion array
    * @param {Lang} lang - The lang of the server 
    * @param {UserHanlerMode} mode - The current mode of the handler
    * @returns {MessageButton[]} The buttons to add to the message
@@ -181,7 +183,7 @@ export class Card {
       }
     } else {
       const rand: number = Math.random()
-      if (rarity >= 'SECRET' && rand <= 1/2000) {
+      if (rarity >= 'SECRET' && rand <= 1/2000 && expansion.canGetSecret) {
         return new Card(expansion, this.generateCard(expansion.secret, cards))
       } else if (rarity >= 'ULTRARARE' && rand <= 1/500 && rarityMin <= 'ULTRARARE') {
         return new Card(expansion, this.generateCard(expansion.ultraRare, cards))

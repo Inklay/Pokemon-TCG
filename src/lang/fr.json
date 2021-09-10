@@ -42,7 +42,8 @@
   },
   "expansion": {
     "selectExpansion": "Sélectionnez l'extension voulue",
-    "select" : "Sélectionner cette extension"
+    "select" : "Sélectionner cette extension",
+    "costs": "Cette extension coute"
   },
   "card" : {
     "openingOf": "Ouverture de",

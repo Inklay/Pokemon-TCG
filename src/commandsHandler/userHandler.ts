@@ -70,7 +70,9 @@ export class UserHandler {
     this.serieIdx = 0
     this.expansions = []
     JSON.parse(fs.readFileSync(`cards/${lang.global.dir}/${this.series[0].id}.json`).toString()).forEach((e: Expansion) => {
-      this.expansions.push(Object.assign(new Expansion, e))
+      if (e.released) {
+        this.expansions.push(Object.assign(new Expansion, e))
+      }
     })
     this.expansionIdx = 0
     this.lang = lang
@@ -93,10 +95,12 @@ export class UserHandler {
   private loadExpansions() : void {
     this.expansions = []
     JSON.parse(fs.readFileSync(`cards/${this.lang.global.dir}/${this.series[this.serieIdx].id}.json`).toString()).forEach((e: Expansion) => {
-      this.expansions.push(Object.assign(new Expansion, e))
+      if (e.released) {
+        this.expansions.push(Object.assign(new Expansion, e))
+      }
     })
     this.expansionIdx = 0
-    this.expansionMax = this.expansions.length
+    this.expansionMax = this.expansions.length - 1
   }
 
   /**
@@ -118,7 +122,7 @@ export class UserHandler {
    * @returns {InteractionReply} The expansion in a Discord embed message
    */
   public drawExpansion() : InteractionReply {
-    return this.expansions[this.expansionIdx].draw(this.expansionIdx, this.lang, this.mode, this.expansionMax)
+    return this.expansions[this.expansionIdx].draw(this.expansionIdx, this.lang, this.mode, this.expansionMax, this.user.money)
   }
 
   /**

@@ -42,7 +42,8 @@
   },
   "expansion": {
     "selectExpansion": "Choose the expansion you want",
-    "select" : "Select this expansion"
+    "select" : "Select this expansion",
+    "costs": "This expansion costs"
   },
   "card" : {
     "openingOf": "Opening of",
