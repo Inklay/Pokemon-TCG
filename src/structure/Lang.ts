@@ -51,6 +51,7 @@ interface expansion {
 interface Card {
   openingOf: string
   new: string
+  moreInfo: string
 }
 
 export interface Lang {

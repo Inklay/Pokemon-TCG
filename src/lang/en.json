@@ -46,6 +46,7 @@
   },
   "card" : {
     "openingOf": "Opening of",
-    "new": "New card !"
+    "new": "New card !",
+    "moreInfo": "More information"
   }
 }

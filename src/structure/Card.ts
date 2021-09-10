@@ -118,14 +118,14 @@ export class Card {
     if (idx != 0) {
       buttons.push(new MessageButton({
         customId: 'cardPrev',
-        style: "PRIMARY",
+        style: 'PRIMARY',
         emoji: '⬅️'
       }))
     }
     if (idx != max) {
       buttons.push(new MessageButton({
         customId: 'cardNext',
-        style: "PRIMARY",
+        style: 'PRIMARY',
         emoji: '➡️'
       }))
     }
@@ -133,15 +133,20 @@ export class Card {
       buttons.push(new MessageButton({
         label: lang.expansion.select,
         customId: 'cardSelect',
-        style: "SUCCESS",
+        style: 'SUCCESS',
         emoji: '✔️'
       }))
     }
     buttons.push(new MessageButton({
       label: lang.global.back,
       customId: 'cardBack',
-      style: "DANGER",
+      style: 'DANGER',
       emoji: '❌'
+    }))
+    buttons.push(new MessageButton({
+      label: lang.card.moreInfo,
+      style: 'LINK',
+      url: `${this.expansion.infoBaseUrl}${this.number}/`
     }))
     return buttons
   }
