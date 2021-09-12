@@ -4,6 +4,7 @@ interface global {
   permissionMissing: string
   dir: string
   back: string
+  youHave: string
 }
 
 interface lang {
@@ -31,7 +32,6 @@ interface help {
 interface money {
   yourMoney: string
   gotMoney: string
-  youHave: string
   youHaveToWait: string
   minutes: string
   dontHaveEnough: string
@@ -59,6 +59,12 @@ interface Card {
   soldAllFor: string
   duplicateSold: string
   noDuplicates: string
+  collectionPrefix: string
+  collectionSufix: string
+  thisCard: string
+  has: string
+  yourCollection: string
+  times: string
 }
 
 interface User {

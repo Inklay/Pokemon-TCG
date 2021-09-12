@@ -43,6 +43,9 @@ export type UserHandlerMode = keyof typeof UserHandlerModeEnum
  * @private @property {number} cardMax - The size of the cards array 
  * @private @property {User} user - The user object
  * @private @property {number} price - The price of the cards if sold
+ * @private @property {User} target - The target user object
+ * @private @property {CardCount[]} cardCount - The cardcount of the target
+ * @private @property {string} targetNickname - The nickname of the target
  */
 export class UserHandler {
   private series: Serie[]
@@ -58,6 +61,9 @@ export class UserHandler {
   private cardMax: number
   private user: User
   private price: number
+  private target: User
+  private cardCount: CardCount[]
+  private targetNickname: string
 
   /**
    * @constructor
@@ -72,11 +78,6 @@ export class UserHandler {
     })
     this.serieIdx = 0
     this.expansions = []
-    JSON.parse(fs.readFileSync(`cards/${lang.global.dir}/${this.series[0].id}.json`).toString()).forEach((e: Expansion) => {
-      if (e.released) {
-        this.expansions.push(Object.assign(new Expansion, e))
-      }
-    })
     this.expansionIdx = 0
     this.lang = lang
     this.mode = mode
@@ -87,6 +88,10 @@ export class UserHandler {
     this.cardIdx = 0
     this.cardMax = 0
     this.price = 0
+    this.target = this.user
+    this.cardCount = []
+    this.targetNickname = ""
+    this.loadExpansions()
   }
 
   /**
@@ -99,7 +104,7 @@ export class UserHandler {
   private loadExpansions() : void {
     this.expansions = []
     JSON.parse(fs.readFileSync(`cards/${this.lang.global.dir}/${this.series[this.serieIdx].id}.json`).toString()).forEach((e: Expansion) => {
-      if (e.released) {
+      if ((this.mode == 'BUYING' || (this.mode == 'VIEWING' && this.target.cards[e.id].length > 0)) && e.released) {
         this.expansions.push(Object.assign(new Expansion, e))
       }
     })
@@ -112,9 +117,14 @@ export class UserHandler {
    * 
    * Draw the current serie in a Discord embed message
    * 
+   * @param {boolean} useFav - Whether or not the favourite expansion should be loaded
    * @returns {InteractionReply} The serie in a Discord embed message
    */
-  public drawSerie() : InteractionReply {
+  public drawSerie(useFav: boolean = false) : InteractionReply {
+    if (useFav) {
+      this.loadFavExpansion()
+      return this.drawExpansion()
+    }
     return this.series[this.serieIdx].draw(this.expansions, this.serieIdx, this.lang, this.mode, this.serieMax)
   }
 
@@ -270,10 +280,29 @@ export class UserHandler {
     }
     this.cards.push(Card.generate('SPECIAL', this.expansions[this.expansionIdx], this.cards, 'COMMON', true))
     this.cards.push(Card.generate('SECRET', this.expansions[this.expansionIdx], this.cards, 'RARE', true))
-    const price = this.checkNewCard()
+    this.checkNewCard()
     this.user.money += this.price
     User.update(this.user)
     return this.cards[0].draw(0, 9, this.lang, this.mode, this.price)
+  }
+
+  /**
+   * @public @method
+   * 
+   * Returns the target's cards in a Discord embed message
+   * 
+   * @returns {InteractionReply} The target's cards
+   */
+  public view() : InteractionReply {
+    this.cards = []
+    this.cardCount = this.target.cards[this.expansions[this.expansionIdx].id]
+    this.cardCount.forEach(cc => {
+      this.cards.push(new Card(this.expansions[this.expansionIdx], cc.cardNumber, 'COMMON', 0))
+    })
+    this.cardMax = this.cards.length
+    this.cardIdx = 0
+    this.price = 0
+    return this.cards[0].draw(0, this.cardMax, this.lang, this.mode, undefined, this.cardCount[this.cardIdx].quantity, this.targetNickname, this.user == this.target)
   }
 
   /**
@@ -338,7 +367,11 @@ export class UserHandler {
    * @returns {InteractionReply} The card in a Discord embed message
    */
   public drawCard() : InteractionReply {
-    return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, this.price)
+    if (this.mode == 'BUYING') {
+      return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, this.price)
+    } else {
+      return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, undefined, this.cardCount[this.cardIdx].quantity, this.targetNickname, this.user == this.target)
+    }
   }
 
   /**
@@ -383,13 +416,42 @@ export class UserHandler {
     JSON.parse(fs.readFileSync(`cards/${this.lang.global.dir}/series.json`).toString()).forEach((s: Serie) => {
       JSON.parse(fs.readFileSync(`cards/${this.lang.global.dir}/${s.id}.json`).toString()).forEach((e: Expansion) => {
         if (e.id == this.user.favourite) {
+          if (sIdx != this.expansionIdx) {
+            this.serieIdx = sIdx
+            this.loadExpansions()
+          }
           this.expansionIdx = eIdx
-          this.serieIdx = sIdx
         }
         eIdx++
       })
       sIdx++
     })
+  }
+
+  /**
+   * @public @method
+   * 
+   * Sets the target User object
+   * 
+   * @param {User} target - The target User object
+   * @return {void} 
+   */
+  public setTarget(target: User, targetNickname: string) : void {
+    this.target = target
+    this.targetNickname = targetNickname
+    this.loadExpansions()
+  }
+
+  /**
+   * @public @method
+   * 
+   * Sets the lang User object
+   * 
+   * @param {Lang} lang - The lang User object
+   * @return {void} 
+   */
+   public setLang(lang: Lang) : void {
+    this.lang = lang
   }
 }
 
@@ -406,15 +468,21 @@ export const userHandlers = new Map<string, UserHandler>()
  * @param {Lang} lang - The lang of the server
  * @param {string} id - The ID of the user
  * @param {UserHandlerMode} mode - The current mode of the handler
+ * @param {string | undefined} nickname - The target User object 
+ * @param {string | undefined} nickname - The target nickname
  * @returns {UserHandler} The user handler
  */
-export function getUserHandler(lang: Lang, id: string, mode: UserHandlerMode) : UserHandler {
+export function getUserHandler(lang: Lang, id: string, mode: UserHandlerMode, targetId: string | undefined = undefined, nickname: string | undefined = undefined) : UserHandler {
   let handler = userHandlers.get(id)
   if (!handler) {
     handler = new UserHandler(lang, mode, User.create(id))
     userHandlers.set(id, handler)
   }
   handler.setMode(mode)
+  handler.setLang(lang)
+  if (targetId != undefined) {
+    handler.setTarget(User.create(targetId), nickname!)
+  }
   return handler
 }
 

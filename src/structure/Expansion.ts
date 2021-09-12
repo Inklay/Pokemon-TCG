@@ -63,14 +63,14 @@ export class Expansion {
     embed.setFooter(`${idx + 1}/${max + 1}`)
     embed.setAuthor(lang.expansion.selectExpansion)
     let description: string = ""
-    if (!canBuy) {
+    if (!canBuy && mode == 'BUYING') {
       description = `${lang.money.dontHaveEnough}\n`
     }
-    description += `${lang.expansion.costs} ${this.price}$\n${lang.money.youHave}: ${userMoney}$`
-    embed.setDescription(description)
     if (mode == 'BUYING') {
-      embed.setImage(this.image)
+      description += `${lang.expansion.costs} ${this.price}$\n${lang.global.youHave}: ${userMoney}$`
     }
+    embed.setDescription(description)
+    embed.setImage(this.image)
     return new InteractionReply(embed, buttons)  
   }
 
@@ -110,6 +110,13 @@ export class Expansion {
         style: "SUCCESS",
         emoji: '✔️'
       }))
+    } else if (mode == 'VIEWING') {
+      buttons.push(new MessageButton({
+        label: lang.expansion.select,
+        customId: 'expansionViewSelect',
+        style: "SUCCESS",
+        emoji: '✔️'
+      }))
     }
     buttons.push(new MessageButton({
       label: lang.global.back,
@@ -117,7 +124,7 @@ export class Expansion {
       style: "DANGER",
       emoji: '❌'
     }))
-    if (mode != 'TRADING') {
+    if (mode == 'BUYING') {
       if (isFavourite) {
         buttons.push(new MessageButton({
           label: lang.expansion.unsetFav,

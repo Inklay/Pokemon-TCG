@@ -30,7 +30,7 @@ export class Serie {
    */
   public draw(expansions: Expansion[], idx: number, lang: Lang, mode : UserHandlerMode, max: number) : InteractionReply {
     const embed = new MessageEmbed()
-    const buttons : MessageButton[] = this.createButton(idx, max, mode, lang)
+    const buttons : MessageButton[] = this.createButton(idx, max, mode, lang, expansions)
     embed.setTitle(this.name)
     let description = ''
     expansions.forEach(e => {
@@ -51,9 +51,10 @@ export class Serie {
    * @param {number} max - The size of the array expansion array
    * @param {UserHanlerMode} mode - The current mode of the handler
    * @param {Lang} lang - The lang of the server 
+   * @param {Expansion[]} expansions - All the expansion in this serie
    * @returns {MessageButton[]} The buttons to add to the message
    */
-  private createButton(idx: number, max: number, mode: UserHandlerMode, lang: Lang) : MessageButton[] {
+  private createButton(idx: number, max: number, mode: UserHandlerMode, lang: Lang, expansions: Expansion[]) : MessageButton[] {
     const buttons : MessageButton[] = []
     if (idx != 0) {
       buttons.push(new MessageButton({
@@ -69,7 +70,7 @@ export class Serie {
         emoji: '➡️'
       }))
     }
-    if (mode == 'BUYING') {
+    if (expansions.length > 0) {
       buttons.push(new MessageButton({
         label: lang.serie.select,
         customId: 'serieSelect',

@@ -27,7 +27,7 @@ export function addMoney(lang: Lang, id: string) : InteractionReply {
   } else {
     embed.description = `${lang.money.youHaveToWait} ${Math.floor((user.date + 60 * 60 * 1000 - now) / 1000 / 60)} ${lang.money.minutes}\n`
   }
-  embed.description += `${lang.money.youHave} : ${user.money}$`
+  embed.description += `${lang.global.youHave} : ${user.money}$`
   return new InteractionReply(embed, buttons)
 }
 

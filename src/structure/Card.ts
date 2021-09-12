@@ -96,18 +96,31 @@ export class Card {
    * @param {number} max - The size of the card expansion array
    * @param {Lang} lang - The lang of the server 
    * @param {UserHanlerMode} mode - The current mode of the handler
-   * @param {number} price - The price of the cards if sold
+   * @param {number| undefined} price - The price of the cards if sold
+   * @param {number| undefined} quantity - The number of time the user has this card
+   * @param {string| undefined} nickname - The nickname of the user collection
+   * @param {boolean} selfViewing - Whether or not the target is the user running the comand
    * @returns {InteractionReply} The reply of the interaction
    */
-  public draw(idx: number, max: number, lang: Lang, mode: UserHandlerMode, price: number) : InteractionReply {
+  public draw(idx: number, max: number, lang: Lang, mode: UserHandlerMode, price: number | undefined = undefined, quantity: number | undefined = undefined, nickname: string | undefined = undefined, selfViewing: boolean = true) : InteractionReply {
     const embed = new MessageEmbed()
     const buttons : MessageButton[] = this.createButton(idx,max, lang, mode)
-    embed.setTitle(`${lang.card.openingOf} ${this.expansion.name}`)
-    if (this.isNew) {
-      embed.setAuthor(lang.card.new)
-    }
-    if (price != 0) {
-      embed.setDescription(`${lang.card.soldFor} ${price}$`)
+    if (mode == 'BUYING') {
+      if (this.isNew) {
+        embed.setAuthor(lang.card.new)
+      }
+      if (price != 0) {
+        embed.setDescription(`${lang.card.soldFor} ${price}$`)
+      }
+      embed.setTitle(`${lang.card.openingOf} ${this.expansion.name}`)
+    } else if (mode == 'VIEWING') {
+      if (selfViewing) {
+        embed.setTitle(`${lang.card.yourCollection} - ${this.expansion.name}`)
+        embed.setDescription(`${lang.global.youHave} ${lang.card.thisCard} ${quantity} ${lang.card.times}`)
+      } else {
+        embed.setTitle(`${lang.card.collectionPrefix}${nickname}${lang.card.collectionSufix} - ${this.expansion.name}`)
+        embed.setDescription(`${nickname} ${lang.card.has} ${lang.card.thisCard} ${quantity} ${lang.card.times}`)
+      }
     }
     embed.setFooter(`${idx + 1}/${max + 1}`)
     embed.setImage(this.image)

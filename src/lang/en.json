@@ -4,7 +4,8 @@
     "doNotHavePermission": "You don't have the permission to use this command",
     "permissionMissing": "Permission missing",
     "dir": "en",
-    "back": "back"
+    "back": "back",
+    "youHave": "You have"
   },
   "help": {
     "description": "Show a help message that explains all the bot's commands",
@@ -30,7 +31,6 @@
   "money": {
     "yourMoney": "Your balance",
     "gotMoney": "You received 10$",
-    "youHave": "You have",
     "youHaveToWait": "You can have free money in",
     "minutes": "minutes",
     "dontHaveEnough": "You don't have enough money to buy this !",
@@ -54,7 +54,13 @@
     "soldFor": "You sold your duplicate cards for",
     "soldAllFor": "You sold all your duplicate cards for",
     "duplicateSold": "Duplicate cards sold",
-    "noDuplicates": "You don't have any duplicate cards"
+    "noDuplicates": "You don't have any duplicate cards",
+    "collectionPrefix": "",
+    "collectionSufix": "'s collection",
+    "thisCard": "times this card",
+    "has": "has",
+    "yourCollection": "Your collection",
+    "times": "times"
   },
   "user": {
     "settingsUpdated": "Settings updated",

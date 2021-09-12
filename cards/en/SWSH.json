@@ -92,7 +92,7 @@
     {
         "name": "Darkness Ablaze",
         "price": 5,
-        "id": "SWSH03",
+        "id": "SWSH3",
         "image": "https://tcg.pokemon.com/assets/img/expansions/darkness-ablaze/global/logos/en-us/darkness-ablaze.png",
         "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH3/SWSH3_EN_",
         "infoBaseUrl": "https://www.pokemon.com/us/pokemon-tcg/pokemon-cards/ss-series/swsh3/",
@@ -110,7 +110,7 @@
     {
         "name": "Rebel Clash",
         "price": 5,
-        "id": "SWSH02",
+        "id": "SWSH2",
         "image": "https://tcg.pokemon.com/assets/img/expansions/rebel-clash/global/logos/en-us/rebel-clash.png",
         "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH2/SWSH2_EN_",
         "infoBaseUrl": "https://www.pokemon.com/us/pokemon-tcg/pokemon-cards/ss-series/swsh2/",
@@ -128,7 +128,7 @@
     {
         "name": "Sword & Shield",
         "price": 4.5,
-        "id": "SWSH01",
+        "id": "SWSH1",
         "image": "https://tcg.pokemon.com/assets/img/global/logos/en-us/sword-shield.png",
         "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH1/SWSH1_EN_",
         "infoBaseUrl": "https://www.pokemon.com/us/pokemon-tcg/pokemon-cards/ss-series/swsh1/",
