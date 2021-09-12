@@ -47,6 +47,8 @@ interface expansion {
   selectExpansion: string
   select: string
   costs: string
+  setFav: string,
+  unsetFav: string
 }
 
 interface Card {

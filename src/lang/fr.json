@@ -43,7 +43,9 @@
   "expansion": {
     "selectExpansion": "Sélectionnez l'extension voulue",
     "select" : "Sélectionner cette extension",
-    "costs": "Cette extension coute"
+    "costs": "Cette extension coute",
+    "setFav": "Marquer comme favori",
+    "unsetFav": "Supprimer le favori"
   },
   "card" : {
     "openingOf": "Ouverture de",

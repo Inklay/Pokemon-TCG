@@ -7,6 +7,7 @@ export class User {
   date: number
   cards: CardList
   autoSell: boolean
+  favourite: string
 
   constructor(id: string) {
     this.id = id
@@ -14,6 +15,7 @@ export class User {
     this.date = Date.now()
     this.cards = new CardList()
     this.autoSell = false
+    this.favourite = "non"
     save(this)
   }
 

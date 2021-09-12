@@ -126,7 +126,7 @@ export class UserHandler {
    * @returns {InteractionReply} The expansion in a Discord embed message
    */
   public drawExpansion() : InteractionReply {
-    return this.expansions[this.expansionIdx].draw(this.expansionIdx, this.lang, this.mode, this.expansionMax, this.user.money)
+    return this.expansions[this.expansionIdx].draw(this.expansionIdx, this.lang, this.mode, this.expansionMax, this.user.money, this.user.favourite == this.expansions[this.expansionIdx].id)
   }
 
   /**
@@ -335,10 +335,61 @@ export class UserHandler {
    * 
    * Draw the current card in a Discord embed message
    * 
-   * @returns {InteractionReply} The expansion in a Discord embed message
+   * @returns {InteractionReply} The card in a Discord embed message
    */
   public drawCard() : InteractionReply {
     return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, this.price)
+  }
+
+  /**
+   * @public @method
+   * 
+   * Sets the favourite expansion of this user
+   * 
+   * @returns {InteractionReply} The expansion in a Discord embed message
+   */
+  public setFavouriteExpansion() : InteractionReply {
+    this.user.favourite = this.expansions[this.expansionIdx].id
+    User.update(this.user)
+    return this.drawExpansion()
+  }
+
+  /**
+   * @public @method
+   * 
+   * Unsets the favourite expansion of this user
+   * 
+   * @returns {InteractionReply} The expansion in a Discord embed message
+   */
+  public unsetFavouriteExpansion() : InteractionReply {
+    this.user.favourite = 'none'
+    User.update(this.user)
+    return this.drawExpansion()
+  }
+
+  /**
+   * @public @method
+   * 
+   * Loads the favourite expansion
+   * 
+   * @returns {void}
+   */
+  public loadFavExpansion() : void {
+    if (this.user.favourite == 'none') {
+      return
+    }
+    let eIdx: number = 0
+    let sIdx: number = 0
+    JSON.parse(fs.readFileSync(`cards/${this.lang.global.dir}/series.json`).toString()).forEach((s: Serie) => {
+      JSON.parse(fs.readFileSync(`cards/${this.lang.global.dir}/${s.id}.json`).toString()).forEach((e: Expansion) => {
+        if (e.id == this.user.favourite) {
+          this.expansionIdx = eIdx
+          this.serieIdx = sIdx
+        }
+        eIdx++
+      })
+      sIdx++
+    })
   }
 }
 

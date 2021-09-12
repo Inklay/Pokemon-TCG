@@ -2,6 +2,7 @@ import { ApplicationCommandData, ButtonInteraction, CommandInteraction, MessageA
 import { Command } from '../structure/Command'
 import { Lang } from '../structure/Lang'
 import { drawExpansion, drawSerie, nextCard, nextExpansion, nextSerie, openBooster, prevCard, prevExpansion, prevSerie } from '../commandsHandler/buyHandler'
+import { getUserHandler } from '../commandsHandler/userHandler'
 
 export class slahCommand implements Command {
 	commandData: ApplicationCommandData
@@ -14,7 +15,7 @@ export class slahCommand implements Command {
 	}
 
 	async execute(interaction: CommandInteraction, lang: Lang) {
-		const reply = drawSerie(lang, interaction.user.id)
+		const reply = drawSerie(lang, interaction.user.id, true)
 		await interaction.reply({
 			embeds: [reply.embed],
 			components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
@@ -77,6 +78,24 @@ export class slahCommand implements Command {
 			}
 			case 'expansionSelect': {
 				const reply = openBooster(lang, interaction.user.id)
+				await interaction.update({
+					embeds: [reply.embed],
+					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+				})
+				return
+			}
+			case 'expansionSetFav': {
+				const handler = getUserHandler(lang, interaction.user.id, 'BUYING')
+				const reply = handler.setFavouriteExpansion()
+				await interaction.update({
+					embeds: [reply.embed],
+					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+				})
+				return
+			}
+			case 'expansionUnsetFav': {
+				const handler = getUserHandler(lang, interaction.user.id, 'BUYING')
+				const reply = handler.unsetFavouriteExpansion()
 				await interaction.update({
 					embeds: [reply.embed],
 					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined

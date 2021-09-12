@@ -9,11 +9,17 @@ import { getUserHandler } from './userHandler'
  * 
  * @param {Lang} lang - The lang of the server
  * @param {string} id - The id of the user
+ * @param {boolean} useFav - Whether or not the favourite expansion should be loaded
  * @returns {InteractionReply} The serie in a Discord embed message
  */
-export function drawSerie(lang: Lang, id: string) : InteractionReply {
+export function drawSerie(lang: Lang, id: string, useFav: boolean = false) : InteractionReply {
   const handler = getUserHandler(lang, id, 'BUYING')
-  return handler.drawSerie()
+  if (useFav) {
+    handler.loadFavExpansion()
+    return handler.drawExpansion()
+  } else {
+    return handler.drawSerie()
+  }
 }
 
 /**

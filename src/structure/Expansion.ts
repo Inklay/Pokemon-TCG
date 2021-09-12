@@ -52,12 +52,13 @@ export class Expansion {
    * @param {UserHanlerMode} mode - The current mode of the handler
    * @param {number} max - The size of the expansion array
    * @param {number} userMoney - The money of the user
+   * @param {boolean} isFavourite - Whether or not this expansion is the user's favourite
    * @returns {InteractionReply} The reply of the interaction
    */
-  public draw(idx: number, lang: Lang, mode : UserHandlerMode, max: number, userMoney: number) : InteractionReply {
+  public draw(idx: number, lang: Lang, mode : UserHandlerMode, max: number, userMoney: number, isFavourite: boolean) : InteractionReply {
     const canBuy: boolean = this.price <= userMoney
     const embed = new MessageEmbed()
-    const buttons : MessageButton[] = this.createButton(idx, max, mode, lang, canBuy)
+    const buttons : MessageButton[] = this.createButton(idx, max, mode, lang, canBuy, isFavourite)
     embed.setTitle(this.name)
     embed.setFooter(`${idx + 1}/${max + 1}`)
     embed.setAuthor(lang.expansion.selectExpansion)
@@ -83,9 +84,10 @@ export class Expansion {
    * @param {UserHanlerMode} mode - The current mode of the handler
    * @param {Lang} lang - The lang of the server 
    * @param {boolean} canBuy - Whather or not thie user can buyt this expansion
+   * @param {boolean} isFavourite - Whether or not this expansion is the user's favourite
    * @returns {MessageButton[]} The buttons to add to the message
    */
-  private createButton(idx: number, max: number, mode: UserHandlerMode, lang: Lang, canBuy: boolean) : MessageButton[] {
+  private createButton(idx: number, max: number, mode: UserHandlerMode, lang: Lang, canBuy: boolean, isFavourite: boolean) : MessageButton[] {
     const buttons : MessageButton[] = []
     if (idx != 0) {
       buttons.push(new MessageButton({
@@ -115,6 +117,23 @@ export class Expansion {
       style: "DANGER",
       emoji: '❌'
     }))
+    if (mode != 'TRADING') {
+      if (isFavourite) {
+        buttons.push(new MessageButton({
+          label: lang.expansion.unsetFav,
+          customId: 'expansionUnsetFav',
+          style: 'SECONDARY',
+          emoji: '🌟'
+        }))
+      } else {
+        buttons.push(new MessageButton({
+          label: lang.expansion.setFav,
+          customId: 'expansionSetFav',
+          style: 'SECONDARY',
+          emoji: '⭐'
+        }))
+      }
+    }
     return buttons
   }
 }

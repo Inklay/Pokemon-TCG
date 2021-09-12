@@ -43,7 +43,9 @@
   "expansion": {
     "selectExpansion": "Choose the expansion you want",
     "select" : "Select this expansion",
-    "costs": "This expansion costs"
+    "costs": "This expansion costs",
+    "setFav": "Mark as favourite",
+    "unsetFav": "Delete the favourite"
   },
   "card" : {
     "openingOf": "Opening of",

@@ -162,7 +162,7 @@ export class Card {
     }))
     return buttons
   }
-
+  
   /**
    * @public @method
    * 
