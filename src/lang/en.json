@@ -24,7 +24,7 @@
     "langList": "Language list",
     "french": "français",
     "english": "english",
-    "langSet": "Language as been set to english",
+    "langSet": "Language has been set to english",
     "langUpdated": "Language updated !"
   },
   "money": {
@@ -48,6 +48,14 @@
   "card" : {
     "openingOf": "Opening of",
     "new": "New card !",
-    "moreInfo": "More information"
+    "moreInfo": "More information",
+    "soldFor": "You sold your duplicate cards for",
+    "soldAllFor": "You sold all your duplicate cards for",
+    "duplicateSold": "Duplicate cards sold",
+    "noDuplicates": "You don't have any duplicate cards"
+  },
+  "user": {
+    "settingsUpdated": "Settings updated",
+    "autoSellSet": "The automatic sell of the cards has been configures"
   }
 }

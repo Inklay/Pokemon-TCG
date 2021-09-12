@@ -48,6 +48,14 @@
   "card" : {
     "openingOf": "Ouverture de",
     "new": "Nouvelle carte !",
-    "moreInfo": "Plus d'info"
+    "moreInfo": "Plus d'info",
+    "soldFor": "Vous avez vendu vos cartes en double pour",
+    "soldAllFor": "Vous avez vendu toutes vos cartes en double pour",
+    "duplicateSold": "Cartes en double vendues",
+    "noDuplicates": "Vous n'avez pas de carte en double à vendre"
+  },
+  "user": {
+    "settingsUpdated": "Paramètres mis à jour",
+    "autoSellSet": "La vente automatique des cartes a été configurée"
   }
 }

@@ -5,8 +5,9 @@ import fs from 'fs'
 import { InteractionReply } from '../structure/InteractionReply'
 import { User } from '../structure/User'
 import { notEnoughMoney } from './moneyHandler'
-import { Card } from '../structure/Card'
+import { Card, Rarity } from '../structure/Card'
 import { CardCount } from '../structure/CardCount'
+import { MessageButton, MessageEmbed } from 'discord.js'
 
 /**
  * @enum {number} UserHandlerModeEnum
@@ -41,6 +42,7 @@ export type UserHandlerMode = keyof typeof UserHandlerModeEnum
  * @private @property {number} expansionMax - The size of the expansions array 
  * @private @property {number} cardMax - The size of the cards array 
  * @private @property {User} user - The user object
+ * @private @property {number} price - The price of the cards if sold
  */
 export class UserHandler {
   private series: Serie[]
@@ -55,6 +57,7 @@ export class UserHandler {
   private expansionMax: number
   private cardMax: number
   private user: User
+  private price: number
 
   /**
    * @constructor
@@ -83,6 +86,7 @@ export class UserHandler {
     this.cards = []
     this.cardIdx = 0
     this.cardMax = 0
+    this.price = 0
   }
 
   /**
@@ -257,6 +261,7 @@ export class UserHandler {
     this.cards = []
     this.cardMax = 9
     this.cardIdx = 0
+    this.price = 0
     for (let i: number = 0; i < 5; i++) {
       this.cards.push(Card.generate('COMMON', this.expansions[this.expansionIdx], this.cards))
     }
@@ -265,9 +270,10 @@ export class UserHandler {
     }
     this.cards.push(Card.generate('SPECIAL', this.expansions[this.expansionIdx], this.cards, 'COMMON', true))
     this.cards.push(Card.generate('SECRET', this.expansions[this.expansionIdx], this.cards, 'RARE', true))
-    this.checkNewCard()
+    const price = this.checkNewCard()
+    this.user.money += this.price
     User.update(this.user)
-    return this.cards[0].draw(0, 9, this.lang, this.mode)
+    return this.cards[0].draw(0, 9, this.lang, this.mode, this.price)
   }
 
   /**
@@ -282,7 +288,11 @@ export class UserHandler {
       const counts: CardCount[] = this.user.cards[this.expansions[this.expansionIdx].id]
       const count: CardCount | undefined = counts.find(cc => cc.cardNumber == parseInt(c.number))
       if (count) {
-        count.quantity++
+        if (this.user.autoSell) {
+          this.price += c.sell()
+        } else {
+          count.quantity++
+        }
       } else {
         const newCount: CardCount = {
           quantity: 1,
@@ -301,24 +311,24 @@ export class UserHandler {
    * 
    * @returns {void}
    */
-    public incCardIdx() : void {
-      if (this.cardIdx + 1 <= this.cardMax) {
-        this.cardIdx++
-      }
+  public incCardIdx() : void {
+    if (this.cardIdx + 1 <= this.cardMax) {
+      this.cardIdx++
     }
+  }
   
-    /**
-     * @public @method
-     * 
-     * Decrease the card index of the handler
-     * 
-     * @returns {void}
-     */
-    public decCardIdx() : void {
-      if (this.cardIdx - 1 >= 0) {
-        this.cardIdx--
-      }
+  /**
+   * @public @method
+   * 
+   * Decrease the card index of the handler
+   * 
+   * @returns {void}
+   */
+  public decCardIdx() : void {
+    if (this.cardIdx - 1 >= 0) {
+      this.cardIdx--
     }
+  }
 
   /**
    * @public @method
@@ -328,7 +338,7 @@ export class UserHandler {
    * @returns {InteractionReply} The expansion in a Discord embed message
    */
   public drawCard() : InteractionReply {
-    return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode)
+    return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, this.price)
   }
 }
 
@@ -355,4 +365,118 @@ export function getUserHandler(lang: Lang, id: string, mode: UserHandlerMode) : 
   }
   handler.setMode(mode)
   return handler
+}
+
+/**
+ * @fonction
+ * 
+ * Sets autoSell for the specified user
+ * 
+ * @param {string} id - The user id
+ * @param {boolean} autoSell - The value of the autoSell
+ * @param {Lang} lang - The lang of the server
+ */
+export function setAutoSell(id: string, autoSell: boolean, lang: Lang) : InteractionReply {
+  const user: User = User.create(id)
+  user.autoSell = autoSell
+  User.update(user)
+  const embed = new MessageEmbed()
+  const buttons: MessageButton[] = []
+  embed.setTitle(lang.user.settingsUpdated)
+  embed.setDescription(lang.user.autoSellSet)
+  return new InteractionReply(embed, buttons)
+}
+
+/**
+ * 
+ * @param {string} id - The user id
+ * @param {Lang} lang - The lang of the server
+ */
+export function sellAllDuplicates(id: string, lang: Lang) : InteractionReply {
+  const user: User = User.create(id)
+  const embed = new MessageEmbed()
+  const buttons: MessageButton[] = []
+  let money = 0
+  JSON.parse(fs.readFileSync(`cards/${lang.global.dir}/series.json`).toString()).forEach((s: Serie) => {
+    JSON.parse(fs.readFileSync(`cards/${lang.global.dir}/${s.id}.json`).toString()).forEach((e: Expansion) => {
+      if (e.released) {
+        money += sellDuplicatesFrom(Object.assign(new Expansion, e), user.cards[e.id])
+      }
+    })
+  })
+  user.money += money
+  User.update(user)
+  embed.setTitle(lang.card.duplicateSold)
+  if (money > 0) {
+    embed.setDescription(`${lang.card.soldAllFor} ${money}$`)
+  } else {
+    embed.setDescription(`${lang.card.noDuplicates}`)
+  }
+  return new InteractionReply(embed, buttons)
+}
+
+/**
+ * @function
+ * 
+ * Sell all duplicates from an expansion
+ * 
+ * @param {Expansion} expansion - The expansion to sell 
+ * @param {CardCount[]} count - The list of the card the user has
+ * @returns {number} the price of this expansion
+ */
+function sellDuplicatesFrom(expansion: Expansion, count: CardCount[]) : number {
+  let total: number = 0
+  count.forEach(cc => {
+    if (cc.quantity <= 1) {
+      return
+    }
+    const toRemove = cc.quantity - 1
+    cc.quantity = 1
+    let price: number = getCardPrice('COMMON', expansion.common, cc.cardNumber, expansion.price) * toRemove
+    if (price != 0) {
+      total += price
+      return
+    }
+    price = getCardPrice('UNCOMMON', expansion.uncommon, cc.cardNumber, expansion.price) * toRemove
+    if (price != 0) {
+      total += price
+      return
+    }
+    price = getCardPrice('RARE', expansion.rare, cc.cardNumber, expansion.price) * toRemove
+    if (price != 0) {
+      total += price
+      return
+    }
+    price = getCardPrice('SPECIAL', expansion.special, cc.cardNumber, expansion.price) * toRemove
+    if (price != 0) {
+      total += price
+      return
+    }
+    price = getCardPrice('ULTRARARE', expansion.ultraRare, cc.cardNumber, expansion.price) * toRemove
+    if (price != 0) {
+      total += price
+      return
+    }
+    price = getCardPrice('SPECIAL', expansion.special, cc.cardNumber, expansion.price) * toRemove
+    if (price != 0) {
+      total += price
+      return
+    }
+  })
+  return total
+}
+
+/**
+ * 
+ * @param {Rarity} rarity - The rarity of the card
+ * @param {number[]} arr - The array of cards
+ * @param {number} card - The number of the card to sell
+ * @param {number} price - The price of the expansion
+ * @returns {number} The price of the card
+ */
+function getCardPrice(rarity: Rarity, arr: number[], card: number, price: number) : number {
+  if (arr.find(c => c == card)) {
+    return Card.sell(rarity, price)
+  }
+  return 0
 }

@@ -53,6 +53,15 @@ interface Card {
   openingOf: string
   new: string
   moreInfo: string
+  soldFor: string
+  soldAllFor: string
+  duplicateSold: string
+  noDuplicates: string
+}
+
+interface User {
+  settingsUpdated: string
+  autoSellSet: string
 }
 
 export interface Lang {
@@ -63,4 +72,5 @@ export interface Lang {
   serie: serie
   expansion: expansion
   card: Card
+  user: User
 }

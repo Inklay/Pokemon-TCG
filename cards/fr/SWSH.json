@@ -91,7 +91,7 @@
     {
         "name": "Ténèbres embrasées",
         "price": 5,
-        "id": "SWSH03",
+        "id": "SWSH3",
         "image": "https://www.pokecardex.com/assets/images/logos/SWSH3.png",
         "cardsBaseImage": "https://assets.pokemon.com/assets/cms2-fr-fr/img/cards/web/SWSH3/SWSH3_FR_",
         "infoBaseUrl": "https://www.pokemon.com/fr/jcc-pokemon/cartes-pokemon/ss-series/swsh3/",
@@ -109,7 +109,7 @@
     {
         "name": "Clash Des Rebelles",
         "price": 5,
-        "id": "SWSH02",
+        "id": "SWSH2",
         "image": "https://www.pokecardex.com/assets/images/logos/SWSH2.png",
         "cardsBaseImage": "https://assets.pokemon.com/assets/cms2-fr-fr/img/cards/web/SWSH2/SWSH2_FR_",
         "infoBaseUrl": "https://www.pokemon.com/fr/jcc-pokemon/cartes-pokemon/ss-series/swsh2/",
@@ -127,7 +127,7 @@
     {
         "name": "Épée et Bouclier",
         "price": 4.5,
-        "id": "SWSH01",
+        "id": "SWSH1",
         "image": "https://www.pokecardex.com/assets/images/logos/SWSH1.png",
         "cardsBaseImage": "https://assets.pokemon.com/assets/cms2-fr-fr/img/cards/web/SWSH1/SWSH1_FR_",
         "infoBaseUrl": "https://www.pokemon.com/fr/jcc-pokemon/cartes-pokemon/ss-series/swsh1/",

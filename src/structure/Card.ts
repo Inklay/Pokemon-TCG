@@ -33,12 +33,16 @@ export type Rarity = keyof typeof RarityEnum
  * @private @property {string} image - The URL of the card image
  * @private @property {boolean} isNew - Whether or not the user already has this card
  * @private @property {Expansion} expansion - The expansion of the card
+ * @private @property {Rarity} rarity - The card's rarity
+ * @private @property {number} expPrice - The expansion's price
  * @public @property {number} number - The number of the card in the expansion
  */
 export class Card {
   private image: string
   private isNew: boolean
   private expansion: Expansion
+  private rarity: Rarity
+  private expPrice: number
   public number: string
 
   /**
@@ -46,11 +50,13 @@ export class Card {
    * @param {Expansion} expansion - The expansion of the card
    * @param {number} number - The number of the card in the expansion
    */
-  constructor(expansion: Expansion, number: number) {
+  constructor(expansion: Expansion, number: number, rarity: Rarity, expPrixe: number) {
     this.expansion = expansion
     this.number = expansion.fixNumber ? this.fixNumber(number) : number.toString()
     this.image = `${expansion.cardsBaseImage}${number}.png`
     this.isNew = false
+    this.rarity = rarity
+    this.expPrice = expPrixe
   }
 
   /**
@@ -90,14 +96,18 @@ export class Card {
    * @param {number} max - The size of the card expansion array
    * @param {Lang} lang - The lang of the server 
    * @param {UserHanlerMode} mode - The current mode of the handler
+   * @param {number} price - The price of the cards if sold
    * @returns {InteractionReply} The reply of the interaction
    */
-  public draw(idx: number, max: number, lang: Lang, mode: UserHandlerMode) : InteractionReply {
+  public draw(idx: number, max: number, lang: Lang, mode: UserHandlerMode, price: number) : InteractionReply {
     const embed = new MessageEmbed()
     const buttons : MessageButton[] = this.createButton(idx,max, lang, mode)
     embed.setTitle(`${lang.card.openingOf} ${this.expansion.name}`)
     if (this.isNew) {
       embed.setAuthor(lang.card.new)
+    }
+    if (price != 0) {
+      embed.setDescription(`${lang.card.soldFor} ${price}$`)
     }
     embed.setFooter(`${idx + 1}/${max + 1}`)
     embed.setImage(this.image)
@@ -154,6 +164,56 @@ export class Card {
   }
 
   /**
+   * @public @method
+   * 
+   * Returns the price the card
+   * 
+   * @returns {number} The price of the card
+   */
+  public sell() : number {
+    switch (this.rarity) {
+      case 'UNCOMMON':
+        return Math.floor(2 * this.expPrice) / 10
+      case 'RARE':
+        return Math.floor(5 * this.expPrice) / 10
+      case 'SPECIAL':
+        return Math.floor(10 * this.expPrice) / 10
+      case 'ULTRARARE':
+        return Math.floor(25 * this.expPrice) / 10
+      case 'SPECIAL':
+        return Math.floor(50 * this.expPrice) / 10
+      default:
+        return Math.floor(1 * this.expPrice) / 10
+    }
+  }
+
+  /**
+   * @public @static @method
+   * 
+   * Returns the price the card
+   * 
+   * @param {Rarity} rarity - The rarity of the card
+   * @param {number} expPrice - The price of the expansion
+   * @returns {number} The price of the card
+   */
+  public static sell(rarity: Rarity, expPrice: number) : number {
+    switch (rarity) {
+      case 'UNCOMMON':
+        return Math.floor(2 * expPrice) / 10
+      case 'RARE':
+        return Math.floor(5 * expPrice) / 10
+      case 'SPECIAL':
+        return Math.floor(10 * expPrice) / 10
+      case 'ULTRARARE':
+        return Math.floor(25 * expPrice) / 10
+      case 'SPECIAL':
+        return Math.floor(50 * expPrice) / 10
+      default:
+        return Math.floor(1 * expPrice) / 10
+    }
+  }
+
+  /**
    * @public @static @method
    * 
    * Generates a card with the chosen rarity
@@ -169,32 +229,32 @@ export class Card {
     if (!backwardRarity) {
       switch (rarity) {
         case 'COMMON':
-          return new Card(expansion, this.generateCard(expansion.common, cards))
+          return new Card(expansion, this.generateCard(expansion.common, cards), 'COMMON', expansion.price)
         case 'UNCOMMON':
-          return new Card(expansion, this.generateCard(expansion.uncommon, cards))
+          return new Card(expansion, this.generateCard(expansion.uncommon, cards), 'UNCOMMON', expansion.price)
         case 'RARE':
-          return new Card(expansion, this.generateCard(expansion.rare, cards))
+          return new Card(expansion, this.generateCard(expansion.rare, cards), 'RARE', expansion.price)
         case 'SPECIAL':
-          return new Card(expansion, this.generateCard(expansion.special, cards))
+          return new Card(expansion, this.generateCard(expansion.special, cards), 'SPECIAL', expansion.price)
         case 'ULTRARARE':
-          return new Card(expansion, this.generateCard(expansion.ultraRare, cards))
+          return new Card(expansion, this.generateCard(expansion.ultraRare, cards), 'ULTRARARE', expansion.price)
         case 'SECRET':
-          return new Card(expansion, this.generateCard(expansion.secret, cards))
+          return new Card(expansion, this.generateCard(expansion.secret, cards), 'SECRET', expansion.price)
       }
     } else {
       const rand: number = Math.random()
       if (rarity >= 'SECRET' && rand <= 1/2000 && expansion.canGetSecret) {
-        return new Card(expansion, this.generateCard(expansion.secret, cards))
+        return new Card(expansion, this.generateCard(expansion.secret, cards), 'SECRET', expansion.price)
       } else if (rarity >= 'ULTRARARE' && rand <= 1/500 && rarityMin <= 'ULTRARARE') {
-        return new Card(expansion, this.generateCard(expansion.ultraRare, cards))
+        return new Card(expansion, this.generateCard(expansion.ultraRare, cards), 'ULTRARARE', expansion.price)
       } else if (rarity >= 'SPECIAL' && rand <= 1/300 && rarityMin <= 'SPECIAL') {
-        return new Card(expansion, this.generateCard(expansion.special, cards))
+        return new Card(expansion, this.generateCard(expansion.special, cards), 'SPECIAL', expansion.price)
       } else if (rarity >= 'RARE' && rand <= 1/20 && rarityMin <= 'RARE') {
-        return new Card(expansion, this.generateCard(expansion.rare, cards))
+        return new Card(expansion, this.generateCard(expansion.rare, cards), 'RARE', expansion.price)
       } else if (rarity >= 'UNCOMMON' && rand <= 1/10 && rarityMin <= 'UNCOMMON') {
-        return new Card(expansion, this.generateCard(expansion.uncommon, cards))
+        return new Card(expansion, this.generateCard(expansion.uncommon, cards), 'UNCOMMON', expansion.price)
       } else {
-        return new Card(expansion, this.generateCard(expansion.common, cards))
+        return new Card(expansion, this.generateCard(expansion.common, cards), 'COMMON', expansion.price)
       }
     }
   }
