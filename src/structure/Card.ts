@@ -100,9 +100,12 @@ export class Card {
    * @param {number| undefined} quantity - The number of time the user has this card
    * @param {string| undefined} nickname - The nickname of the user collection
    * @param {boolean} selfViewing - Whether or not the target is the user running the comand
+   * @param {number} cardSeen - The number of cards seen on this expansion
+   * @param {number} cardMax - The number of card of this expansion
+   * @param {number} cardSecret - The number of secret cards seen
    * @returns {InteractionReply} The reply of the interaction
    */
-  public draw(idx: number, max: number, lang: Lang, mode: UserHandlerMode, price: number | undefined = undefined, quantity: number | undefined = undefined, nickname: string | undefined = undefined, selfViewing: boolean = true) : InteractionReply {
+  public draw(idx: number, max: number, lang: Lang, mode: UserHandlerMode, price: number | undefined = undefined, quantity: number | undefined = undefined, nickname: string | undefined = undefined, selfViewing: boolean = true, cardsSeen: number = 0, cardsMax: number = 0, cardsSecret: number = 0) : InteractionReply {
     const embed = new MessageEmbed()
     const buttons : MessageButton[] = this.createButton(idx,max, lang, mode)
     if (mode == 'BUYING') {
@@ -121,8 +124,12 @@ export class Card {
         embed.setTitle(`${lang.card.collectionPrefix}${nickname}${lang.card.collectionSufix} - ${this.expansion.name}`)
         embed.setDescription(`${nickname} ${lang.card.has} ${lang.card.thisCard} ${quantity} ${lang.card.times}`)
       }
+      embed.description += `\n\n${lang.card.progression}: ${cardsSeen}/${cardsMax}`
+      if (cardsSecret > 0) {
+        embed.description += `\n${lang.card.secret}: ${cardsSecret}`
+      }
     }
-    embed.setFooter(`${idx + 1}/${max + 1}`)
+    embed.setFooter(`${idx + 1}/${max}`)
     embed.setImage(this.image)
     return new InteractionReply(embed, buttons)
   }

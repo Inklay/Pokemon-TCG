@@ -17,7 +17,7 @@ export class slahCommand implements Command {
     const reply = sellAllDuplicates(interaction.user.id, lang)
       await interaction.reply({
         embeds: [reply.embed],
-        components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)]: undefined,
+        components: reply.hasButton() ? reply.buttons : undefined,
         ephemeral: true
       })
       return

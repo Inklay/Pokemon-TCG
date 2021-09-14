@@ -53,14 +53,15 @@ export class Expansion {
    * @param {number} max - The size of the expansion array
    * @param {number} userMoney - The money of the user
    * @param {boolean} isFavourite - Whether or not this expansion is the user's favourite
+   * @param {boolean} hasCard - Whether or not the user has card from this expansion
    * @returns {InteractionReply} The reply of the interaction
    */
-  public draw(idx: number, lang: Lang, mode : UserHandlerMode, max: number, userMoney: number, isFavourite: boolean) : InteractionReply {
+  public draw(idx: number, lang: Lang, mode : UserHandlerMode, max: number, userMoney: number, isFavourite: boolean, hasCard: boolean) : InteractionReply {
     const canBuy: boolean = this.price <= userMoney
     const embed = new MessageEmbed()
-    const buttons : MessageButton[] = this.createButton(idx, max, mode, lang, canBuy, isFavourite)
+    const buttons : MessageButton[] = this.createButton(idx, max, mode, lang, canBuy, isFavourite, hasCard)
     embed.setTitle(this.name)
-    embed.setFooter(`${idx + 1}/${max + 1}`)
+    embed.setFooter(`${idx + 1}/${max}`)
     embed.setAuthor(lang.expansion.selectExpansion)
     let description: string = ""
     if (!canBuy && mode == 'BUYING') {
@@ -85,9 +86,10 @@ export class Expansion {
    * @param {Lang} lang - The lang of the server 
    * @param {boolean} canBuy - Whather or not thie user can buyt this expansion
    * @param {boolean} isFavourite - Whether or not this expansion is the user's favourite
+   * @param {boolean} hasCard - Whether or not the user has card from this expansion
    * @returns {MessageButton[]} The buttons to add to the message
    */
-  private createButton(idx: number, max: number, mode: UserHandlerMode, lang: Lang, canBuy: boolean, isFavourite: boolean) : MessageButton[] {
+  private createButton(idx: number, max: number, mode: UserHandlerMode, lang: Lang, canBuy: boolean, isFavourite: boolean, hasCard: boolean) : MessageButton[] {
     const buttons : MessageButton[] = []
     if (idx != 0) {
       buttons.push(new MessageButton({
@@ -138,6 +140,14 @@ export class Expansion {
           customId: 'expansionSetFav',
           style: 'SECONDARY',
           emoji: '⭐'
+        }))
+      }
+      if (hasCard) {
+        buttons.push(new MessageButton({
+          label: lang.expansion.viewCollection,
+          customId: 'expansionView',
+          style: 'SECONDARY',
+          emoji: '👀'
         }))
       }
     }

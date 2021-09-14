@@ -25,7 +25,7 @@ export abstract class CardsCommand implements Command {
 				reply = handler.drawSerie()
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+					components: reply.hasButton() ? reply.buttons : undefined,
 				})
 				return
 			case 'seriePrev':
@@ -33,7 +33,7 @@ export abstract class CardsCommand implements Command {
 				reply = handler.drawSerie()
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+					components: reply.hasButton() ? reply.buttons : undefined,
 				})
 				return
 			case 'serieBack':
@@ -43,7 +43,7 @@ export abstract class CardsCommand implements Command {
 				reply = handler.drawExpansion()
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+					components: reply.hasButton() ? reply.buttons : undefined,
 				})
 				return
 			case 'expansionNext': 
@@ -51,7 +51,7 @@ export abstract class CardsCommand implements Command {
 				reply = handler.drawExpansion()
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+					components: reply.hasButton() ? reply.buttons : undefined,
 				})
 				return
 			case 'expansionPrev': 
@@ -59,50 +59,59 @@ export abstract class CardsCommand implements Command {
 				reply = handler.drawExpansion()
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+					components: reply.hasButton() ? reply.buttons : undefined,
 				})
 				return
 			case 'expansionBack':
 				reply = handler.drawSerie()
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+					components: reply.hasButton() ? reply.buttons : undefined,
 				})
 				return
 			case 'expansionSelect':
 				reply = handler.openBooster()
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+					components: reply.hasButton() ? reply.buttons : undefined,
 				})
 				return
       case 'expansionViewSelect':
 				reply = handler.view()
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+					components: reply.hasButton() ? reply.buttons : undefined,
 				})
 				return
 			case 'expansionSetFav':
 				reply = handler.setFavouriteExpansion()
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+					components: reply.hasButton() ? reply.buttons : undefined,
 				})
 				return
 			case 'expansionUnsetFav':
 				reply = handler.unsetFavouriteExpansion()
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+					components: reply.hasButton() ? reply.buttons : undefined,
 				})
+				return
+			case 'expansionView':
+				handler.setMode('VIEWING')
+				reply = handler.view()
+				await interaction.update({
+					embeds: [reply.embed],
+					components: reply.hasButton() ? reply.buttons : undefined,
+				})
+				handler.setMode(this.mode)
 				return
 			case 'cardNext':
 				handler.incCardIdx()
 				reply = handler.drawCard()
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+					components: reply.hasButton() ? reply.buttons : undefined,
 				})
 				return
 			case 'cardPrev':
@@ -110,14 +119,14 @@ export abstract class CardsCommand implements Command {
 				reply = handler.drawCard()
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+					components: reply.hasButton() ? reply.buttons : undefined,
 				})
 				return
 			case 'cardBack':
 				reply = handler.drawExpansion()
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+					components: reply.hasButton() ? reply.buttons : undefined,
 				})
 				return
 		}

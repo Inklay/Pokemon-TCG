@@ -17,7 +17,7 @@ export class slahCommand implements Command {
 		const reply = basicHelp(lang, interaction.member as GuildMember)
 		await interaction.reply({
 			embeds: [reply.embed],
-			components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)]: undefined,
+			components: reply.hasButton() ? reply.buttons : undefined,
 			ephemeral: true
 		})
 	}
@@ -28,7 +28,7 @@ export class slahCommand implements Command {
 				const reply = adminHelp(lang)
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)]: undefined
+					components: reply.hasButton() ? reply.buttons : undefined
 				})
 				return
 			}
@@ -36,7 +36,7 @@ export class slahCommand implements Command {
 				const reply = basicHelp(lang, interaction.member as GuildMember)
 				await interaction.update({
 					embeds: [reply.embed],
-					components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)]: undefined
+					components: reply.hasButton() ? reply.buttons : undefined
 				})
 				return
 			}

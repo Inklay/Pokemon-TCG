@@ -23,7 +23,7 @@ export class slahCommand implements Command {
     const reply = setAutoSell(interaction.user.id, interaction.options.getBoolean('value', true), lang)
     await interaction.reply({
       embeds: [reply.embed],
-      components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)]: undefined,
+      components: reply.hasButton() ? reply.buttons : undefined,
       ephemeral: true
     })
   }

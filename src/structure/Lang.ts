@@ -47,8 +47,9 @@ interface expansion {
   selectExpansion: string
   select: string
   costs: string
-  setFav: string,
+  setFav: string
   unsetFav: string
+  viewCollection: string
 }
 
 interface Card {
@@ -65,6 +66,8 @@ interface Card {
   has: string
   yourCollection: string
   times: string
+  progression: string
+  secret: string
 }
 
 interface User {

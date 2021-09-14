@@ -38,8 +38,6 @@ export type UserHandlerMode = keyof typeof UserHandlerModeEnum
  * @private @property {number} cardIdx - The index of the current serie in the cards array
  * @private @property {Lang} lang - The lang of the server
  * @private @property {UserHandlerMode} mode - The current mode of the handler
- * @private @property {number} serieMax - The size of the series array 
- * @private @property {number} expansionMax - The size of the expansions array 
  * @private @property {number} cardMax - The size of the cards array 
  * @private @property {User} user - The user object
  * @private @property {number} price - The price of the cards if sold
@@ -56,8 +54,6 @@ export class UserHandler {
   private cardIdx: number
   private lang: Lang
   private mode: UserHandlerMode
-  private serieMax: number
-  private expansionMax: number
   private cardMax: number
   private user: User
   private price: number
@@ -81,8 +77,6 @@ export class UserHandler {
     this.expansionIdx = 0
     this.lang = lang
     this.mode = mode
-    this.serieMax = this.series.length - 1
-    this.expansionMax = this.expansions.length - 1
     this.user = user
     this.cards = []
     this.cardIdx = 0
@@ -109,7 +103,6 @@ export class UserHandler {
       }
     })
     this.expansionIdx = 0
-    this.expansionMax = this.expansions.length - 1
   }
 
   /**
@@ -125,7 +118,7 @@ export class UserHandler {
       this.loadFavExpansion()
       return this.drawExpansion()
     }
-    return this.series[this.serieIdx].draw(this.expansions, this.serieIdx, this.lang, this.mode, this.serieMax)
+    return this.series[this.serieIdx].draw(this.expansions, this.serieIdx, this.lang, this.mode, this.series.length)
   }
 
   /**
@@ -136,7 +129,7 @@ export class UserHandler {
    * @returns {InteractionReply} The expansion in a Discord embed message
    */
   public drawExpansion() : InteractionReply {
-    return this.expansions[this.expansionIdx].draw(this.expansionIdx, this.lang, this.mode, this.expansionMax, this.user.money, this.user.favourite == this.expansions[this.expansionIdx].id)
+    return this.expansions[this.expansionIdx].draw(this.expansionIdx, this.lang, this.mode, this.expansions.length, this.user.money, this.user.favourite == this.expansions[this.expansionIdx].id, this.target.cards[this.expansions[this.expansionIdx].id].length > 0)
   }
 
   /**
@@ -169,7 +162,7 @@ export class UserHandler {
    * @returns {void}
    */
   public incSerieIdx() : void {
-    if (this.serieIdx + 1 <= this.serieMax) {
+    if (this.serieIdx + 1 <= this.series.length - 1) {
       this.serieIdx++
       this.loadExpansions()
     }
@@ -198,7 +191,7 @@ export class UserHandler {
    * @returns {void}
    */
   public setSerieIdx(idx: number) : void {
-    if (idx <= this.serieMax && idx >= 0) {
+    if (idx <= this.series.length - 1 && idx >= 0) {
       this.serieIdx = idx
       this.loadExpansions()
     }
@@ -212,7 +205,7 @@ export class UserHandler {
    * @returns {void}
    */
   public incExpansionIdx() : void {
-    if (this.expansionIdx + 1 <= this.expansionMax) {
+    if (this.expansionIdx + 1 <= this.expansions.length - 1) {
       this.expansionIdx++
     }
   }
@@ -239,7 +232,7 @@ export class UserHandler {
    * @returns {void}
    */
   public setExpansionIdx(idx: number) : void {
-    if (idx <= this.expansionMax && idx >= 0) {
+    if (idx <= this.expansions.length - 1 && idx >= 0) {
       this.expansionIdx = idx
     }
   }
@@ -299,10 +292,25 @@ export class UserHandler {
     this.cardCount.forEach(cc => {
       this.cards.push(new Card(this.expansions[this.expansionIdx], cc.cardNumber, 'COMMON', 0))
     })
+    this.cards.sort((a: Card, b: Card) => { return parseInt(a.number) - parseInt(b.number)})
     this.cardMax = this.cards.length
     this.cardIdx = 0
     this.price = 0
-    return this.cards[0].draw(0, this.cardMax, this.lang, this.mode, undefined, this.cardCount[this.cardIdx].quantity, this.targetNickname, this.user == this.target)
+    let cardsSecret: number = 0
+    let cardsSeen: number = 0
+    this.target.cards[this.expansions[this.expansionIdx].id].forEach(cc => {
+      if (cc.cardNumber > this.expansions[this.expansionIdx].size) {
+        cardsSecret++
+      } else {
+        cardsSeen++
+      }
+    })
+    const cardsMax: number = this.expansions[this.expansionIdx].common.length + 
+    this.expansions[this.expansionIdx].uncommon.length +
+    this.expansions[this.expansionIdx].rare.length +
+    this.expansions[this.expansionIdx].special.length +
+    this.expansions[this.expansionIdx].ultraRare.length
+    return this.cards[0].draw(0, this.cardMax, this.lang, this.mode, undefined, this.cardCount[this.cardIdx].quantity, this.targetNickname, this.user == this.target, cardsSeen, cardsMax, cardsSecret)
   }
 
   /**
@@ -370,7 +378,21 @@ export class UserHandler {
     if (this.mode == 'BUYING') {
       return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, this.price)
     } else {
-      return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, undefined, this.cardCount[this.cardIdx].quantity, this.targetNickname, this.user == this.target)
+      let cardsSecret: number = 0
+      let cardsSeen: number = 0
+      this.target.cards[this.expansions[this.expansionIdx].id].forEach(cc => {
+        if (cc.cardNumber > this.expansions[this.expansionIdx].size) {
+          cardsSecret++
+        } else {
+          cardsSeen++
+        }
+      })
+      const cardsMax: number = this.expansions[this.expansionIdx].common.length + 
+      this.expansions[this.expansionIdx].uncommon.length +
+      this.expansions[this.expansionIdx].rare.length +
+      this.expansions[this.expansionIdx].special.length +
+      this.expansions[this.expansionIdx].ultraRare.length
+      return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, undefined, this.cardCount[this.cardIdx].quantity, this.targetNickname, this.user == this.target, cardsSeen, cardsMax, cardsSecret)
     }
   }
 

@@ -45,7 +45,8 @@
     "select" : "Select this expansion",
     "costs": "This expansion costs",
     "setFav": "Mark as favourite",
-    "unsetFav": "Delete the favourite"
+    "unsetFav": "Delete the favourite",
+    "viewCollection": "View your collection"
   },
   "card" : {
     "openingOf": "Opening of",
@@ -60,7 +61,9 @@
     "thisCard": "times this card",
     "has": "has",
     "yourCollection": "Your collection",
-    "times": "times"
+    "times": "times",
+    "progression": "Your progression",
+    "secret": "Secret cards"
   },
   "user": {
     "settingsUpdated": "Settings updated",

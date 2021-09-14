@@ -20,7 +20,7 @@ export class slahCommand extends CardsCommand {
 		const reply = handler.drawSerie(true)
 		await interaction.reply({
 			embeds: [reply.embed],
-			components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)] : undefined
+			components: reply.hasButton() ? reply.buttons : undefined
 		})
 	}
 }

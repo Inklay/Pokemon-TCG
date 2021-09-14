@@ -17,7 +17,7 @@ export class slahCommand implements Command {
 		const reply = addMoney(lang, interaction.user.id)
 		await interaction.reply({
 			embeds: [reply.embed],
-			components: reply.hasButton() ? [new MessageActionRow().addComponents(reply.buttons)]: undefined,
+			components: reply.hasButton() ? reply.buttons : undefined,
 			ephemeral: true
 		})
 	}

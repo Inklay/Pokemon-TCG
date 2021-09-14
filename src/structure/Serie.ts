@@ -38,7 +38,7 @@ export class Serie {
     })
     embed.description = description
     embed.setAuthor(lang.serie.selectSerie)
-    embed.setFooter(`${idx + 1}/${max + 1}`)
+    embed.setFooter(`${idx + 1}/${max}`)
     return new InteractionReply(embed, buttons)
   }
 

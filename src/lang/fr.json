@@ -45,7 +45,8 @@
     "select" : "Sélectionner cette extension",
     "costs": "Cette extension coute",
     "setFav": "Marquer comme favori",
-    "unsetFav": "Supprimer le favori"
+    "unsetFav": "Supprimer le favori",
+    "viewCollection": "Voir votre collection"
   },
   "card" : {
     "openingOf": "Ouverture de",
@@ -60,7 +61,9 @@
     "thisCard": "cette carte",
     "has": "a",
     "yourCollection": "Votre collection",
-    "times": "fois"
+    "times": "fois",
+    "progression": "Votre progression",
+    "secret": "Cartes secrètes"
   },
   "user": {
     "settingsUpdated": "Paramètres mis à jour",
