@@ -68,6 +68,8 @@ interface Card {
   times: string
   progression: string
   secret: string
+  sellAllDuplicate: string
+  sellOneDuplicate: string
 }
 
 interface User {

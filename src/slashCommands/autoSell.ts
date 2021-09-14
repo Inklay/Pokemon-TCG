@@ -1,5 +1,5 @@
 import { ApplicationCommandData, ButtonInteraction, CommandInteraction, MessageActionRow } from "discord.js"
-import { setAutoSell } from "../commandsHandler/userHandler"
+import { getUserHandler } from "../commandsHandler/userHandler"
 import { Command } from "../structure/Command"
 import { Lang } from "../structure/Lang"
 
@@ -20,7 +20,8 @@ export class slahCommand implements Command {
   }
 
   async execute(interaction: CommandInteraction, lang: Lang): Promise<void> {
-    const reply = setAutoSell(interaction.user.id, interaction.options.getBoolean('value', true), lang)
+    const handler = getUserHandler(lang, interaction.user.id, 'OTHER')
+    const reply = handler.setAutoSell(interaction.options.getBoolean('value', true))
     await interaction.reply({
       embeds: [reply.embed],
       components: reply.hasButton() ? reply.buttons : undefined,

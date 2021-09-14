@@ -23,6 +23,7 @@ import { Lang } from "./Lang"
  * @public @property {number[]} ultraRare - The ultrarare cards
  * @public @property {boolean} canGetSecret - Whether or not the user can obtain secret cards
  * @public @property {number[]} secret - The secret cards
+ * @public @property {string} expUrl - The URL of the expansion
  */
 export class Expansion {
   public name: string = ''
@@ -41,6 +42,7 @@ export class Expansion {
   public size: number = 0
   public canGetSecret: Boolean = false
   public secret: number[] = []
+  public expUrl: string = ''
 
   /**
    * @public @method
@@ -54,9 +56,10 @@ export class Expansion {
    * @param {number} userMoney - The money of the user
    * @param {boolean} isFavourite - Whether or not this expansion is the user's favourite
    * @param {boolean} hasCard - Whether or not the user has card from this expansion
+   * @param {number} price - The price of all the duplicate sold
    * @returns {InteractionReply} The reply of the interaction
    */
-  public draw(idx: number, lang: Lang, mode : UserHandlerMode, max: number, userMoney: number, isFavourite: boolean, hasCard: boolean) : InteractionReply {
+  public draw(idx: number, lang: Lang, mode : UserHandlerMode, max: number, userMoney: number, isFavourite: boolean, hasCard: boolean, price: number = 0) : InteractionReply {
     const canBuy: boolean = this.price <= userMoney
     const embed = new MessageEmbed()
     const buttons : MessageButton[] = this.createButton(idx, max, mode, lang, canBuy, isFavourite, hasCard)
@@ -69,6 +72,9 @@ export class Expansion {
     }
     if (mode == 'BUYING') {
       description += `${lang.expansion.costs} ${this.price}$\n${lang.global.youHave}: ${userMoney}$`
+    }
+    if (price > 0) {
+      description += `\n${lang.card.soldAllFor} ${price}$ !`
     }
     embed.setDescription(description)
     embed.setImage(this.image)
@@ -151,6 +157,19 @@ export class Expansion {
         }))
       }
     }
+    if ((mode == 'BUYING' && hasCard) || mode == 'VIEWING') {
+      buttons.push(new MessageButton({
+        label: lang.card.sellAllDuplicate,
+        customId: 'expansionSell',
+        style: 'SECONDARY',
+        emoji: '💵'
+      }))
+    }
+    buttons.push(new MessageButton({
+      label: lang.card.moreInfo,
+      style: 'LINK',
+      url: this.expUrl
+    }))
     return buttons
   }
 }

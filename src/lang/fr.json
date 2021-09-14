@@ -62,8 +62,10 @@
     "has": "a",
     "yourCollection": "Votre collection",
     "times": "fois",
-    "progression": "Votre progression",
-    "secret": "Cartes secrètes"
+    "progression": "Progression",
+    "secret": "Cartes secrètes",
+    "sellAllDuplicate": "Vendre tous les doublons",
+    "sellOneDuplicate": "Vendre un doublon"
   },
   "user": {
     "settingsUpdated": "Paramètres mis à jour",

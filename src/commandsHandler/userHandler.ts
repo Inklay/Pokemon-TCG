@@ -19,7 +19,8 @@ import { MessageButton, MessageEmbed } from 'discord.js'
 enum UserHandlerModeEnum {
   BUYING,
   VIEWING,
-  TRADING
+  TRADING,
+  OTHER
 }
 
 /**
@@ -472,8 +473,130 @@ export class UserHandler {
    * @param {Lang} lang - The lang User object
    * @return {void} 
    */
-   public setLang(lang: Lang) : void {
+  public setLang(lang: Lang) : void {
     this.lang = lang
+  }
+
+  /**
+   * @public @method
+   * 
+   * Sets autoSell for the specified user
+   * 
+   * @param {boolean} autoSell - The value of the autoSell
+   * 
+   * @returns {InteractionReply} The response in a Discord embed message
+   */
+  public setAutoSell(autoSell: boolean) : InteractionReply {
+    this.user.autoSell = autoSell
+    User.update(this.user)
+    const embed: MessageEmbed = new MessageEmbed()
+    const buttons: MessageButton[] = []
+    embed.setTitle(this.lang.user.settingsUpdated)
+    embed.setDescription(this.lang.user.autoSellSet)
+    return new InteractionReply(embed, buttons)
+  }
+
+  /**
+   * @public @method
+   * 
+   * Sells all duplicate card
+   * 
+   * @returns {InteractionReply} The response in a Discord embed message
+   */
+  public sellAllDuplicates() : InteractionReply {
+    const embed: MessageEmbed = new MessageEmbed()
+    const buttons: MessageButton[] = []
+    let money: number = 0
+    JSON.parse(fs.readFileSync(`cards/${this.lang.global.dir}/series.json`).toString()).forEach((s: Serie) => {
+      JSON.parse(fs.readFileSync(`cards/${this.lang.global.dir}/${s.id}.json`).toString()).forEach((e: Expansion) => {
+        if (e.released) {
+          money += this.sellDuplicatesFrom(Object.assign(new Expansion, e), this.user.cards[e.id])
+        }
+      })
+    })
+    this.user.money += money
+    User.update(this.user)
+    embed.setTitle(this.lang.card.duplicateSold)
+    if (money > 0) {
+      embed.setDescription(`${this.lang.card.soldAllFor} ${money}$`)
+    } else {
+      embed.setDescription(`${this.lang.card.noDuplicates}`)
+    }
+    return new InteractionReply(embed, buttons)
+  }
+
+  public sellFromExpansion() : InteractionReply {
+    const price: number = this.sellDuplicatesFrom(this.expansions[this.expansionIdx], this.user.cards[this.expansions[this.expansionIdx].id])
+    return this.expansions[this.expansionIdx].draw(this.expansionIdx, this.lang, this.mode, this.expansions.length, this.user.money, this.user.favourite == this.expansions[this.expansionIdx].id, this.target.cards[this.expansions[this.expansionIdx].id].length > 0, price)
+  }
+
+  /**
+   * @private @method
+   * 
+   * Sell all duplicates from an expansion
+   * 
+   * @param {Expansion} expansion - The expansion to sell 
+   * @param {CardCount[]} count - The list of the card the user has
+   * @returns {number} the price of this expansion
+   */
+  private sellDuplicatesFrom(expansion: Expansion, count: CardCount[]) : number {
+    let total: number = 0
+    count.forEach(cc => {
+      if (cc.quantity <= 1) {
+        return
+      }
+      const toRemove = cc.quantity - 1
+      cc.quantity = 1
+      let price: number = this.getCardPrice('COMMON', expansion.common, cc.cardNumber, expansion.price) * toRemove
+      if (price != 0) {
+        total += price
+        return
+      }
+      price = this.getCardPrice('UNCOMMON', expansion.uncommon, cc.cardNumber, expansion.price) * toRemove
+      if (price != 0) {
+        total += price
+        return
+      }
+      price = this.getCardPrice('RARE', expansion.rare, cc.cardNumber, expansion.price) * toRemove
+      if (price != 0) {
+        total += price
+        return
+      }
+      price = this.getCardPrice('SPECIAL', expansion.special, cc.cardNumber, expansion.price) * toRemove
+      if (price != 0) {
+        total += price
+        return
+      }
+      price = this.getCardPrice('ULTRARARE', expansion.ultraRare, cc.cardNumber, expansion.price) * toRemove
+      if (price != 0) {
+        total += price
+        return
+      }
+      price = this.getCardPrice('SPECIAL', expansion.special, cc.cardNumber, expansion.price) * toRemove
+      if (price != 0) {
+        total += price
+        return
+      }
+    })
+    return total
+  }
+
+  /**
+   * @private @method
+   * 
+   * Get the price of a card
+   * 
+   * @param {Rarity} rarity - The rarity of the card
+   * @param {number[]} arr - The array of cards
+   * @param {number} card - The number of the card to sell
+   * @param {number} price - The price of the expansion
+   * @returns {number} The price of the card
+   */
+  private getCardPrice(rarity: Rarity, arr: number[], card: number, price: number) : number {
+    if (arr.find(c => c == card)) {
+      return Card.sell(rarity, price)
+    }
+    return 0
   }
 }
 
@@ -506,118 +629,4 @@ export function getUserHandler(lang: Lang, id: string, mode: UserHandlerMode, ta
     handler.setTarget(User.create(targetId), nickname!)
   }
   return handler
-}
-
-/**
- * @fonction
- * 
- * Sets autoSell for the specified user
- * 
- * @param {string} id - The user id
- * @param {boolean} autoSell - The value of the autoSell
- * @param {Lang} lang - The lang of the server
- */
-export function setAutoSell(id: string, autoSell: boolean, lang: Lang) : InteractionReply {
-  const user: User = User.create(id)
-  user.autoSell = autoSell
-  User.update(user)
-  const embed = new MessageEmbed()
-  const buttons: MessageButton[] = []
-  embed.setTitle(lang.user.settingsUpdated)
-  embed.setDescription(lang.user.autoSellSet)
-  return new InteractionReply(embed, buttons)
-}
-
-/**
- * 
- * @param {string} id - The user id
- * @param {Lang} lang - The lang of the server
- */
-export function sellAllDuplicates(id: string, lang: Lang) : InteractionReply {
-  const user: User = User.create(id)
-  const embed = new MessageEmbed()
-  const buttons: MessageButton[] = []
-  let money = 0
-  JSON.parse(fs.readFileSync(`cards/${lang.global.dir}/series.json`).toString()).forEach((s: Serie) => {
-    JSON.parse(fs.readFileSync(`cards/${lang.global.dir}/${s.id}.json`).toString()).forEach((e: Expansion) => {
-      if (e.released) {
-        money += sellDuplicatesFrom(Object.assign(new Expansion, e), user.cards[e.id])
-      }
-    })
-  })
-  user.money += money
-  User.update(user)
-  embed.setTitle(lang.card.duplicateSold)
-  if (money > 0) {
-    embed.setDescription(`${lang.card.soldAllFor} ${money}$`)
-  } else {
-    embed.setDescription(`${lang.card.noDuplicates}`)
-  }
-  return new InteractionReply(embed, buttons)
-}
-
-/**
- * @function
- * 
- * Sell all duplicates from an expansion
- * 
- * @param {Expansion} expansion - The expansion to sell 
- * @param {CardCount[]} count - The list of the card the user has
- * @returns {number} the price of this expansion
- */
-function sellDuplicatesFrom(expansion: Expansion, count: CardCount[]) : number {
-  let total: number = 0
-  count.forEach(cc => {
-    if (cc.quantity <= 1) {
-      return
-    }
-    const toRemove = cc.quantity - 1
-    cc.quantity = 1
-    let price: number = getCardPrice('COMMON', expansion.common, cc.cardNumber, expansion.price) * toRemove
-    if (price != 0) {
-      total += price
-      return
-    }
-    price = getCardPrice('UNCOMMON', expansion.uncommon, cc.cardNumber, expansion.price) * toRemove
-    if (price != 0) {
-      total += price
-      return
-    }
-    price = getCardPrice('RARE', expansion.rare, cc.cardNumber, expansion.price) * toRemove
-    if (price != 0) {
-      total += price
-      return
-    }
-    price = getCardPrice('SPECIAL', expansion.special, cc.cardNumber, expansion.price) * toRemove
-    if (price != 0) {
-      total += price
-      return
-    }
-    price = getCardPrice('ULTRARARE', expansion.ultraRare, cc.cardNumber, expansion.price) * toRemove
-    if (price != 0) {
-      total += price
-      return
-    }
-    price = getCardPrice('SPECIAL', expansion.special, cc.cardNumber, expansion.price) * toRemove
-    if (price != 0) {
-      total += price
-      return
-    }
-  })
-  return total
-}
-
-/**
- * 
- * @param {Rarity} rarity - The rarity of the card
- * @param {number[]} arr - The array of cards
- * @param {number} card - The number of the card to sell
- * @param {number} price - The price of the expansion
- * @returns {number} The price of the card
- */
-function getCardPrice(rarity: Rarity, arr: number[], card: number, price: number) : number {
-  if (arr.find(c => c == card)) {
-    return Card.sell(rarity, price)
-  }
-  return 0
 }

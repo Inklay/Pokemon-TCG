@@ -62,8 +62,10 @@
     "has": "has",
     "yourCollection": "Your collection",
     "times": "times",
-    "progression": "Your progression",
-    "secret": "Secret cards"
+    "progression": "Progression",
+    "secret": "Secret cards",
+    "sellAllDuplicate": "Sell all duplicates",
+    "sellOneDuplicate": "Sell one duplicate"
   },
   "user": {
     "settingsUpdated": "Settings updated",

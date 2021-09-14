@@ -106,6 +106,13 @@ export abstract class CardsCommand implements Command {
 				})
 				handler.setMode(this.mode)
 				return
+			case 'expansionSell':
+				reply = handler.sellFromExpansion()
+				await interaction.update({
+					embeds: [reply.embed],
+					components: reply.hasButton() ? reply.buttons : undefined,
+				})
+				return
 			case 'cardNext':
 				handler.incCardIdx()
 				reply = handler.drawCard()
