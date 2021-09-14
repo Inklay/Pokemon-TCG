@@ -136,6 +136,20 @@ export abstract class CardsCommand implements Command {
 					components: reply.hasButton() ? reply.buttons : undefined,
 				})
 				return
+			case 'cardSellOne':
+				reply = handler.sellFromCard(false)
+				await interaction.update({
+					embeds: [reply.embed],
+					components: reply.hasButton() ? reply.buttons : undefined,
+				})
+				return
+			case 'cardSellAll':
+				reply = handler.sellFromCard(true)
+				await interaction.update({
+					embeds: [reply.embed],
+					components: reply.hasButton() ? reply.buttons : undefined,
+				})
+				return
 		}
   }
 }

@@ -162,7 +162,7 @@ export class Expansion {
         label: lang.card.sellAllDuplicate,
         customId: 'expansionSell',
         style: 'SECONDARY',
-        emoji: '💵'
+        emoji: '💰'
       }))
     }
     buttons.push(new MessageButton({

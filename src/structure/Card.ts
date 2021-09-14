@@ -107,22 +107,23 @@ export class Card {
    */
   public draw(idx: number, max: number, lang: Lang, mode: UserHandlerMode, price: number | undefined = undefined, quantity: number | undefined = undefined, nickname: string | undefined = undefined, selfViewing: boolean = true, cardsSeen: number = 0, cardsMax: number = 0, cardsSecret: number = 0) : InteractionReply {
     const embed = new MessageEmbed()
-    const buttons : MessageButton[] = this.createButton(idx,max, lang, mode)
+    const buttons : MessageButton[] = this.createButton(idx,max, lang, mode, quantity)
+    embed.description = ''
+    if (price != undefined && price > 0) {
+      embed.description += (`${lang.card.soldFor} ${price}$\n`)
+    }
     if (mode == 'BUYING') {
       if (this.isNew) {
         embed.setAuthor(lang.card.new)
-      }
-      if (price != 0) {
-        embed.setDescription(`${lang.card.soldFor} ${price}$`)
       }
       embed.setTitle(`${lang.card.openingOf} ${this.expansion.name}`)
     } else if (mode == 'VIEWING') {
       if (selfViewing) {
         embed.setTitle(`${lang.card.yourCollection} - ${this.expansion.name}`)
-        embed.setDescription(`${lang.global.youHave} ${lang.card.thisCard} ${quantity} ${lang.card.times}`)
+        embed.description += (`${lang.global.youHave} ${lang.card.thisCard} ${quantity} ${lang.card.times}`)
       } else {
         embed.setTitle(`${lang.card.collectionPrefix}${nickname}${lang.card.collectionSufix} - ${this.expansion.name}`)
-        embed.setDescription(`${nickname} ${lang.card.has} ${lang.card.thisCard} ${quantity} ${lang.card.times}`)
+        embed.description += (`${nickname} ${lang.card.has} ${lang.card.thisCard} ${quantity} ${lang.card.times}`)
       }
       embed.description += `\n\n${lang.card.progression}: ${cardsSeen}/${cardsMax}`
       if (cardsSecret > 0) {
@@ -143,9 +144,10 @@ export class Card {
    * @param {number} max - The size of the card expansion array
    * @param {Lang} lang - The lang of the server 
    * @param {UserHanlerMode} mode - The current mode of the handler
+   * @param {number| undefined} quantity - The number of time the user has this card
    * @returns {MessageButton[]} The buttons to add to the message
    */
-  private createButton(idx: number, max: number, lang: Lang, mode: UserHandlerMode) : MessageButton[] {
+  private createButton(idx: number, max: number, lang: Lang, mode: UserHandlerMode, quantity: number | undefined) : MessageButton[] {
     const buttons : MessageButton[] = []
     if (idx != 0) {
       buttons.push(new MessageButton({
@@ -175,6 +177,24 @@ export class Card {
       style: 'DANGER',
       emoji: '❌'
     }))
+    if (mode == 'VIEWING') {
+      if (quantity! > 1) {
+        buttons.push(new MessageButton({
+          label: lang.card.sellOneDuplicate,
+          customId: 'cardSellOne',
+          style: 'SECONDARY',
+          emoji: '💵'
+        }))
+      }
+      if (quantity! > 2) {
+        buttons.push(new MessageButton({
+          label: lang.card.sellAllDuplicate,
+          customId: 'cardSellAll',
+          style: 'SECONDARY',
+          emoji: '💰'
+        }))
+      }
+    }
     buttons.push(new MessageButton({
       label: lang.card.moreInfo,
       style: 'LINK',

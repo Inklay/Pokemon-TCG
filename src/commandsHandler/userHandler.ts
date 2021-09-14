@@ -289,11 +289,10 @@ export class UserHandler {
    */
   public view() : InteractionReply {
     this.cards = []
-    this.cardCount = this.target.cards[this.expansions[this.expansionIdx].id]
+    this.cardCount = this.target.cards[this.expansions[this.expansionIdx].id].sort((a: CardCount, b: CardCount) => { return a.cardNumber - b.cardNumber})
     this.cardCount.forEach(cc => {
       this.cards.push(new Card(this.expansions[this.expansionIdx], cc.cardNumber, 'COMMON', 0))
     })
-    this.cards.sort((a: Card, b: Card) => { return parseInt(a.number) - parseInt(b.number)})
     this.cardMax = this.cards.length
     this.cardIdx = 0
     this.price = 0
@@ -353,6 +352,9 @@ export class UserHandler {
     if (this.cardIdx + 1 <= this.cardMax) {
       this.cardIdx++
     }
+    if (this.mode == 'VIEWING') {
+      this.price = 0
+    }
   }
   
   /**
@@ -365,6 +367,9 @@ export class UserHandler {
   public decCardIdx() : void {
     if (this.cardIdx - 1 >= 0) {
       this.cardIdx--
+    }
+    if (this.mode == 'VIEWING') {
+      this.price = 0
     }
   }
 
@@ -393,7 +398,7 @@ export class UserHandler {
       this.expansions[this.expansionIdx].rare.length +
       this.expansions[this.expansionIdx].special.length +
       this.expansions[this.expansionIdx].ultraRare.length
-      return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, undefined, this.cardCount[this.cardIdx].quantity, this.targetNickname, this.user == this.target, cardsSeen, cardsMax, cardsSecret)
+      return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, this.price, this.cardCount[this.cardIdx].quantity, this.targetNickname, this.user == this.target, cardsSeen, cardsMax, cardsSecret)
     }
   }
 
@@ -525,9 +530,40 @@ export class UserHandler {
     return new InteractionReply(embed, buttons)
   }
 
+  /**
+   * @public @method
+   * 
+   * Sells all duplicate card
+   * 
+   * @returns {InteractionReply} The response in a Discord embed message
+   */
   public sellFromExpansion() : InteractionReply {
     const price: number = this.sellDuplicatesFrom(this.expansions[this.expansionIdx], this.user.cards[this.expansions[this.expansionIdx].id])
+    this.user.money += price
+    User.update(this.user)
     return this.expansions[this.expansionIdx].draw(this.expansionIdx, this.lang, this.mode, this.expansions.length, this.user.money, this.user.favourite == this.expansions[this.expansionIdx].id, this.target.cards[this.expansions[this.expansionIdx].id].length > 0, price)
+  }
+
+  /**
+   * @public @method
+   * 
+   * Sells all duplicate card
+   * 
+   * @param {boolean} all - Whether or not  all duplicates will be sold
+   * @returns {InteractionReply} The response in a Discord embed message
+   */
+  public sellFromCard(all: boolean) : InteractionReply {
+    const idx: number = this.user.cards[this.expansions[this.expansionIdx].id].findIndex(cc => cc.cardNumber == parseInt(this.cards[this.cardIdx].number)) as number
+    let realQuantity: number = 1
+    if (!all) {
+      this.user.cards[this.expansions[this.expansionIdx].id][idx].quantity = 2
+      realQuantity = this.user.cards[this.expansions[this.expansionIdx].id][idx].quantity - 1
+    }
+    this.price = this.sellDuplicatesFrom(this.expansions[this.expansionIdx], [this.user.cards[this.expansions[this.expansionIdx].id][idx]])
+    this.user.cards[this.expansions[this.expansionIdx].id][idx].quantity = realQuantity
+    this.user.money += this.price
+    User.update(this.user)
+    return this.drawCard()
   }
 
   /**
