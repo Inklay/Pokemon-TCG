@@ -40,7 +40,7 @@ export type UserHandlerMode = keyof typeof UserHandlerModeEnum
  * @private @property {Lang} lang - The lang of the server
  * @private @property {UserHandlerMode} mode - The current mode of the handler
  * @private @property {number} cardMax - The size of the cards array 
- * @private @property {User} user - The user object
+ * @public @property {User} user - The user object
  * @private @property {number} price - The price of the cards if sold
  * @private @property {User} target - The target user object
  * @private @property {CardCount[]} cardCount - The cardcount of the target
@@ -56,7 +56,7 @@ export class UserHandler {
   private lang: Lang
   private mode: UserHandlerMode
   private cardMax: number
-  private user: User
+  public user: User
   private price: number
   private target: User
   private cardCount: CardCount[]
@@ -495,10 +495,9 @@ export class UserHandler {
     this.user.autoSell = autoSell
     User.update(this.user)
     const embed: MessageEmbed = new MessageEmbed()
-    const buttons: MessageButton[] = []
     embed.setTitle(this.lang.user.settingsUpdated)
     embed.setDescription(this.lang.user.autoSellSet)
-    return new InteractionReply(embed, buttons)
+    return new InteractionReply(embed,  [])
   }
 
   /**

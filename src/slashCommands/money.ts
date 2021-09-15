@@ -1,4 +1,4 @@
-import { ApplicationCommandData, ButtonInteraction, CommandInteraction, GuildMember, MessageActionRow, MessageButton, Message } from 'discord.js'
+import { ApplicationCommandData, ButtonInteraction, CommandInteraction } from 'discord.js'
 import { addMoney } from '../commandsHandler/moneyHandler'
 import { Command } from '../structure/Command'
 import { Lang } from '../structure/Lang'

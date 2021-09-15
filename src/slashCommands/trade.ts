@@ -1,7 +1,8 @@
-import { ApplicationCommandData, ButtonInteraction, CommandInteraction, MessageActionRow, Message } from 'discord.js'
+import { ApplicationCommandData, CommandInteraction, GuildMember, TextChannel } from 'discord.js'
 import { Lang } from '../structure/Lang'
-import { getUserHandler, UserHandlerMode } from '../commandsHandler/userHandler'
+import { getUserHandler, UserHandler, UserHandlerMode } from '../commandsHandler/userHandler'
 import { CardsCommand } from '../structure/CardsCommand'
+import { TradeHandler } from '../commandsHandler/tradeHandler'
 
 /**
  * @class slashCommand
@@ -14,7 +15,7 @@ import { CardsCommand } from '../structure/CardsCommand'
  */
 export class slahCommand extends CardsCommand {
 	public commandData: ApplicationCommandData
-	protected mode: UserHandlerMode = 'BUYING'
+	protected mode: UserHandlerMode = 'TRADING'
 
 	/**
 	 * @constructor
@@ -22,8 +23,14 @@ export class slahCommand extends CardsCommand {
 	constructor() {
 		super()
 		this.commandData = {
-			name: 'buy',
-			description: 'Buy cards from the desired expansion'
+			name: 'trade',
+			description: 'Trade one of your cards for another and/or money',
+      options: [{
+        required: true,
+        name: 'user',
+        description: 'The user you want to trade with',
+        type: 6
+      }]
 		}
 	}
 
@@ -37,11 +44,12 @@ export class slahCommand extends CardsCommand {
 	 * @returns {Promise<void>}
    */
 	async execute(interaction: CommandInteraction, lang: Lang) : Promise<void> {
-		const handler = getUserHandler(lang, interaction.user.id, 'BUYING')
-		const reply = handler.drawSerie(true)
+    const member: GuildMember | null = interaction.options.getMember('user') as GuildMember | null
+		const reply = await new TradeHandler(interaction.user.id, member!.id, lang, interaction).notifyTarget(interaction.channel as TextChannel, member!.user, interaction.member!.user.username)
 		await interaction.reply({
 			embeds: [reply.embed],
-			components: reply.hasButton() ? reply.buttons : undefined
+			components: reply.hasButton() ? reply.buttons : undefined,
+      ephemeral: true
 		})
 	}
 }

@@ -1,12 +1,24 @@
-import { ApplicationCommandData, ButtonInteraction, CommandInteraction, MessageActionRow, Message, GuildManager, GuildMember } from 'discord.js'
+import { ApplicationCommandData, CommandInteraction, GuildMember } from 'discord.js'
 import { Lang } from '../structure/Lang'
 import { getUserHandler, UserHandler, UserHandlerMode } from '../commandsHandler/userHandler'
 import { CardsCommand } from '../structure/CardsCommand'
 
+/**
+ * @class slashCommand
+ * @extends CardsCommand
+ * 
+ * A slash command
+ * 
+ * @public @property {ApplicationCommandData} commandData - The data to send to the Discord API
+ * @protected @property {UserHandlerMode} mode - The mode of the UserHandler
+ */
 export class slahCommand extends CardsCommand {
 	public commandData: ApplicationCommandData
 	protected mode: UserHandlerMode = 'VIEWING'
 
+	/**
+	 * @constructor
+	 */
 	constructor() {
 		super()
 		this.commandData = {
@@ -21,7 +33,16 @@ export class slahCommand extends CardsCommand {
 		}
 	}
 
-	async execute(interaction: CommandInteraction, lang: Lang) {
+	/**
+   * @public @async @method
+   * 
+   * Executes the command itself
+   * 
+   * @param {CommandInteraction} interaction - The user interaction
+   * @param {Lang} lang - The lang of the server 
+   * @returns {Promise<void>}
+   */
+	async execute(interaction: CommandInteraction, lang: Lang) : Promise<void> {
     let handler: UserHandler
     const member: GuildMember | null = interaction.options.getMember('user') as GuildMember | null
     if (member != null) {

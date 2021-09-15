@@ -5,7 +5,9 @@
     "permissionMissing": "Permission manquante",
     "dir": "fr",
     "back": "Retour",
-    "youHave": "Vous avez"
+    "youHave": "Vous avez",
+    "cancel": "Annuler",
+    "error": "Erreur"
   },
   "help": {
     "description": "Affiche un message d'aide expliquant les commandes du bot",
@@ -70,5 +72,20 @@
   "user": {
     "settingsUpdated": "Paramètres mis à jour",
     "autoSellSet": "La vente automatique des cartes a été configurée"
+  },
+  "trade": {
+    "alreadyInTrade": "Utilisateur déjà en échange",
+    "youAreAlreadyInTrade": "Vous êtes déjà en train d'échanger ou invité(e) à échanger",
+    "isAreAlreadyInTrade": "est déjà en train d'échanger ou invité(e) à échanger",
+    "inviteSend": "Demande d'échange envoyée",
+    "waitingForAnswer": "En attente d'une réponse...",
+    "cantTradeWithYourself": "Vous ne pouvez pas éhcnager avec vous même",
+    "tradeInvite": "Demande d'échange",
+    "invitedYou": "vous a invité à échanger, faites\n/trade_accept pour commencer à échanger ou\ntradde_deny pour annuler l'échange",
+    "canceled": "Échange annulé",
+    "wasCanceled": "L'échange a été annulé",
+    "notInTrade": "Vous n'êtes pas en échange pour le moment",
+    "denied": "Demande d'échange refusée",
+    "wasDenied": "La demande d'échange a été refusée"
   }
 }

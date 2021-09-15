@@ -5,6 +5,8 @@ interface global {
   dir: string
   back: string
   youHave: string
+  cancel: string
+  error: string
 }
 
 interface lang {
@@ -77,6 +79,22 @@ interface User {
   autoSellSet: string
 }
 
+interface Trade {
+  alreadyInTrade: string
+  youAreAlreadyInTrade: string
+  isAlreadyInTrade: string
+  inviteSend: string
+  waitingForAnswer: string
+  cantTradeWithYourself: string
+  tradeInvite: string
+  invitedYou: string
+  canceled: string
+  wasCanceled: string
+  notInTrade: string
+  denied: string
+  wasDenied: string
+}
+
 export interface Lang {
   global: global
   help: help
@@ -86,4 +104,5 @@ export interface Lang {
   expansion: expansion
   card: Card
   user: User
+  trade: Trade
 }

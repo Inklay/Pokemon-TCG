@@ -5,7 +5,9 @@
     "permissionMissing": "Permission missing",
     "dir": "en",
     "back": "back",
-    "youHave": "You have"
+    "youHave": "You have",
+    "cancel": "Cancel",
+    "error": "Error"
   },
   "help": {
     "description": "Show a help message that explains all the bot's commands",
@@ -70,5 +72,20 @@
   "user": {
     "settingsUpdated": "Settings updated",
     "autoSellSet": "The automatic sell of the cards has been configures"
+  },
+  "trade": {
+    "alreadyInTrade": "User already in trade",
+    "youAreAlreadyInTrade": "You are already in a trade or invited to trade with someone",
+    "isAreAlreadyInTrade": "is already in a trade or invited to trade with someone",
+    "inviteSend": "Trade invite send",
+    "waitingForAnswer": "Waiting for an answer...",
+    "cantTradeWithYourself": "You can not trade with yourself",
+    "tradeInvite": "Trade invitation",
+    "invitedYou": "invited you to trade, type\n/trade_accept to start the trade or\n/start_deny to deny the invitation",
+    "canceled": "Trade canceled",
+    "wasCanceled": "The trade was canceled",
+    "notInTrade": "You are not currently in any trade",
+    "denied": "Trade invite denied",
+    "wasDenied": "The trade invite was denied"
   }
 }

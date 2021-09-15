@@ -1,5 +1,6 @@
 import { ApplicationCommandData, ButtonInteraction, CommandInteraction, Message, MessageActionRow } from "discord.js";
-import { getUserHandler, UserHandlerMode } from "../commandsHandler/userHandler";
+import { TradeHandler } from "../commandsHandler/tradeHandler";
+import { getUserHandler, UserHandler, UserHandlerMode } from "../commandsHandler/userHandler";
 import { Command } from "./Command";
 import { InteractionReply } from "./InteractionReply";
 import { Lang } from "./Lang";
@@ -17,7 +18,8 @@ export abstract class CardsCommand implements Command {
 			})
 			return
 		}
-    const handler = getUserHandler(lang, interaction.user.id, this.mode)
+    const handler: UserHandler = getUserHandler(lang, interaction.user.id, this.mode)
+		const trade: TradeHandler | undefined = TradeHandler.get(interaction.user.id)
     let reply: InteractionReply
 		switch (interaction.customId) {
 			case 'serieNext':
@@ -148,6 +150,13 @@ export abstract class CardsCommand implements Command {
 				await interaction.update({
 					embeds: [reply.embed],
 					components: reply.hasButton() ? reply.buttons : undefined,
+				})
+				return
+			case 'tradeCancel':
+				reply = trade!.cancel(interaction.user.id)
+				await interaction.update({
+					embeds: [reply.embed],
+					components: [],
 				})
 				return
 		}
