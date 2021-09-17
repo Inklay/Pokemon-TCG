@@ -9,8 +9,7 @@ on:
       - deploy
 
 jobs:
-  deploy:
-    if: github.ref == 'refs/heads/deploy'
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Lint Updated Code Base
@@ -20,7 +19,11 @@ jobs:
           VALIDATE_TYPESCRIPT_STANDARD: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+  deploy:
+    if: github.ref == 'refs/heads/deploy'
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
       - uses: actions/checkout@v1
       - name: Push to server
         uses: appleboy/ssh-action@master
