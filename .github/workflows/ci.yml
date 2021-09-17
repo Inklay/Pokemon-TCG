@@ -1,12 +1,6 @@
 name: CI
 
-on:
-  push:
-    branches:
-      - deploy
-  pull_request:
-    branches:
-      - deploy
+on: push
 
 jobs:
   lint:
