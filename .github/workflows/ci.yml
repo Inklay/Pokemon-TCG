@@ -13,6 +13,14 @@ jobs:
     if: github.ref == 'refs/heads/deploy'
     runs-on: ubuntu-latest
     steps:
+      - name: Lint Updated Code Base
+        uses: github/super-linter@v3
+        env:
+          VALIDATE_ALL_CODEBASE: true
+          VALIDATE_TYPESCRIPT_STANDARD: false
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: actions/checkout@v1
       - name: Push to server
         uses: appleboy/ssh-action@master
