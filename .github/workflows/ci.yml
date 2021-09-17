@@ -3,6 +3,15 @@ name: CI
 on: push
 
 jobs:
+  checkout:
+    name: Checkout the code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -13,6 +22,7 @@ jobs:
           VALIDATE_TYPESCRIPT_STANDARD: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   deploy:
     if: github.ref == 'refs/heads/deploy'
     runs-on: ubuntu-latest
