@@ -212,9 +212,8 @@ export class UserHandler {
    * @returns {void}
    */
   public incExpansionIdx() : void {
-    if (this.expansionIdx + 1 <= this.expansions.length - 1) {
+    if (this.expansionIdx + 1 <= this.expansions.length - 1)
       this.expansionIdx++
-    }
   }
 
   /**
@@ -225,23 +224,8 @@ export class UserHandler {
    * @returns {void}
    */
   public decExpansionIdx() : void {
-    if (this.expansionIdx - 1 >= 0) {
+    if (this.expansionIdx - 1 >= 0)
       this.expansionIdx--
-    }
-  }
-
-  /**
-   * @public @method
-   * 
-   * Sets the expansion index of the handler
-   * 
-   * @param {number} idx - The new expansion index
-   * @returns {void}
-   */
-  public setExpansionIdx(idx: number) : void {
-    if (idx <= this.expansions.length - 1 && idx >= 0) {
-      this.expansionIdx = idx
-    }
   }
 
   /**
@@ -253,6 +237,8 @@ export class UserHandler {
    * @returns {void} 
    */
   public setMode(mode: UserHandlerMode) : void {
+    if (mode === this.mode)
+      return
     this.mode = mode
     this.loadExpansions()
   }
@@ -265,20 +251,17 @@ export class UserHandler {
    * @returns {InteractionReply} Either the booster opening message, or a message telling the user that it doesn't ahve enough money
    */
   public openBooster() : InteractionReply {
-    if (this.expansions[this.expansionIdx].price > this.user.money) {
+    if (this.expansions[this.expansionIdx].price > this.user.money)
       return notEnoughMoney(this.lang)
-    }
     this.user.money -= this.expansions[this.expansionIdx].price
     this.cards = []
     this.cardMax = 10
     this.cardIdx = 0
     this.price = 0
-    for (let i: number = 0; i < 5; i++) {
+    for (let i: number = 0; i < 5; i++)
       this.cards.push(Card.generate('COMMON', this.expansions[this.expansionIdx], this.cards))
-    }
-    for (let i: number = 0; i < 3; i++) {
+    for (let i: number = 0; i < 3; i++)
       this.cards.push(Card.generate('UNCOMMON', this.expansions[this.expansionIdx], this.cards))
-    }
     this.cards.push(Card.generate('SPECIAL', this.expansions[this.expansionIdx], this.cards, 'COMMON', true))
     this.cards.push(Card.generate('SECRET', this.expansions[this.expansionIdx], this.cards, 'RARE', true))
     this.checkNewCard()
@@ -291,9 +274,8 @@ export class UserHandler {
     this.cards = []
     this.cardCount = []
     this.target.cards[this.expansions[this.expansionIdx].id].sort((a: CardCount, b: CardCount) => { return a.cardNumber - b.cardNumber}).forEach(cc => {
-      if (cc.quantity > 1) {
+      if (cc.quantity > 1)
         this.cardCount.push(cc)
-      }
     })
     this.cardCount.forEach(cc => {
         this.cards.push(new Card(this.expansions[this.expansionIdx], cc.cardNumber, 'COMMON', 0))
@@ -323,11 +305,10 @@ export class UserHandler {
     let cardsSecret: number = 0
     let cardsSeen: number = 0
     this.target.cards[this.expansions[this.expansionIdx].id].forEach(cc => {
-      if (cc.cardNumber > this.expansions[this.expansionIdx].size) {
+      if (cc.cardNumber > this.expansions[this.expansionIdx].size)
         cardsSecret++
-      } else {
+      else
         cardsSeen++
-      }
     })
     const cardsMax: number = this.expansions[this.expansionIdx].common.length + 
     this.expansions[this.expansionIdx].uncommon.length +
@@ -349,11 +330,10 @@ export class UserHandler {
       const counts: CardCount[] = this.user.cards[this.expansions[this.expansionIdx].id]
       const count: CardCount | undefined = counts.find(cc => cc.cardNumber == parseInt(c.number))
       if (count) {
-        if (this.user.autoSell) {
+        if (this.user.autoSell)
           this.price += c.sell()
-        } else {
+        else
           count.quantity++
-        }
       } else {
         const newCount: CardCount = {
           quantity: 1,
@@ -373,12 +353,10 @@ export class UserHandler {
    * @returns {void}
    */
   public incCardIdx() : void {
-    if (this.cardIdx + 1 <= this.cardMax) {
+    if (this.cardIdx + 1 <= this.cardMax)
       this.cardIdx++
-    }
-    if (this.mode == 'VIEWING') {
+    if (this.mode == 'VIEWING')
       this.price = 0
-    }
   }
   
   /**
@@ -389,12 +367,10 @@ export class UserHandler {
    * @returns {void}
    */
   public decCardIdx() : void {
-    if (this.cardIdx - 1 >= 0) {
+    if (this.cardIdx - 1 >= 0)
       this.cardIdx--
-    }
-    if (this.mode == 'VIEWING') {
+    if (this.mode == 'VIEWING')
       this.price = 0
-    }
   }
 
   /**
@@ -405,17 +381,16 @@ export class UserHandler {
    * @returns {InteractionReply} The card in a Discord embed message
    */
   public drawCard() : InteractionReply {
-    if (this.mode == 'BUYING') {
+    if (this.mode == 'BUYING')
       return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, this.price)
-    } else if (this.mode == 'VIEWING'){
+    else if (this.mode == 'VIEWING'){
       let cardsSecret: number = 0
       let cardsSeen: number = 0
       this.target.cards[this.expansions[this.expansionIdx].id].forEach(cc => {
-        if (cc.cardNumber > this.expansions[this.expansionIdx].size) {
+        if (cc.cardNumber > this.expansions[this.expansionIdx].size)
           cardsSecret++
-        } else {
+        else
           cardsSeen++
-        }
       })
       const cardsMax: number = this.expansions[this.expansionIdx].common.length + 
       this.expansions[this.expansionIdx].uncommon.length +
@@ -423,9 +398,8 @@ export class UserHandler {
       this.expansions[this.expansionIdx].special.length +
       this.expansions[this.expansionIdx].ultraRare.length
       return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, this.price, this.cardCount[this.cardIdx].quantity, this.targetNickname, this.user == this.target, cardsSeen, cardsMax, cardsSecret)
-    } else {
+    } else
       return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, 0, this.cardCount[this.cardIdx].quantity - 1, this.targetNickname, this.user == this.target, 0, 0, 0, this.isTradeNeg)
-    }
   }
 
   /**
@@ -462,26 +436,21 @@ export class UserHandler {
    * @returns {void}
    */
   public loadFavExpansion() : void {
-    if (this.user.favourite == 'none') {
+    if (this.user.favourite == 'none')
       return
-    }
     let eIdx: number = 0
     let sIdx: number = 0
     JSON.parse(fs.readFileSync(`cards/${this.lang.global.dir}/series.json`).toString()).forEach((s: Serie) => {
       JSON.parse(fs.readFileSync(`cards/${this.lang.global.dir}/${s.id}.json`).toString()).forEach((e: Expansion) => {
         if (e.id == this.user.favourite) {
-          if (sIdx != this.expansionIdx) {
-            this.serieIdx = sIdx
-            this.loadExpansions()
-          }
+          this.serieIdx = sIdx
           this.expansionIdx = eIdx
+          return
         }
         eIdx++
       })
       sIdx++
     })
-    this.serieIdx = sIdx
-    this.expansionIdx = eIdx
   }
 
   /**
@@ -541,9 +510,8 @@ export class UserHandler {
     let money: number = 0
     JSON.parse(fs.readFileSync(`cards/${this.lang.global.dir}/series.json`).toString()).forEach((s: Serie) => {
       JSON.parse(fs.readFileSync(`cards/${this.lang.global.dir}/${s.id}.json`).toString()).forEach((e: Expansion) => {
-        if (e.released) {
+        if (e.released)
           money += this.sellDuplicatesFrom(Object.assign(new Expansion, e), this.user.cards[e.id])
-        }
       })
     })
     this.user.money += money
@@ -605,9 +573,8 @@ export class UserHandler {
   private sellDuplicatesFrom(expansion: Expansion, count: CardCount[]) : number {
     let total: number = 0
     count.forEach(cc => {
-      if (cc.quantity <= 1) {
+      if (cc.quantity <= 1)
         return
-      }
       const toRemove = cc.quantity - 1
       cc.quantity = 1
       let price: number = this.getCardPrice('COMMON', expansion.common, cc.cardNumber, expansion.price) * toRemove
@@ -656,9 +623,8 @@ export class UserHandler {
    * @returns {number} The price of the card
    */
   private getCardPrice(rarity: Rarity, arr: number[], card: number, price: number) : number {
-    if (arr.find(c => c == card)) {
+    if (arr.find(c => c == card))
       return Card.sell(rarity, price)
-    }
     return 0
   }
 }
@@ -688,8 +654,7 @@ export function getUserHandler(lang: Lang, id: string, mode: UserHandlerMode, ta
   }
   handler.setMode(mode)
   handler.setLang(lang)
-  if (targetId != undefined) {
+  if (targetId != undefined)
     handler.setTarget(User.create(targetId), nickname!)
-  }
   return handler
 }

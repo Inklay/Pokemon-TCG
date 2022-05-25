@@ -15,7 +15,7 @@ export class User {
     this.date = Date.now()
     this.cards = new CardList()
     this.autoSell = false
-    this.favourite = "non"
+    this.favourite = "none"
     save(this)
   }
 
