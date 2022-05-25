@@ -480,6 +480,8 @@ export class UserHandler {
       })
       sIdx++
     })
+    this.serieIdx = sIdx
+    this.expansionIdx = eIdx
   }
 
   /**
