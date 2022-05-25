@@ -2,23 +2,18 @@ import { CommandInteraction, Message, MessageButton, MessageEmbed, TextChannel, 
 import { InteractionReply } from "../structure/InteractionReply"
 import { Lang } from "../structure/Lang"
 import { getUserHandler, UserHandler } from "./userHandler"
+import { Trader } from "../structure/Tarder"
 
 export class TradeHandler {
-  private issuer: UserHandler
-  private target: UserHandler | undefined
-  public issuerId: string
-  public targetId: string
-  private issuerIntercation: CommandInteraction
-  private targetIntercation: CommandInteraction | undefined
+  private issuer: Trader
+  private target: Trader
   private lang: Lang
   private inviteMessage: Message | undefined
   
   constructor(issuerId: string, targetId: string, lang: Lang, interaction: CommandInteraction) {
     this.lang = lang
-    this.issuer = getUserHandler(lang, issuerId, 'TRADING')
-    this.issuerId = issuerId
-    this.targetId = targetId
-    this.issuerIntercation = interaction
+    this.issuer = new Trader(issuerId, lang, interaction)
+    this.target = new Trader(targetId, lang)
   }
 
   public deleteInvite() : void {
@@ -31,13 +26,13 @@ export class TradeHandler {
   public async notifyTarget(channel: TextChannel, target: User, issuerNickname: string) : Promise<InteractionReply> {
     const embed: MessageEmbed = new MessageEmbed()
     const buttons: MessageButton[] = []
-    if (this.issuerId == this.targetId) {
+    if (this.issuer.id == this.target.id) {
       embed.setTitle(this.lang.global.error)
       embed.setDescription(this.lang.trade.cantTradeWithYourself)
-    } else if (TradeHandler.get(this.issuerId) != undefined) {
+    } else if (TradeHandler.get(this.issuer.id) != undefined) {
       embed.setTitle(this.lang.trade.alreadyInTrade)
       embed.setDescription(this.lang.trade.youAreAlreadyInTrade)
-    } else if (TradeHandler.get(this.targetId) != undefined) {
+    } else if (TradeHandler.get(this.target.id) != undefined) {
       embed.setTitle(this.lang.trade.alreadyInTrade)
       embed.setDescription(`${target.username} ${this.lang.trade.isAlreadyInTrade}`)
     } else {
@@ -62,17 +57,17 @@ export class TradeHandler {
   }
 
   public setTargetInteraction(interaction: CommandInteraction) : void {
-    this.targetIntercation = interaction
+    this.target.interaction = interaction
   }
 
   public deny() : InteractionReply {
     this.deleteInvite()
-    tradeHandlers.splice(TradeHandler.getId(this.issuerId)!, 1)
+    tradeHandlers.splice(TradeHandler.getId(this.issuer.id)!, 1)
     const embed: MessageEmbed = new MessageEmbed()
     embed.setTitle(this.lang.trade.denied)
     embed.setDescription(this.lang.trade.wasDenied)
     const reply: InteractionReply = new InteractionReply(embed, [])
-    this.updateInteraction(reply, this.issuerIntercation)
+    this.updateInteraction(reply, this.issuer.interaction)
     return reply
   }
 
@@ -88,19 +83,18 @@ export class TradeHandler {
   public accept(interaction: CommandInteraction) : InteractionReply {
     this.deleteInvite()
     this.setTargetInteraction(interaction)
-    this.target = getUserHandler(this.lang, this.targetId, 'TRADING')
-    this.issuer.setMode('TRADING')
-    this.updateInteraction(this.issuer.drawSerie(), this.issuerIntercation)
-    return this.target.drawSerie()
+    this.target.user = getUserHandler(this.lang, this.target.id, 'TRADING')
+    this.updateInteraction((this.issuer.user)!.drawSerie(), this.issuer.interaction)
+    return this.target.user.drawSerie()
   }
 
   public cancel(id: string) : InteractionReply {
     this.deleteInvite()
-    tradeHandlers.splice(TradeHandler.getId(this.issuerId)!, 1)
-    if (id == this.issuerId) {
-      this.updateInteraction(this.tradeCanceled(), this.targetIntercation, true)
+    tradeHandlers.splice(TradeHandler.getId(this.issuer.id)!, 1)
+    if (id == this.issuer.id) {
+      this.updateInteraction(this.tradeCanceled(), this.target.interaction, true)
     } else {
-      this.updateInteraction(this.tradeCanceled(), this.issuerIntercation, true)
+      this.updateInteraction(this.tradeCanceled(), this.issuer.interaction, true)
     }
     return this.tradeCanceled()
   }
@@ -136,11 +130,11 @@ export class TradeHandler {
   }
   
   public static get(id: string) : TradeHandler | undefined {
-    return tradeHandlers.find(t => t.issuerId == id || t.targetId == id)
+    return tradeHandlers.find(t => t.issuer.id == id || t.target.id == id)
   }
 
   public static getId(id: string) : number | undefined {
-    return tradeHandlers.findIndex(t => t.issuerId == id || t.targetId == id)
+    return tradeHandlers.findIndex(t => t.issuer.id == id || t.target.id == id)
   }
 }
 
