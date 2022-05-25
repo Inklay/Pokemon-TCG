@@ -33,7 +33,7 @@ To add the bot to your server, click [this link](https://discord.com/api/oauth2/
 - Run ```npm i```
 - Create a file named 'token.txt' and put your bot's token inside
 - (Microsoft Windows) Run ```bot.bat```
-- (MacOS & Linux) Run ```bot.sh```
+- (macOS & Linux) Run ```bot.sh```
 
 ## Help translating the bot
 

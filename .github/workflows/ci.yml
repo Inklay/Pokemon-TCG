@@ -1,3 +1,4 @@
+---
 name: CI
 
 on: push
@@ -32,4 +33,4 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
-          script: cd Pokemon-TCG && git pull origin deploy && git checkout deploy && chmod +x deploy.sh && ./deploy.sh
+          script: cd Pokemon-TCG && git pull origin deploy && chmod +x deploy.sh && ./deploy.sh

@@ -33,7 +33,7 @@ Pour ajouter le bot à votre serveur, clickez sur [ce lien](https://discord.com/
 - Executez  ```npm i```
 - Créer le fichier 'token.txt' et entrez y le token de votre bot
 - (Microsoft Windows) Éxecutez  ```bot.bat```
-- (MacOS & Linux) Éxecutez  ```bot.sh```
+- (macOS & Linux) Éxecutez  ```bot.sh```
 
 ## Bugs
 Si vous recontrer une erreur ou un bug, merci de le reporter [ici](https://github.com/Inklay/Pokemon-TCG/issues)
