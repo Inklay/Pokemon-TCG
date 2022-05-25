@@ -3,6 +3,7 @@ import { Expansion } from './Expansion'
 import { InteractionReply } from './InteractionReply'
 import { Lang } from './Lang'
 import { UserHandlerMode } from '../commandsHandler/userHandler'
+import { isThisTypeNode } from 'typescript'
 
 /**
  * @class Serie
@@ -37,8 +38,8 @@ export class Serie {
       description += `• ${e.name}\n`
     })
     embed.description = description
-    embed.setAuthor(lang.serie.selectSerie)
-    embed.setFooter(`${idx + 1}/${max}`)
+    embed.setAuthor({name: lang.serie.selectSerie})
+    embed.setFooter({text: `${idx + 1}/${max}`})
     return new InteractionReply(embed, buttons)
   }
 
@@ -56,20 +57,18 @@ export class Serie {
    */
   private createButton(idx: number, max: number, mode: UserHandlerMode, lang: Lang, expansions: Expansion[]) : MessageButton[] {
     const buttons : MessageButton[] = []
-    if (idx != 0) {
-      buttons.push(new MessageButton({
-        customId: 'seriePrev',
-        style: "PRIMARY",
-        emoji: '⬅️'
-      }))
-    }
-    if (idx != max) {
-      buttons.push(new MessageButton({
-        customId: 'serieNext',
-        style: "PRIMARY",
-        emoji: '➡️'
-      }))
-    }
+    buttons.push(new MessageButton({
+      customId: 'seriePrev',
+      style: "PRIMARY",
+      emoji: '⬅️',
+      disabled: idx == 0
+    }))
+    buttons.push(new MessageButton({
+      customId: 'serieNext',
+      style: "PRIMARY",
+      emoji: '➡️',
+      disabled: idx + 1 == max
+    }))
     if (expansions.length > 0) {
       buttons.push(new MessageButton({
         label: lang.serie.select,
@@ -78,12 +77,14 @@ export class Serie {
         emoji: '✔️'
       }))
     }
-    buttons.push(new MessageButton({
-      label: lang.global.back,
-      customId: 'serieBack',
-      style: "DANGER",
-      emoji: '❌'
-    }))
+    if (mode === 'TRADING') {
+      buttons.push(new MessageButton({
+        label: lang.global.back,
+        customId: 'tradeCancel',
+        style: "DANGER",
+        emoji: '❌'
+      }))
+    }
     return buttons
   }
 }

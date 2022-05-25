@@ -11,7 +11,7 @@ import { Lang } from './Lang'
  * 
  * @readonly
  */
- enum RarityEnum {
+enum RarityEnum {
   COMMON = 0,
   UNCOMMON = 1,
   RARE = 2,
@@ -103,11 +103,12 @@ export class Card {
    * @param {number} cardSeen - The number of cards seen on this expansion
    * @param {number} cardMax - The number of card of this expansion
    * @param {number} cardSecret - The number of secret cards seen
+   * @param {boolean} isNeg - Whether or not the amount of money is to be subtracted from the total
    * @returns {InteractionReply} The reply of the interaction
    */
-  public draw(idx: number, max: number, lang: Lang, mode: UserHandlerMode, price: number | undefined = undefined, quantity: number | undefined = undefined, nickname: string | undefined = undefined, selfViewing: boolean = true, cardsSeen: number = 0, cardsMax: number = 0, cardsSecret: number = 0) : InteractionReply {
+  public draw(idx: number, max: number, lang: Lang, mode: UserHandlerMode, price: number | undefined = undefined, quantity: number | undefined = undefined, nickname: string | undefined = undefined, selfViewing: boolean = true, cardsSeen: number = 0, cardsMax: number = 0, cardsSecret: number = 0, isNeg: boolean = true) : InteractionReply {
     const embed = new MessageEmbed()
-    const buttons : MessageButton[] = this.createButton(idx,max, lang, mode, quantity)
+    const buttons : MessageButton[] = this.createButton(idx, max, lang, mode, quantity, isNeg)
     embed.description = ''
     if (price != undefined && price > 0) {
       embed.description += (`${lang.card.soldFor} ${price}$\n`)
@@ -129,8 +130,10 @@ export class Card {
       if (cardsSecret > 0) {
         embed.description += `\n${lang.card.secret}: ${cardsSecret}`
       }
+    } else if (mode == 'TRADING') {
+      
     }
-    embed.setFooter(`${idx + 1}/${max}`)
+    embed.setFooter({text: `${idx + 1}/${max}`})
     embed.setImage(this.image)
     return new InteractionReply(embed, buttons)
   }
@@ -145,27 +148,33 @@ export class Card {
    * @param {Lang} lang - The lang of the server 
    * @param {UserHanlerMode} mode - The current mode of the handler
    * @param {number| undefined} quantity - The number of time the user has this card
+   * @param {boolean} isNeg - Whether or not the amount of money is to be subtracted from the total
    * @returns {MessageButton[]} The buttons to add to the message
    */
-  private createButton(idx: number, max: number, lang: Lang, mode: UserHandlerMode, quantity: number | undefined) : MessageButton[] {
+  private createButton(idx: number, max: number, lang: Lang, mode: UserHandlerMode, quantity: number | undefined, isNeg?: boolean) : MessageButton[] {
     const buttons : MessageButton[] = []
-    if (idx != 0) {
-      buttons.push(new MessageButton({
-        customId: 'cardPrev',
-        style: 'PRIMARY',
-        emoji: '⬅️'
-      }))
-    }
-    if (idx != max) {
-      buttons.push(new MessageButton({
-        customId: 'cardNext',
-        style: 'PRIMARY',
-        emoji: '➡️'
-      }))
-    }
-    if (idx == max && mode == 'TRADING') {
+    buttons.push(new MessageButton({
+      customId: 'cardPrev',
+      style: 'PRIMARY',
+      emoji: '⬅️',
+      disabled: idx === 0
+    }))
+    buttons.push(new MessageButton({
+      customId: 'cardNext',
+      style: 'PRIMARY',
+      emoji: '➡️',
+      disabled: idx + 1 === max
+    }))
+    if (idx == max) {
       buttons.push(new MessageButton({
         label: lang.expansion.select,
+        customId: 'cardSelect',
+        style: 'SUCCESS',
+        emoji: '✔️'
+      }))
+    } else if (mode == 'TRADING') {
+      buttons.push(new MessageButton({
+        label: lang.trade.selectCard,
         customId: 'cardSelect',
         style: 'SUCCESS',
         emoji: '✔️'

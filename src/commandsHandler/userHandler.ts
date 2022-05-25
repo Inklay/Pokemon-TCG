@@ -45,6 +45,7 @@ export type UserHandlerMode = keyof typeof UserHandlerModeEnum
  * @private @property {User} target - The target user object
  * @private @property {CardCount[]} cardCount - The cardcount of the target
  * @private @property {string} targetNickname - The nickname of the target
+ * @private @property {boolean} isTradeNeg - Wheter or not the trade is in negative mode
  */
 export class UserHandler {
   private series: Serie[]
@@ -61,6 +62,7 @@ export class UserHandler {
   private target: User
   private cardCount: CardCount[]
   private targetNickname: string
+  private isTradeNeg: boolean
 
   /**
    * @constructor
@@ -87,6 +89,7 @@ export class UserHandler {
     this.cardCount = []
     this.targetNickname = ""
     this.loadExpansions()
+    this.isTradeNeg = false
   }
 
   /**
@@ -99,7 +102,10 @@ export class UserHandler {
   private loadExpansions() : void {
     this.expansions = []
     JSON.parse(fs.readFileSync(`cards/${this.lang.global.dir}/${this.series[this.serieIdx].id}.json`).toString()).forEach((e: Expansion) => {
-      if ((this.mode == 'BUYING' || (this.mode == 'VIEWING' && this.target.cards[e.id].length > 0)) && e.released) {
+      if ((this.mode == 'BUYING' || 
+      (this.mode == 'VIEWING' && this.target.cards[e.id].length > 0)) ||
+      (this.mode == 'TRADING' && this.user.cards[e.id].find(cc => cc.quantity > 1) != undefined)
+      && e.released) {
         this.expansions.push(Object.assign(new Expansion, e))
       }
     })
@@ -115,7 +121,7 @@ export class UserHandler {
    * @returns {InteractionReply} The serie in a Discord embed message
    */
   public drawSerie(useFav: boolean = false) : InteractionReply {
-    if (useFav) {
+    if (useFav && this.user.favourite !== 'none') {
       this.loadFavExpansion()
       return this.drawExpansion()
     }
@@ -248,6 +254,7 @@ export class UserHandler {
    */
   public setMode(mode: UserHandlerMode) : void {
     this.mode = mode
+    this.loadExpansions()
   }
 
   /**
@@ -263,7 +270,7 @@ export class UserHandler {
     }
     this.user.money -= this.expansions[this.expansionIdx].price
     this.cards = []
-    this.cardMax = 9
+    this.cardMax = 10
     this.cardIdx = 0
     this.price = 0
     for (let i: number = 0; i < 5; i++) {
@@ -277,7 +284,24 @@ export class UserHandler {
     this.checkNewCard()
     this.user.money += this.price
     User.update(this.user)
-    return this.cards[0].draw(0, 9, this.lang, this.mode, this.price)
+    return this.cards[0].draw(0, 10, this.lang, this.mode, this.price)
+  }
+
+  public trade() : InteractionReply {
+    this.cards = []
+    this.cardCount = []
+    this.target.cards[this.expansions[this.expansionIdx].id].sort((a: CardCount, b: CardCount) => { return a.cardNumber - b.cardNumber}).forEach(cc => {
+      if (cc.quantity > 1) {
+        this.cardCount.push(cc)
+      }
+    })
+    this.cardCount.forEach(cc => {
+        this.cards.push(new Card(this.expansions[this.expansionIdx], cc.cardNumber, 'COMMON', 0))
+    })
+    this.cardMax = this.cards.length
+    this.cardIdx = 0
+    this.price = 0
+    return this.drawCard()
   }
 
   /**
@@ -383,7 +407,7 @@ export class UserHandler {
   public drawCard() : InteractionReply {
     if (this.mode == 'BUYING') {
       return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, this.price)
-    } else {
+    } else if (this.mode == 'VIEWING'){
       let cardsSecret: number = 0
       let cardsSeen: number = 0
       this.target.cards[this.expansions[this.expansionIdx].id].forEach(cc => {
@@ -399,6 +423,8 @@ export class UserHandler {
       this.expansions[this.expansionIdx].special.length +
       this.expansions[this.expansionIdx].ultraRare.length
       return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, this.price, this.cardCount[this.cardIdx].quantity, this.targetNickname, this.user == this.target, cardsSeen, cardsMax, cardsSecret)
+    } else {
+      return this.cards[this.cardIdx].draw(this.cardIdx, this.cardMax, this.lang, this.mode, 0, this.cardCount[this.cardIdx].quantity - 1, this.targetNickname, this.user == this.target, 0, 0, 0, this.isTradeNeg)
     }
   }
 

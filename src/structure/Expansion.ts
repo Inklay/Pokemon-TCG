@@ -1,7 +1,7 @@
-import { MessageButton, MessageEmbed } from "discord.js"
-import { UserHandlerMode } from "../commandsHandler/userHandler"
-import { InteractionReply } from "./InteractionReply"
-import { Lang } from "./Lang"
+import { MessageButton, MessageEmbed } from 'discord.js'
+import { UserHandlerMode } from '../commandsHandler/userHandler'
+import { InteractionReply } from './InteractionReply'
+import { Lang } from './Lang'
 
 /**
  * @class Expansion
@@ -64,8 +64,8 @@ export class Expansion {
     const embed = new MessageEmbed()
     const buttons : MessageButton[] = this.createButton(idx, max, mode, lang, canBuy, isFavourite, hasCard)
     embed.setTitle(this.name)
-    embed.setFooter(`${idx + 1}/${max}`)
-    embed.setAuthor(lang.expansion.selectExpansion)
+    embed.setFooter({text: `${idx + 1}/${max}`})
+    embed.setAuthor({name: lang.expansion.selectExpansion})
     let description: string = ""
     if (!canBuy && mode == 'BUYING') {
       description = `${lang.money.dontHaveEnough}\n`
@@ -97,20 +97,18 @@ export class Expansion {
    */
   private createButton(idx: number, max: number, mode: UserHandlerMode, lang: Lang, canBuy: boolean, isFavourite: boolean, hasCard: boolean) : MessageButton[] {
     const buttons : MessageButton[] = []
-    if (idx != 0) {
-      buttons.push(new MessageButton({
-        customId: 'expansionPrev',
-        style: "PRIMARY",
-        emoji: '⬅️'
-      }))
-    }
-    if (idx != max) {
-      buttons.push(new MessageButton({
-        customId: 'expansionNext',
-        style: "PRIMARY",
-        emoji: '➡️'
-      }))
-    }
+    buttons.push(new MessageButton({
+      customId: 'expansionPrev',
+      style: "PRIMARY",
+      emoji: '⬅️',
+      disabled: idx == 0
+    }))
+    buttons.push(new MessageButton({
+      customId: 'expansionNext',
+      style: "PRIMARY",
+      emoji: '➡️',
+      disabled: idx + 1 === max
+    }))
     if (mode == 'BUYING' && canBuy) {
       buttons.push(new MessageButton({
         label: lang.expansion.select,
@@ -122,6 +120,13 @@ export class Expansion {
       buttons.push(new MessageButton({
         label: lang.expansion.select,
         customId: 'expansionViewSelect',
+        style: "SUCCESS",
+        emoji: '✔️'
+      }))
+    } else if (mode == 'TRADING') {
+      buttons.push(new MessageButton({
+        label: lang.expansion.select,
+        customId: 'expansionTradeSelect',
         style: "SUCCESS",
         emoji: '✔️'
       }))

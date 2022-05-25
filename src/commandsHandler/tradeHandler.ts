@@ -24,6 +24,7 @@ export class TradeHandler {
   public deleteInvite() : void {
     if (this.inviteMessage != undefined) {
       this.inviteMessage.delete()
+      this.inviteMessage = undefined
     }
   }
 
@@ -66,6 +67,7 @@ export class TradeHandler {
 
   public deny() : InteractionReply {
     this.deleteInvite()
+    tradeHandlers.splice(TradeHandler.getId(this.issuerId)!, 1)
     const embed: MessageEmbed = new MessageEmbed()
     embed.setTitle(this.lang.trade.denied)
     embed.setDescription(this.lang.trade.wasDenied)
@@ -74,11 +76,11 @@ export class TradeHandler {
     return reply
   }
 
-  public updateInteraction(reply: InteractionReply, interaction: CommandInteraction | undefined) : void {
+  public updateInteraction(reply: InteractionReply, interaction: CommandInteraction | undefined, deleteComponents: boolean = false) : void {
     if (interaction != undefined) {
       interaction.editReply({
         embeds: [reply.embed],
-        components: reply.hasButton() ? reply.buttons : undefined,
+        components: deleteComponents ? [] : reply.hasButton() ? reply.buttons : undefined,
       })
     }
   }
@@ -88,16 +90,17 @@ export class TradeHandler {
     this.setTargetInteraction(interaction)
     this.target = getUserHandler(this.lang, this.targetId, 'TRADING')
     this.issuer.setMode('TRADING')
-    this.updateInteraction(this.issuer.drawCard(), this.issuerIntercation)
-    return this.target.drawCard()
+    this.updateInteraction(this.issuer.drawSerie(), this.issuerIntercation)
+    return this.target.drawSerie()
   }
 
   public cancel(id: string) : InteractionReply {
     this.deleteInvite()
+    tradeHandlers.splice(TradeHandler.getId(this.issuerId)!, 1)
     if (id == this.issuerId) {
-      this.updateInteraction(this.tradeCanceled(), this.targetIntercation)
+      this.updateInteraction(this.tradeCanceled(), this.targetIntercation, true)
     } else {
-      this.updateInteraction(this.tradeCanceled(), this.issuerIntercation)
+      this.updateInteraction(this.tradeCanceled(), this.issuerIntercation, true)
     }
     return this.tradeCanceled()
   }
@@ -134,6 +137,10 @@ export class TradeHandler {
   
   public static get(id: string) : TradeHandler | undefined {
     return tradeHandlers.find(t => t.issuerId == id || t.targetId == id)
+  }
+
+  public static getId(id: string) : number | undefined {
+    return tradeHandlers.findIndex(t => t.issuerId == id || t.targetId == id)
   }
 }
 

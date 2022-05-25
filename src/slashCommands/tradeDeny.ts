@@ -23,8 +23,8 @@ export class slahCommand implements Command {
    */
 	constructor() {
 		this.commandData = {
-			name: 'trade_accept',
-			description: 'Accept the trade invitation if any'
+			name: 'trade_deny',
+			description: 'Deny the trade invitation if any'
 		}
 	}
 

@@ -38,9 +38,6 @@ export abstract class CardsCommand implements Command {
 					components: reply.hasButton() ? reply.buttons : undefined,
 				})
 				return
-			case 'serieBack':
-				(interaction.message as Message).delete()
-				return
 			case 'serieSelect': 
 				reply = handler.drawExpansion()
 				await interaction.update({
@@ -80,6 +77,13 @@ export abstract class CardsCommand implements Command {
 				return
       case 'expansionViewSelect':
 				reply = handler.view()
+				await interaction.update({
+					embeds: [reply.embed],
+					components: reply.hasButton() ? reply.buttons : undefined,
+				})
+				return
+			case 'expansionTradeSelect':
+				reply = handler.trade()
 				await interaction.update({
 					embeds: [reply.embed],
 					components: reply.hasButton() ? reply.buttons : undefined,

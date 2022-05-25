@@ -93,6 +93,7 @@ interface Trade {
   notInTrade: string
   denied: string
   wasDenied: string
+  selectCard: string
 }
 
 export interface Lang {

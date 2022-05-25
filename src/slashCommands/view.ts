@@ -54,6 +54,7 @@ export class slahCommand extends CardsCommand {
 		await interaction.reply({
 			embeds: [reply.embed],
 			components: reply.hasButton() ? reply.buttons : undefined,
+			ephemeral: true
 		})
 	}
 }

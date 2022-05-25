@@ -79,13 +79,14 @@
     "isAreAlreadyInTrade": "est déjà en train d'échanger ou invité(e) à échanger",
     "inviteSend": "Demande d'échange envoyée",
     "waitingForAnswer": "En attente d'une réponse...",
-    "cantTradeWithYourself": "Vous ne pouvez pas éhcnager avec vous même",
+    "cantTradeWithYourself": "Vous ne pouvez pas échnager avec vous même",
     "tradeInvite": "Demande d'échange",
-    "invitedYou": "vous a invité à échanger, faites\n/trade_accept pour commencer à échanger ou\ntradde_deny pour annuler l'échange",
+    "invitedYou": "vous a invité à échanger, faites\n/trade_accept pour commencer à échanger ou\n/tradde_deny pour annuler l'échange",
     "canceled": "Échange annulé",
     "wasCanceled": "L'échange a été annulé",
     "notInTrade": "Vous n'êtes pas en échange pour le moment",
     "denied": "Demande d'échange refusée",
-    "wasDenied": "La demande d'échange a été refusée"
+    "wasDenied": "La demande d'échange a été refusée",
+    "selectCard": "Sélectionner cette carte"
   }
 }

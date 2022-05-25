@@ -81,11 +81,12 @@
     "waitingForAnswer": "Waiting for an answer...",
     "cantTradeWithYourself": "You can not trade with yourself",
     "tradeInvite": "Trade invitation",
-    "invitedYou": "invited you to trade, type\n/trade_accept to start the trade or\n/start_deny to deny the invitation",
+    "invitedYou": "invited you to trade, type\n/trade_accept to start the trade or\n/trade_deny to deny the invitation",
     "canceled": "Trade canceled",
     "wasCanceled": "The trade was canceled",
     "notInTrade": "You are not currently in any trade",
     "denied": "Trade invite denied",
-    "wasDenied": "The trade invite was denied"
+    "wasDenied": "The trade invite was denied",
+    "selectCard": "Select this card"
   }
 }
