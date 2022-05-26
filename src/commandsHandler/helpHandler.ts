@@ -2,8 +2,14 @@ import { GuildMember, MessageButton, MessageEmbed, Permissions } from 'discord.j
 import { InteractionReply } from '../structure/InteractionReply';
 import { Lang } from '../structure/Lang'
 
-export function basicHelp(lang: Lang, member: GuildMember) : InteractionReply
-{
+/**
+ * @function basicHelp - Returns a basic help message
+ * 
+ * @param {Lang} lang - The lang of the server
+ * @param {GuildMember} member - The member ran the command
+ * @returns {InteractionReply} - The reply of the command
+ */
+export function basicHelp(lang: Lang, member: GuildMember) : InteractionReply {
     const embed = new MessageEmbed()
     const buttons : MessageButton[] = []
     embed.setTitle(lang.help.commandList)
@@ -23,8 +29,13 @@ export function basicHelp(lang: Lang, member: GuildMember) : InteractionReply
     return new InteractionReply(embed, buttons)
 }
 
-export function adminHelp(lang: Lang) : InteractionReply
-{
+/**
+ * @function adminHelp - Returns an admin help message
+ * 
+ * @param {Lang} lang - The lang of the server
+ * @returns {InteractionReply} - The reply of the command
+ */
+export function adminHelp(lang: Lang) : InteractionReply {
     const embed = new MessageEmbed()
     const buttons : MessageButton[] = []
     embed.setTitle(lang.help.adminCommandList)

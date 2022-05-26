@@ -4,13 +4,11 @@ import { MessageButton, MessageEmbed } from "discord.js"
 import { InteractionReply } from "../structure/InteractionReply"
 
 /**
- * @function
+ * @function addMoney - Adds 10$ to the user
  * 
- * Adds 50$ to the user
- * 
- * @param {Lang} lang - The lang of the server 
- * @param {string} id - The ID of the user 
- * @returns {InteractionReply} - The information as a Discord embed messge
+ * @param {Lang} lang - The lang of the server
+ * @param {string} id - The id of the user
+ * @returns {InteractionReply} - The reply of the command
  */
 export function addMoney(lang: Lang, id: string) : InteractionReply {
   const user = User.create(id)
@@ -24,20 +22,17 @@ export function addMoney(lang: Lang, id: string) : InteractionReply {
     user.date = now
     embed.description = `${lang.money.gotMoney}\n`
     User.update(user)
-  } else {
+  } else
     embed.description = `${lang.money.youHaveToWait} ${Math.floor((user.date + 60 * 60 * 1000 - now) / 1000 / 60)} ${lang.money.minutes}\n`
-  }
   embed.description += `${lang.global.youHave} : ${user.money}$`
   return new InteractionReply(embed, buttons)
 }
 
 /**
- * @function
+ * @function notEnoughMoney - Tells the user they don't have enough money
  * 
- * Tells the user that it doesn't have enough money to buy this
- * 
- * @param {Lang} lang - The lang of the server 
- * @returns {InteractionReply} - The information as a Discord embed messge
+ * @param {Lang} lang - The lang of the server
+ * @returns {InteractionReply} - The reply of the command
  */
 export function notEnoughMoney(lang: Lang) : InteractionReply {
   const embed = new MessageEmbed()

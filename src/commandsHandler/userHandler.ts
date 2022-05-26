@@ -66,6 +66,7 @@ export class UserHandler {
 
   /**
    * @constructor
+   * 
    * @param {Lang} lang - The lang of the server
    * @param {UserHandlerMode} mode - The current mode of the handler
    * @param {User} user - The user object
@@ -93,9 +94,7 @@ export class UserHandler {
   }
 
   /**
-   * @private @method
-   * 
-   * Loads the expansions of the current serie
+   * @private @method loadExpansions - Loads the expansions of the current serie
    * 
    * @returns {void} 
    */
@@ -113,12 +112,10 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
+   * @public @method drawSerie - Draws the current serie in a Discord embed message
    * 
-   * Draw the current serie in a Discord embed message
-   * 
-   * @param {boolean} useFav - Whether or not the favourite expansion should be loaded
-   * @returns {InteractionReply} The serie in a Discord embed message
+   * @param {boolean} [useFav = false] - Whether or not the favourite expansion should be loaded
+   * @returns {InteractionReply} - The serie in a Discord embed message
    */
   public drawSerie(useFav: boolean = false) : InteractionReply {
     if (useFav && this.user.favourite !== 'none') {
@@ -129,42 +126,34 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
+   * @public @method drawExpansion - Draws the current expansion in a Discord embed message
    * 
-   * Draw the current expansion in a Discord embed message
-   * 
-   * @returns {InteractionReply} The expansion in a Discord embed message
+   * @returns {InteractionReply} - The expansion in a Discord embed message
    */
   public drawExpansion() : InteractionReply {
     return this.expansions[this.expansionIdx].draw(this.expansionIdx, this.lang, this.mode, this.expansions.length, this.user.money, this.user.favourite == this.expansions[this.expansionIdx].id, this.target.cards[this.expansions[this.expansionIdx].id].length > 0)
   }
 
   /**
-   * @public @method
+   * @public @method getSerie - Returns the handler current serie 
    * 
-   * Returns the handler current serie 
-   * 
-   * @returns {Serie} The handler current serie 
+   * @returns {Serie} - The handler current serie 
    */
   public getSerie() : Serie {
     return this.series[this.serieIdx]
   }
 
   /**
-   * @public @method
+   * @public @method getExpasion - Returns the handler current expansion 
    * 
-   * Returns the handler current expansion 
-   * 
-   * @returns {Expansion} The handler current expansion 
+   * @returns {Expansion} ( The handler current expansion 
    */
   public getExpansion(): Expansion {
     return this.expansions[this.expansionIdx]
   }
 
   /**
-   * @public @method
-   * 
-   * Increase the expansion index of the handler
+   * @public @method incSerieIdx - Increases the expansion index of the handler
    * 
    * @returns {void}
    */
@@ -176,9 +165,7 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
-   * 
-   * Decrease the serie index of the handler
+   * @public @method decSerieIdx - Decreases the serie index of the handler
    * 
    * @returns {void}
    */
@@ -190,24 +177,7 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
-   * 
-   * Sets the serie index of the handler
-   * 
-   * @param {number} idx - The new serie index
-   * @returns {void}
-   */
-  public setSerieIdx(idx: number) : void {
-    if (idx <= this.series.length - 1 && idx >= 0) {
-      this.serieIdx = idx
-      this.loadExpansions()
-    }
-  }
-
-  /**
-   * @public @method
-   * 
-   * Increase the expansion index of the handler
+   * @public @method incExpansionIdx - Increases the expansion index of the handler
    * 
    * @returns {void}
    */
@@ -217,9 +187,7 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
-   * 
-   * Decrease the expansion index of the handler
+   * @public @method decExpansionIdx - Decreases the expansion index of the handler
    * 
    * @returns {void}
    */
@@ -229,9 +197,7 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
-   * 
-   * Sets the mode of the handler
+   * @public @method setMode - Sets the mode of the handler
    * 
    * @param {UserHandlerMode} mode - The new mode of the handler
    * @returns {void} 
@@ -244,11 +210,9 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
+   * @public @method openBooster - Tries to open a booster if the user has enough money
    * 
-   * Tries to open a booster if the user has enough money
-   * 
-   * @returns {InteractionReply} Either the booster opening message, or a message telling the user that it doesn't ahve enough money
+   * @returns {InteractionReply} - Either the booster opening message, or a message telling the user that it doesn't ahve enough money
    */
   public openBooster() : InteractionReply {
     if (this.expansions[this.expansionIdx].price > this.user.money)
@@ -270,6 +234,11 @@ export class UserHandler {
     return this.cards[0].draw(0, 10, this.lang, this.mode, this.price)
   }
 
+  /**
+   * @public @method trade - Sets up the card array for a trade
+   * 
+   * @returns {InteractionReply} - The booster opening message set up for a trade
+   */
   public trade() : InteractionReply {
     this.cards = []
     this.cardCount = []
@@ -287,11 +256,9 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
+   * @public @method view - Returns the target's cards in a Discord embed message
    * 
-   * Returns the target's cards in a Discord embed message
-   * 
-   * @returns {InteractionReply} The target's cards
+   * @returns {InteractionReply} - The target's cards
    */
   public view() : InteractionReply {
     this.cards = []
@@ -319,9 +286,7 @@ export class UserHandler {
   }
 
   /**
-   * @private @method
-   * 
-   * Check if a generated card is new
+   * @private @method checkNewCard - Checks if a generated card is new
    * 
    * @returns {void}
    */
@@ -346,9 +311,7 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
-   * 
-   * Increase the card index of the handler
+   * @public @method incCardIdx - Increases the card index of the handler
    * 
    * @returns {void}
    */
@@ -360,9 +323,7 @@ export class UserHandler {
   }
   
   /**
-   * @public @method
-   * 
-   * Decrease the card index of the handler
+   * @public @method decCardIdx - Decreases the card index of the handler
    * 
    * @returns {void}
    */
@@ -374,11 +335,9 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
+   * @public @method drawCard - Draws the current card in a Discord embed message
    * 
-   * Draw the current card in a Discord embed message
-   * 
-   * @returns {InteractionReply} The card in a Discord embed message
+   * @returns {InteractionReply} - The card in a Discord embed message
    */
   public drawCard() : InteractionReply {
     if (this.mode == 'BUYING')
@@ -403,11 +362,9 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
+   * @public @method setFavouriteExpansion - Sets the favourite expansion of this user
    * 
-   * Sets the favourite expansion of this user
-   * 
-   * @returns {InteractionReply} The expansion in a Discord embed message
+   * @returns {InteractionReply} - The expansion in a Discord embed message
    */
   public setFavouriteExpansion() : InteractionReply {
     this.user.favourite = this.expansions[this.expansionIdx].id
@@ -416,11 +373,9 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
+   * @public @method unsetFavouriteExpansion - Unsets the favourite expansion of this user
    * 
-   * Unsets the favourite expansion of this user
-   * 
-   * @returns {InteractionReply} The expansion in a Discord embed message
+   * @returns {InteractionReply} - The expansion in a Discord embed message
    */
   public unsetFavouriteExpansion() : InteractionReply {
     this.user.favourite = 'none'
@@ -429,9 +384,7 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
-   * 
-   * Loads the favourite expansion
+   * @public @method loadFavExpansion - Loads the favourite expansion
    * 
    * @returns {void}
    */
@@ -454,9 +407,7 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
-   * 
-   * Sets the target User object
+   * @public @method setTarget - Sets the target User object
    * 
    * @param {User} target - The target User object
    * @return {void} 
@@ -468,9 +419,7 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
-   * 
-   * Sets the lang User object
+   * @public @method setLang - Sets the lang User object
    * 
    * @param {Lang} lang - The lang User object
    * @return {void} 
@@ -480,13 +429,10 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
-   * 
-   * Sets autoSell for the specified user
+   * @public @method setAutoSell - Sets autoSell for the specified user
    * 
    * @param {boolean} autoSell - The value of the autoSell
-   * 
-   * @returns {InteractionReply} The response in a Discord embed message
+   * @returns {InteractionReply} - The response in a Discord embed message
    */
   public setAutoSell(autoSell: boolean) : InteractionReply {
     this.user.autoSell = autoSell
@@ -498,11 +444,9 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
+   * @public @method sellAllDuplicates - Sells all duplicate card
    * 
-   * Sells all duplicate card
-   * 
-   * @returns {InteractionReply} The response in a Discord embed message
+   * @returns {InteractionReply} - The response in a Discord embed message
    */
   public sellAllDuplicates() : InteractionReply {
     const embed: MessageEmbed = new MessageEmbed()
@@ -517,20 +461,17 @@ export class UserHandler {
     this.user.money += money
     User.update(this.user)
     embed.setTitle(this.lang.card.duplicateSold)
-    if (money > 0) {
+    if (money > 0)
       embed.setDescription(`${this.lang.card.soldAllFor} ${money}$`)
-    } else {
+    else
       embed.setDescription(`${this.lang.card.noDuplicates}`)
-    }
     return new InteractionReply(embed, buttons)
   }
 
   /**
-   * @public @method
+   * @public @method sellFromExpansion - Sells all duplicate card
    * 
-   * Sells all duplicate card
-   * 
-   * @returns {InteractionReply} The response in a Discord embed message
+   * @returns {InteractionReply} - The response in a Discord embed message
    */
   public sellFromExpansion() : InteractionReply {
     const price: number = this.sellDuplicatesFrom(this.expansions[this.expansionIdx], this.user.cards[this.expansions[this.expansionIdx].id])
@@ -540,12 +481,10 @@ export class UserHandler {
   }
 
   /**
-   * @public @method
-   * 
-   * Sells all duplicate card
+   * @public @method sellFromCard - Sells all duplicate card
    * 
    * @param {boolean} all - Whether or not  all duplicates will be sold
-   * @returns {InteractionReply} The response in a Discord embed message
+   * @returns {InteractionReply} - The response in a Discord embed message
    */
   public sellFromCard(all: boolean) : InteractionReply {
     const idx: number = this.user.cards[this.expansions[this.expansionIdx].id].findIndex(cc => cc.cardNumber == parseInt(this.cards[this.cardIdx].number)) as number
@@ -562,13 +501,11 @@ export class UserHandler {
   }
 
   /**
-   * @private @method
-   * 
-   * Sell all duplicates from an expansion
+   * @private @method sellDuplicatesFrom - Sell all duplicates from an expansion
    * 
    * @param {Expansion} expansion - The expansion to sell 
    * @param {CardCount[]} count - The list of the card the user has
-   * @returns {number} the price of this expansion
+   * @returns {number} - The price of this expansion
    */
   private sellDuplicatesFrom(expansion: Expansion, count: CardCount[]) : number {
     let total: number = 0
@@ -612,15 +549,13 @@ export class UserHandler {
   }
 
   /**
-   * @private @method
-   * 
-   * Get the price of a card
+   * @private @method getCardPrice - Get the price of a card
    * 
    * @param {Rarity} rarity - The rarity of the card
    * @param {number[]} arr - The array of cards
    * @param {number} card - The number of the card to sell
    * @param {number} price - The price of the expansion
-   * @returns {number} The price of the card
+   * @returns {number} - The price of the card
    */
   private getCardPrice(rarity: Rarity, arr: number[], card: number, price: number) : number {
     if (arr.find(c => c == card))
@@ -635,16 +570,14 @@ export class UserHandler {
 export const userHandlers = new Map<string, UserHandler>()
 
 /**
- * @function
- * 
- * Gets a UserHandler by it's user ID
+ * @function getUserHandler - Gets a UserHandler by it's user ID
  * 
  * @param {Lang} lang - The lang of the server
  * @param {string} id - The ID of the user
  * @param {UserHandlerMode} mode - The current mode of the handler
  * @param {string | undefined} nickname - The target User object 
  * @param {string | undefined} nickname - The target nickname
- * @returns {UserHandler} The user handler
+ * @returns {UserHandler} - The user handler
  */
 export function getUserHandler(lang: Lang, id: string, mode: UserHandlerMode, targetId: string | undefined = undefined, nickname: string | undefined = undefined) : UserHandler {
   let handler = userHandlers.get(id)

@@ -4,8 +4,14 @@ import { Lang } from "../structure/Lang";
 import { setLang, getLang } from "../dataManager/lang"
 import fs from 'fs'
 
-export function list(lang: Lang, member: GuildMember) : InteractionReply
-{
+/**
+ * @function list - Returns the list of the languages
+ * 
+ * @param {Lang} lang - The lang of the server
+ * @param {GuildMember} member - The member ran the command
+ * @returns {InteractionReply} - The reply of the command
+ */
+export function list(lang: Lang, member: GuildMember) : InteractionReply {
   const embed = new MessageEmbed()
   const buttons : MessageButton[] = []
   if (member.permissions.has(Permissions.FLAGS.KICK_MEMBERS)) {
@@ -19,8 +25,17 @@ export function list(lang: Lang, member: GuildMember) : InteractionReply
   return new InteractionReply(embed, buttons)
 }
 
-export function set(lang: Lang, member: GuildMember, language: string, id: string, type: string) : InteractionReply
-{
+/**
+ * @function basicHelp - Sets the language of the server
+ * 
+ * @param {Lang} lang - The lang of the server
+ * @param {GuildMember} member - The member ran the command
+ * @param {string} language - The name of the language
+ * @param {string} id - The id of the server
+ * @param {string} type - The type of the server (either guild or user)
+ * @returns {InteractionReply} - The reply of the command
+ */
+export function set(lang: Lang, member: GuildMember, language: string, id: string, type: string) : InteractionReply {
   const embed = new MessageEmbed()
   const buttons : MessageButton[] = []
   if (member.permissions.has(Permissions.FLAGS.KICK_MEMBERS)) {

@@ -1,7 +1,7 @@
 import { CommandInteraction, Message, MessageButton, MessageEmbed, TextChannel, User } from "discord.js"
 import { InteractionReply } from "../structure/InteractionReply"
 import { Lang } from "../structure/Lang"
-import { getUserHandler, UserHandler } from "./userHandler"
+import { getUserHandler } from "./userHandler"
 import { Trader } from "../structure/Tarder"
 
 export class TradeHandler {
@@ -91,27 +91,24 @@ export class TradeHandler {
   public cancel(id: string) : InteractionReply {
     this.deleteInvite()
     tradeHandlers.splice(TradeHandler.getId(this.issuer.id)!, 1)
-    if (id == this.issuer.id) {
+    if (id == this.issuer.id)
       this.updateInteraction(this.tradeCanceled(), this.target.interaction, true)
-    } else {
+    else
       this.updateInteraction(this.tradeCanceled(), this.issuer.interaction, true)
-    }
     return this.tradeCanceled()
   }
 
   public static acceptTrade(id: string, interaction: CommandInteraction, lang: Lang) : InteractionReply {
     const handler: TradeHandler | undefined = TradeHandler.get(id)
-    if (handler == undefined) {
+    if (handler == undefined)
       return TradeHandler.notInTrade(lang)
-    }
     return handler.accept(interaction)
   }
 
   public static denyTrade(id: string, lang: Lang) : InteractionReply {
     const handler: TradeHandler | undefined = TradeHandler.get(id)
-    if (handler == undefined) {
+    if (handler == undefined)
       return TradeHandler.notInTrade(lang)
-    }
     return handler.deny()
   }
 
@@ -138,7 +135,4 @@ export class TradeHandler {
   }
 }
 
-/**
- * @constant {TradeHandler[]}
- */
 export const tradeHandlers: TradeHandler[] = []
