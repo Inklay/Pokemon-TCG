@@ -1,0 +1,16 @@
+[
+    {
+        "name": {
+            "en": "Scarlet and Violet",
+            "fr": "Écarlate et Violet"
+        },
+        "id": "SV"
+    },
+    {
+        "name": {
+            "en": "Sword and shield",
+            "fr": "Épée et bouclier"
+        },
+        "id": "SWSH"
+    }
+]

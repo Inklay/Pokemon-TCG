@@ -1,0 +1,92 @@
+{
+  "global": {
+    "commandError": "Une erreur est survenue lors de l'exécution de cette commande",
+    "doNotHavePermission": "Vous n'avez pas la permission d'utiliser cette commande",
+    "permissionMissing": "Permission manquante",
+    "dir": "fr",
+    "back": "Retour",
+    "youHave": "Vous avez",
+    "cancel": "Annuler",
+    "error": "Erreur"
+  },
+  "help": {
+    "description": "Affiche un message d'aide expliquant les commandes du bot",
+    "userCommands": "Commandes utilisateurs",
+    "adminCommands": "Commandes administrateurs",
+    "commandList": "Liste des commands",
+    "adminCommandList": "Liste des commandes administrateur",
+    "viewCommandDescription": "Voir votre collection de carte",
+    "buyCommandDescription": "Acheter des boosters",
+    "moneyCommandDescription": "Recevoir 10$ (toutes les heures)",
+    "languageCommandDescription": "Changer la langue du bot",
+    "languageListCommandDescription": "Voir la liste des langues supportées",
+    "prefixCommandDescription": "Changer le prefix du bot",
+    "deleteMessageCommandDescription": "Désactiver/activer la suppression de message"
+  },
+  "lang": {
+    "langList": "Language list",
+    "french": "français",
+    "english": "english",
+    "langSet": "La langue a été mise à jour",
+    "langUpdated": "Langue mise à jour !"
+  },
+  "money": {
+    "yourMoney": "Votre solde",
+    "gotMoney": "Vous avez reçu $10",
+    "youHaveToWait": "Vous pouvez recevoir de l'argent dans",
+    "minutes": "minutes",
+    "dontHaveEnough": "Vous n'avez pas assez d'argent pour acheter cet objet !",
+    "notEnough": "Pas assez d'argent"
+  },
+  "serie": {
+    "selectSerie": "Sélectionnez la série voulue",
+    "select": "Sélectionner cette série"
+  },
+  "expansion": {
+    "selectExpansion": "Sélectionnez l'extension voulue",
+    "select" : "Sélectionner cette extension",
+    "costs": "Cette extension coute",
+    "setFav": "Marquer comme favori",
+    "unsetFav": "Supprimer le favori",
+    "viewCollection": "Voir votre collection",
+    "info": "Info sur l'extension"
+  },
+  "card" : {
+    "openingOf": "Ouverture de",
+    "new": "Nouvelle carte !",
+    "moreInfo": "Plus d'info",
+    "soldFor": "Vous avez vendu vos cartes en double pour",
+    "soldAllFor": "Vous avez vendu toutes vos cartes en double pour",
+    "duplicateSold": "Cartes en double vendues",
+    "noDuplicates": "Vous n'avez pas de carte en double à vendre",
+    "collection": "Collection de <NICKNAME>",
+    "thisCard": "cette carte",
+    "has": "a",
+    "yourCollection": "Votre collection",
+    "times": "fois",
+    "progression": "Progression",
+    "secret": "Cartes secrètes",
+    "sellAllDuplicate": "Vendre tous les doublons",
+    "sellOneDuplicate": "Vendre un doublon"
+  },
+  "user": {
+    "settingsUpdated": "Paramètres mis à jour",
+    "autoSellSet": "La vente automatique des cartes a été configurée"
+  },
+  "trade": {
+    "alreadyInTrade": "Utilisateur déjà en échange",
+    "youAreAlreadyInTrade": "Vous êtes déjà en train d'échanger ou invité(e) à échanger",
+    "isAreAlreadyInTrade": "est déjà en train d'échanger ou invité(e) à échanger",
+    "inviteSend": "Demande d'échange envoyée",
+    "waitingForAnswer": "En attente d'une réponse...",
+    "cantTradeWithYourself": "Vous ne pouvez pas échnager avec vous même",
+    "tradeInvite": "Demande d'échange",
+    "invitedYou": "vous a invité à échanger, faites\n/trade_accept pour commencer à échanger ou\n/tradde_deny pour annuler l'échange",
+    "canceled": "Échange annulé",
+    "wasCanceled": "L'échange a été annulé",
+    "notInTrade": "Vous n'êtes pas en échange pour le moment",
+    "denied": "Demande d'échange refusée",
+    "wasDenied": "La demande d'échange a été refusée",
+    "selectCard": "Sélectionner cette carte"
+  }
+}

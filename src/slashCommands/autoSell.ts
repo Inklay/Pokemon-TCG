@@ -1,7 +1,7 @@
 import { ApplicationCommandData, ButtonInteraction, CommandInteraction, MessageActionRow } from "discord.js"
 import { getUserHandler } from "../commandsHandler/userHandler"
-import { Command } from "../structure/Command"
-import { Lang } from "../structure/Lang"
+import { Command } from "../class/Command"
+import { Lang } from "../class/Lang"
 
 export class slahCommand implements Command {
 	commandData: ApplicationCommandData

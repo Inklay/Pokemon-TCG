@@ -1,94 +1,66 @@
 import fs from 'fs'
-import { getLang } from './dataManager/lang'
 import * as Config from './config'
-import { REST } from '@discordjs/rest'
-import { Client, Intents, ApplicationCommandData, Message } from 'discord.js'
-import { Command } from './structure/Command'
-import { Lang } from './structure/Lang'
+import { ActivityType, GatewayIntentBits, Events } from 'discord.js'
+import Client from './utils/client'
+import { User } from './class/User'
+import { Lang } from './class/Lang'
+import path from 'path'
+import { Serie } from './class/Serie'
 
-const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES]})
+const client = new Client({ intents: [GatewayIntentBits.Guilds] })
 client.login(Config.token)
-const commands: Command[] = []
+
+if (!fs.existsSync('./data/')) {
+  fs.mkdirSync('./data')
+}
 if (!fs.existsSync('./data/user.json')) {
-    fs.writeFileSync('./data/user.json', '[]')
-}
-if (!fs.existsSync('./data/server.json')) {
-    fs.writeFileSync('./data/server.json', '[]')
+  fs.writeFileSync('./data/user.json', '[]')
 }
 
-async function loadCommands() {
-    const commandFiles = fs.readdirSync('./src/slashCommands').filter(file => file.endsWith('.ts'))
-    const commandsData: ApplicationCommandData[] = []
-    for (const file of commandFiles) {
-        const commandImport = await import(`./slashCommands/${file}`)
-        const command = new commandImport.slahCommand()
-        commands.push(command)
-        commandsData.push(command.commandData);
-        client.application?.commands.create(command.commandData)
-    }
-    registerCommands(commandsData)
-}
+const locales = new Map<string, Lang>
+const foldersPath = path.join(__dirname, 'locale');
+const files = fs.readdirSync(foldersPath)
 
-function registerCommands(commands: ApplicationCommandData[]) {
-    const rest = new REST({ version: '9' }).setToken(Config.token)
-    {
-        (async () => {
-            try {
-                console.log('Refreshing application (/) commands.')
-                if (Config.isDebug && client.user) {
-                    await rest.put(
-                        `/applications/${client.user.id}/guilds/${Config.guildId}/commands`,
-                        { body: commands },
-                    )
-                } else if (client.user) {
-                    await rest.put(
-                        `/applications/${client.user.id}/commands`,
-                        { body: commands },
-                    ) 
-                }
-                console.log('Successfully reloaded application (/) commands.')
-            } catch (error) {
-                console.error(error)
-            }
-        })()
-    }
+Serie.load()
+
+for (const file of files) {
+  const filePath = path.join(foldersPath, file)
+  const rawData = fs.readFileSync(filePath).toString()
+  const data = JSON.parse(rawData) as Lang
+  locales.set(data.global.dir, data)
 }
 
 client.once('ready', () => {
 	console.log(`app.js: Logged in as ${client.user?.username}!`)
-    client.user?.setActivity('tcg help', {type: 'PLAYING'})
-    loadCommands()
-});
+  client.user?.setActivity('tcg help', {type: ActivityType.Playing})
+})
 
-client.on('interactionCreate', async interaction => {
-	if (interaction.isCommand()) {
-        const command = commands.find(command => command.commandData.name == interaction.commandName)
-        if (!command) {
-            return
-        }
-        const id = interaction.inGuild() ? interaction.guildId : interaction.user.id
-        const channelType = interaction.inGuild() ? 'guild' : 'user'
-        const langFile = JSON.parse(fs.readFileSync(`src/lang/${getLang(id, channelType)}.json`).toString())
-        try {
-            command.execute(interaction, langFile)
-        } catch (error) {
-            console.error(error);
-            await interaction.reply({ content: langFile.global.commandError, ephemeral: true })
-        }
-    } else if (interaction.isButton()) {
-        const message = interaction.message as Message
-        const command = commands.find(command => command.commandData.name == message.interaction?.commandName)
-        if (!command) {
-            return
-        }
-        const id = interaction.inGuild() ? interaction.guildId : interaction.user.id
-        const channelType = interaction.inGuild() ? 'guild' : 'user'
-        const langFile = JSON.parse(fs.readFileSync(`src/lang/${getLang(id, channelType)}.json`).toString()) as Lang
-        try {
-            command.handleButtons(interaction, langFile)
-        } catch (error) {
-            console.error(error);
-            await interaction.reply({ content: langFile.global.commandError, ephemeral: true })
-        }
+client.on(Events.InteractionCreate, async interaction => {
+  const lang = locales.get(interaction.locale)!
+  if (interaction.isChatInputCommand()) {
+    const command = client.commands.get(interaction.commandName)
+    if (!command) {
+      console.error(`No command matching ${interaction.commandName} was found.`)
+      return
     }
+
+    try {
+      await command.execute(interaction, lang, User.get(interaction.user.id))
+    } catch (error) {
+      console.error(error)
+      if (interaction.replied || interaction.deferred) {
+        await interaction.followUp({ content: lang.global.commandError, ephemeral: true })
+      } else {
+        await interaction.reply({ content: lang.global.commandError, ephemeral: true })
+      }
+    }
+  } else if (interaction.isButton()) {
+    const command = client.commands.get(interaction.message.interaction!.commandName)
+    try {
+      command.handleButtons(interaction, lang, User.get(interaction.user.id))
+    } catch (error) {
+      console.error(error)
+      await interaction.followUp({ content: lang.global.commandError, ephemeral: true })
+    }
+  }
 })

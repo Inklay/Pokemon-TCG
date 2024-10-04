@@ -1,7 +1,7 @@
 import { ApplicationCommandData, ButtonInteraction, CommandInteraction, MessageActionRow, Message } from 'discord.js'
-import { Lang } from '../structure/Lang'
+import { Lang } from '../class/Lang'
 import { getUserHandler, UserHandlerMode } from '../commandsHandler/userHandler'
-import { CardsCommand } from '../structure/CardsCommand'
+import { CardsCommand } from '../class/CardsCommand'
 
 /**
  * @class slashCommand

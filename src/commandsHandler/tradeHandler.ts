@@ -1,8 +1,8 @@
 import { CommandInteraction, Message, MessageButton, MessageEmbed, TextChannel, User } from "discord.js"
-import { InteractionReply } from "../structure/InteractionReply"
-import { Lang } from "../structure/Lang"
+import { InteractionReply } from "../class/InteractionReply"
+import { Lang } from "../class/Lang"
 import { getUserHandler } from "./userHandler"
-import { Trader } from "../structure/Tarder"
+import { Trader } from "../class/Tarder"
 
 export class TradeHandler {
   private issuer: Trader

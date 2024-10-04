@@ -1,9 +1,9 @@
 import { ApplicationCommandData, ButtonInteraction, CommandInteraction } from 'discord.js'
 import { TradeHandler } from '../commandsHandler/tradeHandler'
 import { UserHandlerMode } from '../commandsHandler/userHandler'
-import { Command } from '../structure/Command'
-import { InteractionReply } from '../structure/InteractionReply'
-import { Lang } from '../structure/Lang'
+import { Command } from '../class/Command'
+import { InteractionReply } from '../class/InteractionReply'
+import { Lang } from '../class/Lang'
 
 /**
  * @class slashCommand

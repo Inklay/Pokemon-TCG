@@ -1,7 +1,7 @@
 import { ApplicationCommandData, ButtonInteraction, CommandInteraction, GuildMember, MessageActionRow, MessageButton, Message } from 'discord.js'
 import { basicHelp, adminHelp } from '../commandsHandler/helpHandler'
-import { Command } from '../structure/Command'
-import { Lang } from '../structure/Lang'
+import { Command } from '../class/Command'
+import { Lang } from '../class/Lang'
 
 export class slahCommand implements Command {
 	commandData: ApplicationCommandData

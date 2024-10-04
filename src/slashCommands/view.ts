@@ -1,7 +1,7 @@
 import { ApplicationCommandData, CommandInteraction, GuildMember } from 'discord.js'
-import { Lang } from '../structure/Lang'
+import { Lang } from '../class/Lang'
 import { getUserHandler, UserHandler, UserHandlerMode } from '../commandsHandler/userHandler'
-import { CardsCommand } from '../structure/CardsCommand'
+import { CardsCommand } from '../class/CardsCommand'
 
 /**
  * @class slashCommand

@@ -1,0 +1,186 @@
+[
+    {
+        "name": {
+            "en": "Battle Styles",
+            "fr": "Styles de Combat"
+        },
+        "price": 10,
+        "id": "SWSH5",
+        "image": {
+            "en": "https://archives.bulbagarden.net/media/upload/b/b3/SWSH5_Logo_EN.png",
+            "fr": "https://www.pokepedia.fr/images/8/82/Logo_%C3%89p%C3%A9e_et_Bouclier_Styles_de_Combat_JCC.png"
+        },
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH5/SWSH5_<LANGUAGE>_",
+        "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/battle-styles/",
+        "released": true,
+        "fixNumber": false,
+        "common": [1,4,7,11,14,17,23,27,29,31,34,36,38,41,44,46,49,52,54,55,57,59,60,66,68,69,71,73,76,78,81,89,93,95,100,101,103,105,111,113,115],
+        "uncommon": [2,5,9,10,12,24,26,32,39,43,47,56,64,72,74,79,90,94,98,104,106,112,116,118,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141],
+        "rare": [3,8,13,15,16,20,25,28,30,33,35,37,42,45,48,53,58,61,65,67,70,75,77,80,82,83,84,91,92,96,99,102,107,108,114,119],
+        "ultraRare": [6,18,21,40,50,62,63,85,87,97,109,117,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,19,22,51,86,88,110,158,159,160,161,162,163],
+        "size": 163,
+        "canGetSecret": true,
+        "secret": [164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183]
+    },
+    {
+        "name": {
+            "en": "Shining Fates : Shiny Vault",
+            "fr": "Destinées Radieuses : Coffre Chromatique"
+        },
+        "price": 8,
+        "id": "SWSH45SV",
+        "image": {
+            "en": "https://archives.bulbagarden.net/media/upload/6/63/Shining_Fates_Logo_EN.png",
+            "fr": "https://www.pokepedia.fr/images/3/38/Logo_Destin%C3%A9es_Radieuses_JCC.png"
+        },
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH45/SWSH45_<LANGUAGE>_SV",
+        "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/shining-fates/",
+        "released": true,
+        "fixNumber": true,
+        "common": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104],
+        "uncommon": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104],
+        "rare": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104],
+        "ultraRare": [105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120],
+        "size": 120,
+        "canGetSecret": true,
+        "secret": [121,122]
+    },
+    {
+        "name": {
+            "en": "Shining Fates",
+            "fr": "Destinées Radieuses"
+        },
+        "price": 6,
+        "id": "SWSH45",
+        "image": {
+            "en": "https://archives.bulbagarden.net/media/upload/6/63/Shining_Fates_Logo_EN.png",
+            "fr": "https://www.pokepedia.fr/images/3/38/Logo_Destin%C3%A9es_Radieuses_JCC.png"
+        },
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH45/SWSH45_<LANGUAGE>_",
+        "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/shining-fates/",
+        "released": true,
+        "fixNumber": false,
+        "common": [1,4,6,11,14,20,22,26,29,31,35,36,40,41,43,47,49,52],
+        "uncommon": [5,7,12,15,23,28,32,34,57,59,61,62,63],
+        "rare": [2,3,16,24,25,27,58,50,8,13,30,33,42,48,56],
+        "ultraRare": [9,10,18,19,37,38,39,44,45,60,51,53,54,55,17,21,46,64,65,66,67,68,69,70,71,72,73],
+        "size": 73,
+        "canGetSecret": false,
+        "secret": []
+    },
+    {
+        "name": {
+            "en": "Vivid Voltage",
+            "fr": "Voltage Éclatant"
+        },
+        "price": 5,
+        "id": "SWSH4",
+        "image": {
+            "en": "https://archives.bulbagarden.net/media/upload/c/c1/SWSH4_Logo_EN.png",
+            "fr": "https://www.pokepedia.fr/images/2/2e/Logo_%C3%89p%C3%A9e_et_Bouclier_Voltage_%C3%89clatant_JCC.png"
+        },
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH4/SWSH4_<LANGUAGE>_",
+        "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/vivid-voltage/",
+        "released": true,
+        "fixNumber": false,
+        "common": [1,4,6,8,10,13,17,23,27,31,33,38,41,45,51,53,55,57,63,67,69,72,73,75,77,80,83,86,90,91,94,96,100,103,107,110,112,116,123,130,133,135,139,143],
+        "uncommon": [2,11,18,19,24,28,34,40,54,56,58,62,65,70,74,85,88,104,105,108,117,122,124,125,134,136,144,146,147,148,149,150,151,152,153,155,156,157,158,159,160,161,162,163,164,165],
+        "rare": [3,5,7,12,14,26,30,35,39,42,47,52,59,64,66,68,76,79,81,84,87,95,97,101,109,111,113,114,118,120,137,145,15,16,25,32,46,48,60,61,71,78,9,89,92,93,121,128,129,131,132,142,154],
+        "ultraRare": [20,22,29,36,43,49,98,106,115,126,140,141,21,37,44,99,127,50,82,102,119,138,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185],
+        "size": 185,
+        "canGetSecret": false,
+        "secret": [186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203]
+    },
+    {
+        "name": {
+            "en": "Champion's Path",
+            "fr": "La Voie Du Maitre"
+        },
+        "price": 5,
+        "id": "SWSH35",
+        "image": {
+            "en": "https://archives.bulbagarden.net/media/upload/f/f2/Champion_Path_Logo_EN.png",
+            "fr": "https://www.pokepedia.fr/images/2/29/Logo_La_Voie_du_Ma%C3%AEtre_JCC.png"
+        },
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH35/SWSH35_<LANGUAGE>_",
+        "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/champions-path/",
+        "released": true,
+        "fixNumber": false,
+        "common": [2,3,6,9,11,18,24,29,31,33,35,36,39,41,43,44,46,48,51,59,61],
+        "uncommon": [4,7,12,19,25,34,38,40,45,50,52,53,54,55,57,58,60,63,64,65,66,67,68],
+        "rare": [10,20,26,28,30,37,42,49,56,62],
+        "ultraRare": [1,5,8,13,14,16,21,22,27,32,47,15,17,23,69,70,71,72,73],
+        "size": 73,
+        "canGetSecret": true,
+        "secret": [74,75,76,77,78,79,80]
+    },
+    {
+        "name": {
+            "en": "Darkness Ablaze",
+            "fr": "Ténèbres embrasées"
+        },
+        "price": 5,
+        "id": "SWSH3",
+        "image": {
+            "en": "https://archives.bulbagarden.net/media/upload/e/e0/SWSH3_Logo_EN.png",
+            "fr": "https://www.pokepedia.fr/images/2/2c/Logo_%C3%89p%C3%A9e_et_Bouclier_T%C3%A9n%C3%A8bres_Embras%C3%A9es_JCC.png"
+        },
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH3/SWSH3_<LANGUAGE>_",
+        "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/darkness-ablaze/",
+        "released": true,
+        "fixNumber": false,
+        "common": [3,6,8,9,11,14,17,22,26,29,35,38,41,43,45,48,50,51,55,58,62,67,70,73,76,79,82,84,86,89,93,97,100,102,106,108,112,120,121,125,129,131,134,135,137,138,141,145,148,150,151,152,154],
+        "uncommon": [4,5,7,12,15,23,27,31,40,42,46,52,56,72,74,78,80,83,85,87,90,92,103,109,122,126,136,139,146,155,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176],
+        "rare": [10,13,16,18,24,25,28,30,32,36,37,39,44,47,49,53,54,57,59,61,63,64,65,66,68,71,75,77,81,88,91,94,96,98,101,105,107,110,111,113,123,124,127,130,132,133,140,142,147,149,153,156],
+        "ultraRare": [1,19,21,33,34,60,69,95,99,104,114,116,118,128,143,2,20,115,117,119,144,177,178,179,180,181,182,183,184,185,186,187,188,189],
+        "size": 189,
+        "canGetSecret": true,
+        "secret": [190,191,192,193,194,195,196,197,198,199,201]
+    },
+    {
+        "name": {
+            "en": "Rebel Clash",
+            "fr": "Clash Des Rebelles"
+        },
+        "price": 5,
+        "id": "SWSH2",
+        "image": {
+            "en": "https://archives.bulbagarden.net/media/upload/2/29/SWSH2_Logo_EN.png",
+            "fr": "https://www.pokepedia.fr/images/f/f3/Logo_%C3%89p%C3%A9e_et_Bouclier_Clash_des_Rebelles_JCC.png"
+        },
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH2/SWSH2_<LANGUAGE>_",
+        "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/rebel-clash/",
+        "released": true,
+        "fixNumber": false,
+        "common": [1,4,7,10,12,14,16,20,21,24,27,29,31,37,39,41,44,47,52,56,58,60,63,68,74,76,78,81,83,86,89,94,96,97,99,101,103,105,112,114,117,119,123,126,129,133,143,146,149,151],
+        "uncommon": [2,5,6,8,11,32,34,42,45,57,61,64,65,73,77,82,84,88,90,98,106,109,115,124,130,132,134,142,144,148,150,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174],
+        "rare": [3,9,13,15,25,28,30,38,46,48,51,53,59,69,80,87,100,102,104,116,118,120,127,128,131,135,139,140,141,145,147,152,22,23,33,40,54,62,66,75,79,85,91,95,107,111,113,125,138,154],
+        "ultraRare": [17,19,26,35,43,49,55,67,70,72,92,108,110,121,136,153,18,36,50,71,93,122,137,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192],
+        "size": 192,
+        "canGetSecret": true,
+        "secret": [193,194,195,196,197,198,199,200,201,202,203,204]
+    },
+    {
+        "name": {
+            "en": "Sword & Shield",
+            "fr": "Épée et Bouclier"
+        },
+        "price": 4.5,
+        "id": "SWSH1",
+        "image": {
+            "en": "https://archives.bulbagarden.net/media/upload/5/50/SWSH1_Logo_EN.png",
+            "fr": "https://www.pokepedia.fr/images/f/fa/Logo_%C3%89p%C3%A9e_et_Bouclier_JCC.png"
+        },
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH1/SWSH1_<LANGUAGE>_",
+        "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/sword-shield/",
+        "released": true,
+        "fixNumber": false,
+        "common": [2,3,5,7,10,11,16,17,20,22,27,30,31,37,38,40,42,43,45,46,54,55,60,63,65,67,68,70,73,74,77,81,83,87,89,92,96,97,101,102,105,107,108,111,112,117,121,123,125,127,129,130,133,136,143,145,146,150,152,153],
+        "uncommon": [12,13,18,21,26,28,32,33,44,47,51,52,56,57,71,84,93,94,95,98,100,118,131,132,134,151,154,156,157,158,159,160,161,162,163,164,165,166,167,168,170,171,172,173,174,175,176,177,179,180,181,182,183,184,185,186],
+        "rare": [4,6,8,15,19,23,29,36,39,41,48,59,61,62,66,69,78,82,88,90,103,106,109,113,114,122,126,135,140,144,147,149,14,34,35,58,64,75,76,85,99,110,119,124,128,137,148,169,178],
+        "ultraRare": [1,9,24,25,49,53,72,79,86,91,104,115,120,138,139,141,155,50,80,116,142,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202],
+        "size": 202,
+        "canGetSecret": true,
+        "secret": [203,204,205,206,207,208,209,210,211,212,213,214,215,216]
+    }
+]
