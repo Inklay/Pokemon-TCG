@@ -27,6 +27,7 @@ export class CardViewer {
   mode: CardViewerMode
   wentBack: boolean
   cards: Card[]
+  canFavourite: boolean
 
   constructor (user: User) {
     this.user = user
@@ -38,9 +39,27 @@ export class CardViewer {
     this.resellPrice = 0
     this.wentBack = false
     this.cards = []
+    this.canFavourite = false
+
+    if (this.user.favourite !== 'none') {
+      for (let i = 0; i < series.length; i++) {
+        for (let j = 0; j < series[i].expansions.length; j++) {
+          if (series[i].expansions[j].id === this.user.favourite) {
+            this.serieIdx = i;
+            this.expansionIdx = j;
+            this.canFavourite = true
+            return
+          }
+        }
+      }
+    }
   }
 
   drawSerie(lang: Lang) : InteractionReply {
+    if (this.canFavourite) {
+      this.canFavourite = false
+      return this.drawExpansion(lang)
+    }
     return series[this.serieIdx].draw(lang, this.serieIdx, series.length, this.mode)
   }
 
