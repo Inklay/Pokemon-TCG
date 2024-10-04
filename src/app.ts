@@ -36,7 +36,11 @@ client.once('ready', () => {
 })
 
 client.on(Events.InteractionCreate, async interaction => {
-  const lang = locales.get(interaction.locale)!
+  let lang = locales.get(interaction.locale)
+  if (!lang) {
+    lang = locales.get('en')!
+  }
+
   if (interaction.isChatInputCommand()) {
     const command = client.commands.get(interaction.commandName)
     if (!command) {

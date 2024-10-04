@@ -51,7 +51,7 @@ export class slahCommand implements Command {
 				reply = cardViewer.nextExpansion(lang)
 				break
 			case 'expansionSelect':
-				reply = cardViewer.selectExpansion(lang)
+				reply = cardViewer.openBooster(lang)
 				break
 			// case 'expansionViewSelect':
 			// 	reply = cardViewer.selectSerie(lang)
@@ -73,6 +73,15 @@ export class slahCommand implements Command {
 				break
 			case 'expansionSell':
 				reply = cardViewer.sellExpansion(lang)
+				break
+			case 'cardPrev':
+				reply = cardViewer.prevCard(lang)
+				break
+			case 'cardNext':
+				reply = cardViewer.nextCard(lang)
+				break
+			case 'cardBack':
+				reply = cardViewer.backCard(lang)
 				break
 		}
 

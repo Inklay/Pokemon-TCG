@@ -10,7 +10,7 @@
       "en": "https://archives.bulbagarden.net/media/upload/b/b3/SV7_Logo_EN.png",
       "fr": "https://www.pokepedia.fr/images/3/38/Logo_%C3%89carlate_et_Violet_Couronne_Stellaire_JCC.png"
     },
-    "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SV07/SV07_<LANGUAGE>_",
+    "cardsBaseImage": "https://assets.pokemon.com/static-assets/content-assets/cms2<ASSET_LANGUAGE>/img/cards/web/SV07/SV07_<LANGUAGE>_",
     "expUrl": "https://tcg.pokemon.com/<LANGUAGE>/expansions/stellar-crown/",
     "released": true,
     "fixNumber": false,
