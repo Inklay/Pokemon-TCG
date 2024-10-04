@@ -10,7 +10,7 @@
             "en": "https://archives.bulbagarden.net/media/upload/b/b3/SWSH5_Logo_EN.png",
             "fr": "https://www.pokepedia.fr/images/8/82/Logo_%C3%89p%C3%A9e_et_Bouclier_Styles_de_Combat_JCC.png"
         },
-        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH5/SWSH5_<LANGUAGE>_",
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2<ASSET_LANGUAGE>/img/cards/web/SWSH5/SWSH5_<LANGUAGE>_",
         "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/battle-styles/",
         "released": true,
         "fixNumber": false,
@@ -33,7 +33,7 @@
             "en": "https://archives.bulbagarden.net/media/upload/6/63/Shining_Fates_Logo_EN.png",
             "fr": "https://www.pokepedia.fr/images/3/38/Logo_Destin%C3%A9es_Radieuses_JCC.png"
         },
-        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH45/SWSH45_<LANGUAGE>_SV",
+        "cardsBaseImage": "https://assets.pokemon.com/static-assets/content-assets/cms2<ASSET_LANGUAGE>/img/cards/web/SWSH45/SWSH45_<LANGUAGE>_SV",
         "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/shining-fates/",
         "released": true,
         "fixNumber": true,
@@ -56,7 +56,7 @@
             "en": "https://archives.bulbagarden.net/media/upload/6/63/Shining_Fates_Logo_EN.png",
             "fr": "https://www.pokepedia.fr/images/3/38/Logo_Destin%C3%A9es_Radieuses_JCC.png"
         },
-        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH45/SWSH45_<LANGUAGE>_",
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2<ASSET_LANGUAGE>/img/cards/web/SWSH45/SWSH45_<LANGUAGE>_",
         "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/shining-fates/",
         "released": true,
         "fixNumber": false,
@@ -79,7 +79,7 @@
             "en": "https://archives.bulbagarden.net/media/upload/c/c1/SWSH4_Logo_EN.png",
             "fr": "https://www.pokepedia.fr/images/2/2e/Logo_%C3%89p%C3%A9e_et_Bouclier_Voltage_%C3%89clatant_JCC.png"
         },
-        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH4/SWSH4_<LANGUAGE>_",
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2<ASSET_LANGUAGE>/img/cards/web/SWSH4/SWSH4_<LANGUAGE>_",
         "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/vivid-voltage/",
         "released": true,
         "fixNumber": false,
@@ -102,7 +102,7 @@
             "en": "https://archives.bulbagarden.net/media/upload/f/f2/Champion_Path_Logo_EN.png",
             "fr": "https://www.pokepedia.fr/images/2/29/Logo_La_Voie_du_Ma%C3%AEtre_JCC.png"
         },
-        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH35/SWSH35_<LANGUAGE>_",
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2<ASSET_LANGUAGE>/img/cards/web/SWSH35/SWSH35_<LANGUAGE>_",
         "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/champions-path/",
         "released": true,
         "fixNumber": false,
@@ -125,7 +125,7 @@
             "en": "https://archives.bulbagarden.net/media/upload/e/e0/SWSH3_Logo_EN.png",
             "fr": "https://www.pokepedia.fr/images/2/2c/Logo_%C3%89p%C3%A9e_et_Bouclier_T%C3%A9n%C3%A8bres_Embras%C3%A9es_JCC.png"
         },
-        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH3/SWSH3_<LANGUAGE>_",
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2<ASSET_LANGUAGE>/img/cards/web/SWSH3/SWSH3_<LANGUAGE>_",
         "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/darkness-ablaze/",
         "released": true,
         "fixNumber": false,
@@ -148,7 +148,7 @@
             "en": "https://archives.bulbagarden.net/media/upload/2/29/SWSH2_Logo_EN.png",
             "fr": "https://www.pokepedia.fr/images/f/f3/Logo_%C3%89p%C3%A9e_et_Bouclier_Clash_des_Rebelles_JCC.png"
         },
-        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH2/SWSH2_<LANGUAGE>_",
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2<ASSET_LANGUAGE>/img/cards/web/SWSH2/SWSH2_<LANGUAGE>_",
         "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/rebel-clash/",
         "released": true,
         "fixNumber": false,
@@ -171,7 +171,7 @@
             "en": "https://archives.bulbagarden.net/media/upload/5/50/SWSH1_Logo_EN.png",
             "fr": "https://www.pokepedia.fr/images/f/fa/Logo_%C3%89p%C3%A9e_et_Bouclier_JCC.png"
         },
-        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2/img/cards/web/SWSH1/SWSH1_<LANGUAGE>_",
+        "cardsBaseImage": "https://assets.pokemon.com/assets/cms2<ASSET_LANGUAGE>/img/cards/web/SWSH1/SWSH1_<LANGUAGE>_",
         "expUrl": "https://tcg.pokemon.com/_<LANGUAGE>_/expansions/sword-shield/",
         "released": true,
         "fixNumber": false,

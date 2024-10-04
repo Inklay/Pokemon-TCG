@@ -25,7 +25,7 @@ export class Card {
   constructor(expansion: Expansion, number: number, rarity: Rarity, expPrixe: number) {
     this.expansion = expansion
     this.number = expansion.fixNumber ? this.fixNumber(number) : number.toString()
-    this.image = `${expansion.cardsBaseImage}${number}.png`
+    this.image = `${expansion.cardsBaseImage}${this.number}.png`
     this.isNew = false
     this.rarity = rarity
     this.expPrice = expPrixe
@@ -152,15 +152,15 @@ export class Card {
   public sell() : number {
     switch (this.rarity) {
       case 'UNCOMMON':
-        return Math.floor(2 * this.expPrice) / 10
+        return Math.floor(0.25 * this.expPrice)
       case 'RARE':
-        return Math.floor(5 * this.expPrice) / 10
+        return Math.floor(this.expPrice)
       case 'ULTRARARE':
-        return Math.floor(25 * this.expPrice) / 10
+        return Math.floor(30 * this.expPrice)
       case 'SECRET':
-        return Math.floor(50 * this.expPrice) / 10
+        return Math.floor(100 * this.expPrice)
       default:
-        return Math.floor(1 * this.expPrice) / 10
+        return Math.floor(0.1 * this.expPrice)
     }
   }
 
