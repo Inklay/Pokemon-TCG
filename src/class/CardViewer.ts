@@ -166,7 +166,11 @@ export class CardViewer {
   private checkNewCard() : void {
     this.resellPrice = 0
     this.cards.forEach( c => {
-      const counts = this.user.cards[series[this.serieIdx].expansions[this.expansionIdx].id]
+      let counts = this.user.cards[series[this.serieIdx].expansions[this.expansionIdx].id]
+      if (!counts) {
+        counts = []
+        this.user.cards[series[this.serieIdx].expansions[this.expansionIdx].id] = counts
+      }
       const countIdx = counts.findIndex(cc => cc.cardNumber == parseInt(c.number))
       if (countIdx !== -1) {
         if (this.user.autoSell) {

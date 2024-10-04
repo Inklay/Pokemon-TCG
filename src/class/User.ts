@@ -52,4 +52,9 @@ export class User {
     }
     return false
   }
+
+  public setAutosell(value: boolean) : void {
+    this.autoSell = value
+    this.save()
+  }
 }
