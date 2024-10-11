@@ -6,6 +6,7 @@ import { CardViewerMode } from './CardViewer'
 import { Lang } from './Lang'
 import { ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js'
 import { User } from './User'
+import * as Config from '../config'
 
 export class Expansion {
   name: LocalizedString = new LocalizedString()
@@ -32,7 +33,9 @@ export class Expansion {
     data.forEach(expansionData => {
       const expansion = new Expansion()
       expansions.push(Object.assign(expansion, expansionData))
-      expansion.validateCards()
+      if (Config.isDebug) {
+        expansion.validateCards()
+      }
     })
     return expansions
   }
