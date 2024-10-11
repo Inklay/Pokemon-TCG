@@ -6,6 +6,7 @@ import { ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js'
 import { Lang } from './Lang'
 import { CardViewerMode } from './CardViewer'
 import { LocalizedString } from './LocalizedString'
+import * as Config from '../config'
 
 export const series: Serie[] = []
 
@@ -13,6 +14,7 @@ export class Serie {
   name: LocalizedString
   id: string
   expansions: Expansion[]
+  devOnly = false
 
   constructor(name: LocalizedString, id: string) {
     this.name = name
@@ -25,6 +27,9 @@ export class Serie {
     const rawData = fs.readFileSync(filePath).toString()
     const data = JSON.parse(rawData) as Serie[]
     data.forEach(serie => {
+      if (serie.devOnly && !Config.isDebug) {
+        return
+      }
       series.push(new Serie(serie.name, serie.id))
     })
   }
